@@ -1,0 +1,9 @@
+{
+  "id": "8042fac8-8d6e-402b-a907-87e068a0c965",
+  "template": "empty",
+  "modules": {
+    "Wafi.Abp.OpenAISemanticKernel": {
+      "path": "Wafi.Abp.OpenAISemanticKernel.abpmdl"
+    }
+  }
+}

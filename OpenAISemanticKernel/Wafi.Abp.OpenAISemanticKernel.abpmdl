@@ -1,0 +1,7 @@
+{
+  "packages": {
+    "Wafi.Abp.SemanticKernel": {
+      "path": "Wafi.Abp.SemanticKernel/Wafi.Abp.SemanticKernel.abppkg"
+    }
+  }
+}
