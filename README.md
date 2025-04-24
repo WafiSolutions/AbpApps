@@ -1,58 +1,159 @@
-﻿# Wafi.SmartHR
+﻿# Wafi.SmartHR - Semantic Kernel Integration
 
-## About this solution
+## Overview
 
-This is a layered startup solution based on [Domain Driven Design (DDD)](https://abp.io/docs/latest/framework/architecture/domain-driven-design) practises. All the fundamental ABP modules are already installed. Check the [Application Startup Template](https://abp.io/docs/latest/solution-templates/layered-web-application) documentation for more info.
+This project demonstrates the integration of Microsoft's Semantic Kernel SDK with ABP.io framework. It provides a wrapper implementation that makes it easy to use Semantic Kernel in ABP.io applications, allowing you to create AI-powered plugins for your application services.
 
-### Pre-requirements
+## Architecture
 
-* [.NET9.0+ SDK](https://dotnet.microsoft.com/download/dotnet)
-* [Node v18 or 20](https://nodejs.org/en)
+The solution consists of two main modules:
 
-### Configurations
+1. **WafiOpenAISemanticKernelModule**: Core module that provides Semantic Kernel integration
+2. **WafiSmartHRAIPluginModule**: Sample implementation module showing how to create AI plugins
 
-The solution comes with a default configuration that works out of the box. However, you may consider to change the following configuration before running your solution:
+### Core Components
 
-* Check the `ConnectionStrings` in `appsettings.json` files under the `Wafi.SmartHR.Web` and `Wafi.SmartHR.DbMigrator` projects and change it if you need.
+#### 1. WafiOpenAISemanticKernelModule
 
-### Before running the application
+This module provides the foundation for Semantic Kernel integration:
 
-* Run `abp install-libs` command on your solution folder to install client-side package dependencies. This step is automatically done when you create a new solution, if you didn't especially disabled it. However, you should run it yourself if you have first cloned this solution from your source control, or added a new client-side package dependency to your solution.
-* Run `Wafi.SmartHR.DbMigrator` to create the initial database. This step is also automatically done when you create a new solution, if you didn't especially disabled it. This should be done in the first run. It is also needed if a new database migration is added to the solution later.
+```csharp
+public class WafiOpenAISemanticKernelModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        context.Services.Configure<WafiOpenAISemanticKernelOptions>(options =>
+        {
+            /* Set via appsettings.json or externally */
+        });
 
-#### Generating a Signing Certificate
+        context.Services.AddSingleton(serviceProvider =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<WafiOpenAISemanticKernelOptions>>().Value;
+            var kernelBuilder = Kernel.CreateBuilder()
+                .AddOpenAIChatCompletion(modelId: options.ModelId, apiKey: options.ApiKey);
+            
+            // Register plugins
+            var pluginProviders = serviceProvider.GetServices<IWafiPluginProvider>();
+            foreach (var provider in pluginProviders)
+            {
+                var plugin = provider.GetPlugin();
+                var skPlugin = KernelPluginFactory.CreateFromObject(
+                    plugin.Instance,
+                    plugin.Name
+                );
+                kernelBuilder.Plugins.Add(skPlugin);
+            }
 
-In the production environment, you need to use a production signing certificate. ABP Framework sets up signing and encryption certificates in your application and expects an `openiddict.pfx` file in your application.
-
-To generate a signing certificate, you can use the following command:
-
-```bash
-dotnet dev-certs https -v -ep openiddict.pfx -p 966b93ac-1d5e-42db-97e0-ab12a37ceaa1
+            return kernelBuilder.Build();
+        });
+    }
+}
 ```
 
-> `966b93ac-1d5e-42db-97e0-ab12a37ceaa1` is the password of the certificate, you can change it to any password you want.
+#### 2. Base Classes and Interfaces
 
-It is recommended to use **two** RSA certificates, distinct from the certificate(s) used for HTTPS: one for encryption, one for signing.
+- `SemanticPluginProviderBase<TPlugin>`: Base class for all application plugins
+- `IWafiPluginProvider`: Interface for plugin providers
 
-For more information, please refer to: [OpenIddict Certificate Configuration](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios)
+### Sample Implementation
 
-> Also, see the [Configuring OpenIddict](https://abp.io/docs/latest/Deployment/Configuring-OpenIddict#production-environment) documentation for more information.
+The solution includes two sample plugins:
 
-### Solution structure
+1. **EmployeePlugin**: For employee-related operations
+2. **LeaveRecordPlugin**: For leave record management
 
-This is a layered monolith application that consists of the following applications:
+Example of a plugin implementation:
 
-* `Wafi.SmartHR.DbMigrator`: A console application which applies the migrations and also seeds the initial data. It is useful on development as well as on production environment.
-* `Wafi.SmartHR.Web`: ASP.NET Core MVC / Razor Pages application that is the essential web application of the solution.
+```csharp
+public class EmployeePlugin : ApplicationService, ITransientDependency
+{
+    private readonly IEmployeeAppService _employeeService;
+    private readonly IAuthorizationService _authorizationService;
 
+    public EmployeePlugin(IEmployeeAppService employeeService, IAuthorizationService authorizationService) 
+    {
+        _employeeService = employeeService;
+        _authorizationService = authorizationService;
+    }
 
-## Deploying the application
+    [KernelFunction, Description("Get employee list")]
+    public async Task<string> GetEmployeesAsync()
+    {
+        if (!await _authorizationService.IsGrantedAsync(SmartHRPermissions.Employees.Default))
+        {
+            return "You are not authorized to access employee records";
+        }
 
-Deploying an ABP application follows the same process as deploying any .NET or ASP.NET Core application. However, there are important considerations to keep in mind. For detailed guidance, refer to ABP's [deployment documentation](https://abp.io/docs/latest/Deployment/Index).
+        var result = await _employeeService.GetListAsync();
+        return JsonSerializer.Serialize(result);
+    }
+}
+```
 
-### Additional resources
+## Configuration
 
-You can see the following resources to learn more about your solution and the ABP Framework:
+### Module Dependencies
 
-* [Web Application Development Tutorial](https://abp.io/docs/latest/tutorials/book-store/part-1)
-* [Application Startup Template](https://abp.io/docs/latest/startup-templates/application/index)
+To use the Semantic Kernel integration, add the following dependencies to your module:
+
+```csharp
+[DependsOn(
+    typeof(SmartHRApplicationContractsModule),
+    typeof(AbpPermissionManagementHttpApiModule),
+    typeof(AbpSettingManagementHttpApiModule),
+    typeof(AbpAccountHttpApiModule),
+    typeof(AbpIdentityHttpApiModule),
+    typeof(AbpTenantManagementHttpApiModule),
+    typeof(AbpFeatureManagementHttpApiModule),
+    typeof(WafiOpenAISemanticKernelModule),
+    typeof(WafiSmartHRAIPluginModule)
+)]
+public class SmartHRHttpApiModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        var configuration = context.Services.GetConfiguration();
+        
+        Configure<WafiOpenAISemanticKernelOptions>(options =>
+        {
+            options.ModelId = configuration.GetValue<string>("SemanticKernel:OpenAI:ModelId");
+            options.ApiKey = configuration.GetValue<string>("SemanticKernel:OpenAI:ApiKey");
+        });
+    }
+}
+```
+
+### AppSettings Configuration
+
+Add the following configuration to your `appsettings.json`:
+
+```json
+{
+  "SemanticKernel": {
+    "OpenAI": {
+      "ApiKey": "your-openai-key",
+      "ModelId": "gpt-4"
+    }
+  }
+}
+```
+
+## Usage
+
+1. Create a new plugin class that inherits from `ApplicationService` and implements `ITransientDependency`
+2. Create a provider class that inherits from `SemanticPluginProviderBase<TPlugin>`
+3. Register your plugin provider in your module's `ConfigureServices` method
+4. Use the `[KernelFunction]` attribute to expose methods to the Semantic Kernel
+
+## Security
+
+The implementation includes built-in authorization checks using ABP's permission system. Each plugin method should check for appropriate permissions before executing sensitive operations.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
