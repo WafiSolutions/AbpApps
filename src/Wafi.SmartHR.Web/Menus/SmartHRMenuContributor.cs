@@ -43,7 +43,7 @@ public class SmartHRMenuContributor : IMenuContributor
                 url: "/Employees",
                 icon: "fa fa-users",
                 order: 2
-            )
+            ).RequirePermissions(SmartHRPermissions.Employees.Default)
         );
 
         //Leave Records
@@ -54,7 +54,7 @@ public class SmartHRMenuContributor : IMenuContributor
                 url: "/LeaveRecords",
                 icon: "fa fa-calendar",
                 order: 3
-            )
+            ).RequirePermissions(SmartHRPermissions.LeaveRecords.Default)
         );
 
         //Administration
