@@ -58,12 +58,9 @@ public class WafiOpenAISemanticKernelModule : AbpModule
 
 ### Sample Implementation
 
-The solution includes two sample plugins:
+The solution includes two sample plugins with their providers:
 
-1. **EmployeePlugin**: For employee-related operations
-2. **LeaveRecordPlugin**: For leave record management
-
-Example of a plugin implementation:
+#### 1. Employee Plugin Implementation
 
 ```csharp
 public class EmployeePlugin : ApplicationService, ITransientDependency
@@ -89,6 +86,52 @@ public class EmployeePlugin : ApplicationService, ITransientDependency
         return JsonSerializer.Serialize(result);
     }
 }
+
+public class EmployeePluginProvider : SemanticPluginProviderBase<EmployeePlugin>
+{
+    public EmployeePluginProvider(EmployeePlugin plugin) : base(plugin)
+    {
+    }
+
+    public override string Name => "Employee";
+}
+```
+
+#### 2. Leave Record Plugin Implementation
+
+```csharp
+public class LeaveRecordPlugin : ApplicationService, ITransientDependency
+{
+    private readonly ILeaveRecordAppService _leaveRecordService;
+    private readonly IAuthorizationService _authorizationService;
+
+    public LeaveRecordPlugin(ILeaveRecordAppService leaveRecordService, IAuthorizationService authorizationService) 
+    {
+        _leaveRecordService = leaveRecordService;
+        _authorizationService = authorizationService;
+    }
+
+    [KernelFunction, Description("Get leave record list")]
+    public async Task<string> GetLeaveRecordsAsync()
+    {
+        if (!await _authorizationService.IsGrantedAsync(SmartHRPermissions.LeaveRecords.Default))
+        {
+            return "You are not authorized to access leave records";
+        }
+
+        var result = await _leaveRecordService.GetListAsync();
+        return JsonSerializer.Serialize(result);
+    }
+}
+
+public class LeaveRecordPluginProvider : SemanticPluginProviderBase<LeaveRecordPlugin>
+{
+    public LeaveRecordPluginProvider(LeaveRecordPlugin plugin) : base(plugin)
+    {
+    }
+
+    public override string Name => "LeaveRecord";
+}
 ```
 
 ## Configuration
@@ -99,13 +142,6 @@ To use the Semantic Kernel integration, add the following dependencies to your m
 
 ```csharp
 [DependsOn(
-    typeof(SmartHRApplicationContractsModule),
-    typeof(AbpPermissionManagementHttpApiModule),
-    typeof(AbpSettingManagementHttpApiModule),
-    typeof(AbpAccountHttpApiModule),
-    typeof(AbpIdentityHttpApiModule),
-    typeof(AbpTenantManagementHttpApiModule),
-    typeof(AbpFeatureManagementHttpApiModule),
     typeof(WafiOpenAISemanticKernelModule),
     typeof(WafiSmartHRAIPluginModule)
 )]
@@ -141,10 +177,115 @@ Add the following configuration to your `appsettings.json`:
 
 ## Usage
 
-1. Create a new plugin class that inherits from `ApplicationService` and implements `ITransientDependency`
-2. Create a provider class that inherits from `SemanticPluginProviderBase<TPlugin>`
-3. Register your plugin provider in your module's `ConfigureServices` method
-4. Use the `[KernelFunction]` attribute to expose methods to the Semantic Kernel
+### 1. Plugin Implementation
+
+Create a new plugin class that inherits from `ApplicationService` and implements `ITransientDependency`:
+
+```csharp
+public class YourPlugin : ApplicationService, ITransientDependency
+{
+    private readonly IYourAppService _yourService;
+    private readonly IAuthorizationService _authorizationService;
+
+    public YourPlugin(IYourAppService yourService, IAuthorizationService authorizationService) 
+    {
+        _yourService = yourService;
+        _authorizationService = authorizationService;
+    }
+
+    [KernelFunction, Description("Your function description")]
+    public async Task<string> YourFunctionAsync()
+    {
+        if (!await _authorizationService.IsGrantedAsync(YourPermissions.Default))
+        {
+            return "You are not authorized to access this data";
+        }
+
+        var result = await _yourService.GetListAsync();
+        return JsonSerializer.Serialize(result);
+    }
+}
+```
+
+### 2. Provider Implementation
+
+Create a provider class that inherits from `SemanticPluginProviderBase<TPlugin>`:
+
+```csharp
+public class YourPluginProvider : SemanticPluginProviderBase<YourPlugin>
+{
+    public YourPluginProvider(YourPlugin plugin) : base(plugin)
+    {
+    }
+
+    public override string Name => "YourPlugin";
+}
+```
+
+### 3. Example Queries and Responses
+
+The Semantic Kernel integration can be accessed through the `/askai` endpoint. Here are some example interactions:
+
+#### Example 1: Employee List Query
+
+**Request:**
+```http
+POST /askai
+Content-Type: application/json
+
+{
+    "question": "Give me the list of employees"
+}
+```
+
+**Response:**
+```json
+{
+    "answer": "Here is the list of employees:\n\n1. **John Doe**\n   - Email: john.doe@example.com\n   - Phone: 1234567890\n   - Date of Birth: January 1, 1990\n   - Joining Date: January 1, 2020\n   - Total Leave Days: 20\n   - Remaining Leave Days: 20\n\n2. **Jane Smith**\n   - Email: jane.smith@example.com\n   - Phone: 0987654321\n   - Date of Birth: February 1, 1991\n   - Joining Date: February 1, 2021\n   - Total Leave Days: 20\n   - Remaining Leave Days: 15"
+}
+```
+
+#### Example 2: Leave Records Query
+
+**Request:**
+```http
+POST /askai
+Content-Type: application/json
+
+{
+    "question": "Give me the list of employee leave records"
+}
+```
+
+**Response:**
+```json
+{
+    "answer": "Here is the list of employee leave records:\n\n1. **John Doe**\n   - Annual leave from January 1 to January 5, 2025 (5 days)\n   - Sick leave from March 15 to March 16, 2025 (2 days)\n   - Personal leave from June 1 to June 3, 2025 (3 days)\n\n2. **Jane Smith**\n   - Sick leave from February 1 to February 3, 2025 (3 days)\n   - Annual leave from July 1 to July 10, 2025 (10 days)"
+}
+```
+
+### 4. Authorization
+
+All requests are protected by ABP's permission system. If a user doesn't have the required permissions, they will receive an appropriate message:
+
+```json
+{
+    "answer": "You are not authorized to access this data"
+}
+```
+
+The authorization check is performed in each plugin method:
+
+```csharp
+if (!await _authorizationService.IsGrantedAsync(YourPermissions.Default))
+{
+    return "You are not authorized to access this data";
+}
+```
+
+### 5. UI Integration
+
+> Note: An interactive chat UI for the AI assistant is coming soon.
 
 ## Security
 

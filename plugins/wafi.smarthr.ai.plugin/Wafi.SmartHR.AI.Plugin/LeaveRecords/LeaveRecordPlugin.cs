@@ -30,7 +30,7 @@ namespace Wafi.SmartHR.AI.Plugin.LeaveRecords
         {
             if (!await _authorizationService.IsGrantedAsync(SmartHRPermissions.LeaveRecords.Default))
             {
-                return "You are not authorized to access leave records";
+                return "You are not authorized to access the leave records";
             }
 
             var result = await _leaveRecordService.GetListAsync();
