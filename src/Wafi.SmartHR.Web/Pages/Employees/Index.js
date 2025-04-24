@@ -7,7 +7,6 @@ $(function () {
         abp.libs.datatables.normalizeConfiguration({
             serverSide: true,
             paging: true,
-
             searching: true,
             scrollX: true,
             ajax: abp.libs.datatables.createAjax(wafi.smartHR.employees.employee.getPagedList),
