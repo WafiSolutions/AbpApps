@@ -14,7 +14,10 @@ $(function () {
             columnDefs: [
                 {
                     title: l('Name'),
-                    data: "firstName",
+                    data: null,
+                    render: function (data) {
+                        return data.firstName + ' ' + data.lastName;
+                    }
                 },
                 {
                     title: l('Email'),
