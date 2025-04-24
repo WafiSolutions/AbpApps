@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\modules\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj" />
+    <ProjectReference Include="..\..\plugins\wafi.smarthr.ai.plugin\Wafi.SmartHR.AI.Plugin\Wafi.SmartHR.AI.Plugin.csproj" />
     <ProjectReference Include="..\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj" />
   </ItemGroup>
 

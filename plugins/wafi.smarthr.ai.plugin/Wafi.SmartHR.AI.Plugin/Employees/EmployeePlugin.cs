@@ -25,7 +25,7 @@ namespace Wafi.SmartHR.AI.Plugin.Employees
             _authorizationService = authorizationService;
         }
 
-        [KernelFunction, Description("Get Channel Manager List")]
+        [KernelFunction, Description("Get employee list")]
         public async Task<string> GetEmployeesAsync()
         {
             if (!await _authorizationService.IsGrantedAsync(SmartHRPermissions.Employees.Default))

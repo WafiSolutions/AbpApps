@@ -25,7 +25,7 @@ namespace Wafi.SmartHR.AI.Plugin.LeaveRecords
             _authorizationService = authorizationService;
         }
 
-        [KernelFunction, Description("Get Channel Manager List")]
+        [KernelFunction, Description("Get leave record list")]
         public async Task<string> GetLeaveRecordslAsync()
         {
             if (!await _authorizationService.IsGrantedAsync(SmartHRPermissions.LeaveRecords.Default))
