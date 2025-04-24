@@ -1,4 +1,8 @@
 using AutoMapper;
+using Wafi.SmartHR.Employees;
+using Wafi.SmartHR.Employees.Dtos;
+using Wafi.SmartHR.LeaveRecords;
+using Wafi.SmartHR.LeaveRecords.Dtos;
 
 namespace Wafi.SmartHR;
 
@@ -6,8 +10,10 @@ public class SmartHRApplicationAutoMapperProfile : Profile
 {
     public SmartHRApplicationAutoMapperProfile()
     {
-        /* You can configure your AutoMapper mapping configuration here.
-         * Alternatively, you can split your mapping configurations
-         * into multiple profile classes for a better organization. */
+        CreateMap<Employee, EmployeeDto>();
+        CreateMap<CreateUpdateEmployeeDto, Employee>();
+
+        CreateMap<LeaveRecord, LeaveRecordDto>();
+        CreateMap<CreateUpdateLeaveRecordDto, LeaveRecord>();
     }
 }

@@ -35,6 +35,27 @@ public class SmartHRMenuContributor : IMenuContributor
             )
         );
 
+        //Employees
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                SmartHRMenus.Employees,
+                l["Menu:Employees"],
+                url: "/Employees",
+                icon: "fa fa-users",
+                order: 2
+            )
+        );
+
+        //Leave Records
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                SmartHRMenus.LeaveRecords,
+                l["Menu:LeaveRecords"],
+                url: "/LeaveRecords",
+                icon: "fa fa-calendar",
+                order: 3
+            )
+        );
 
         //Administration
         var administration = context.Menu.GetAdministration();

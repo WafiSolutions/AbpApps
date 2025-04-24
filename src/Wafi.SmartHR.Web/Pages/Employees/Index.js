@@ -5,18 +5,18 @@ $(function () {
 
     var dataTable = $('#EmployeesTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
-            serverSide: true,
+            serverSide: false,
             paging: true,
-            order: [[1, "asc"]],
-            searching: false,
+            order: [[0, "asc"]],
+            searching: true,
             scrollX: true,
             ajax: abp.libs.datatables.createAjax(wafi.smartHR.employees.employee.getList),
             columnDefs: [
                 {
                     title: l('Name'),
-                    data: "name",
-                    render: function (data, type, row) {
-                        return row.firstName + ' ' + row.lastName;
+                    data: null,
+                    render: function (data) {
+                        return data.firstName + ' ' + data.lastName;
                     }
                 },
                 {
@@ -26,6 +26,20 @@ $(function () {
                 {
                     title: l('PhoneNumber'),
                     data: "phoneNumber"
+                },
+                {
+                    title: l('DateOfBirth'),
+                    data: "dateOfBirth",
+                    render: function (data) {
+                        return luxon.DateTime.fromISO(data).toLocaleString();
+                    }
+                },
+                {
+                    title: l('JoiningDate'),
+                    data: "joiningDate",
+                    render: function (data) {
+                        return luxon.DateTime.fromISO(data).toLocaleString();
+                    }
                 },
                 {
                     title: l('TotalLeaveDays'),
