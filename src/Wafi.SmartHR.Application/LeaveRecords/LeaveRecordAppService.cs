@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Wafi.SmartHR.Employees;
@@ -13,7 +14,7 @@ namespace Wafi.SmartHR.LeaveRecords;
 
 public class LeaveRecordAppService(
     IRepository<LeaveRecord, Guid> leaveRecordRepository,
-    IRepository<Employee, Guid> employeeRepository) 
+    IRepository<Employee, Guid> employeeRepository)
     : ApplicationService, ILeaveRecordAppService
 {
 
@@ -47,6 +48,31 @@ public class LeaveRecordAppService(
         }
 
         return dtos;
+    }
+
+
+    public async Task<PagedResultDto<LeaveRecordDto>> GetPagedListAsync(LeaveRecordFilter input)
+    {
+        var queryable = await leaveRecordRepository.GetQueryableAsync();
+
+        if (!input.Filter.IsNullOrWhiteSpace())
+        {
+            queryable = queryable.Where(e =>
+                e.Reason.Contains(input.Filter));
+        }
+
+        var totalCount = await AsyncExecuter.CountAsync(queryable);
+
+        var data = await AsyncExecuter.ToListAsync(
+            queryable
+                .OrderBy(e => e.CreationTime)
+                .PageBy(input.SkipCount, input.MaxResultCount)
+        );
+
+        return new PagedResultDto<LeaveRecordDto>(
+            totalCount,
+            ObjectMapper.Map<List<LeaveRecord>, List<LeaveRecordDto>>(data)
+        );
     }
 
     [Authorize(SmartHRPermissions.LeaveRecords.Create)]
