@@ -1,9 +1,12 @@
 @page
+@using Microsoft.AspNetCore.Authorization
 @using Wafi.SmartHR.Web.Pages.LeaveRecords
 @model IndexModel
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Wafi.SmartHR.Localization
+@using Wafi.SmartHR.Permissions
 @inject IHtmlLocalizer<SmartHRResource> L
+@inject IAuthorizationService AuthorizationService
 @{
     ViewData["Title"] = "Leave Records";
 }
@@ -15,7 +18,10 @@
 <abp-card>
     <abp-card-header>
         <h2>@L["LeaveRecords"]</h2>
-        <abp-button id="NewLeaveRecordButton" text="@L["NewLeaveRecord"].Value" icon="plus" button-type="Primary" />
+        @if (await AuthorizationService.IsGrantedAsync(SmartHRPermissions.LeaveRecords.Create))
+        {
+            <abp-button id="NewLeaveRecordButton" text="@L["NewLeaveRecord"].Value" icon="plus" button-type="Primary" />
+        }
     </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="LeaveRecordsTable" class="nowrap">

@@ -1,0 +1,7 @@
+{
+  "packages": {
+    "Wafi.SmartHR.AI.Plugin": {
+      "path": "Wafi.SmartHR.AI.Plugin/Wafi.SmartHR.AI.Plugin.abppkg"
+    }
+  }
+}

@@ -29,6 +29,15 @@
     "SuccessfullyDeleted": "Successfully deleted",
     "EmployeeDeletionConfirmationMessage": "Are you sure you want to delete employee '{0}'?",
     "LeaveRecordDeletionConfirmationMessage": "Are you sure you want to delete this leave record?",
+    "Permission:Employees": "Employee Management",
+    "Permission:Employees.Create": "Creating new employees",
+    "Permission:Employees.Edit": "Editing employees",
+    "Permission:Employees.Delete": "Deleting employees",
+    "Permission:LeaveRecords": "Leave Record Management",
+    "Permission:LeaveRecords.Create": "Creating new leave records",
+    "Permission:LeaveRecords.Edit": "Editing leave records",
+    "Permission:LeaveRecords.Delete": "Deleting leave records",
+    "Permission:LeaveRecords.UpdateStatus": "Updating leave record status",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit",
     "Welcome": "Welcome"
   }

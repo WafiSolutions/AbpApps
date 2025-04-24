@@ -41,6 +41,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{02EA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.Abp.OpenAISemanticKernel", "modules\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj", "{F88479C7-04DE-0AB4-A110-F0D79C4213FB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{588BDD3C-38CE-418E-8322-A88C5727A71A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.SmartHR.AI.Plugin", "plugins\wafi.smarthr.ai.plugin\Wafi.SmartHR.AI.Plugin\Wafi.SmartHR.AI.Plugin.csproj", "{CBB9FC65-F49A-786D-A1C4-60B3DA56DF62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +115,10 @@ Global
 		{F88479C7-04DE-0AB4-A110-F0D79C4213FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F88479C7-04DE-0AB4-A110-F0D79C4213FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F88479C7-04DE-0AB4-A110-F0D79C4213FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBB9FC65-F49A-786D-A1C4-60B3DA56DF62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBB9FC65-F49A-786D-A1C4-60B3DA56DF62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBB9FC65-F49A-786D-A1C4-60B3DA56DF62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBB9FC65-F49A-786D-A1C4-60B3DA56DF62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -132,6 +140,7 @@ Global
 		{EF480016-9127-4916-8735-D2466BDBC582} = {04DBDB01-70F4-4E06-B468-8F87850B22BE}
 		{70680696-BB1E-4383-BCB2-42C3767171FB} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{F88479C7-04DE-0AB4-A110-F0D79C4213FB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CBB9FC65-F49A-786D-A1C4-60B3DA56DF62} = {588BDD3C-38CE-418E-8322-A88C5727A71A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

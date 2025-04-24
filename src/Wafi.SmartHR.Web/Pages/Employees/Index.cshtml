@@ -1,8 +1,11 @@
 @page
+@using Microsoft.AspNetCore.Authorization
 @using Wafi.SmartHR.Web.Pages.Employees
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Wafi.SmartHR.Localization
+@using Wafi.SmartHR.Permissions
 @inject IHtmlLocalizer<SmartHRResource> L
+@inject IAuthorizationService AuthorizationService
 @model IndexModel
 @{
     ViewData["Title"] = "Employees";
@@ -15,7 +18,10 @@
 <abp-card>
     <abp-card-header>
         <h2>@L["Employees"]</h2>
-        <abp-button id="NewEmployeeButton" text="@L["NewEmployee"].Value" icon="plus" button-type="Primary" />
+        @if (await AuthorizationService.IsGrantedAsync(SmartHRPermissions.Employees.Create))
+        {
+            <abp-button id="NewEmployeeButton" text="@L["NewEmployee"].Value" icon="plus" button-type="Primary" />
+        }
     </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="EmployeesTable" class="nowrap">

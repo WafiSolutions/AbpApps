@@ -52,29 +52,30 @@ $(function () {
                 {
                     title: l('Actions'),
                     rowAction: {
-                        items:
-                            [
-                                {
-                                    text: l('Edit'),
-                                    action: function (data) {
-                                        editModal.open({ id: data.record.id });
-                                    }
-                                },
-                                {
-                                    text: l('Delete'),
-                                    confirmMessage: function (data) {
-                                        return l('EmployeeDeletionConfirmationMessage', data.record.firstName + ' ' + data.record.lastName);
-                                    },
-                                    action: function (data) {
-                                        wafi.smartHR.employees.employee
-                                            .delete(data.record.id)
-                                            .then(function () {
-                                                abp.notify.info(l('SuccessfullyDeleted'));
-                                                dataTable.ajax.reload();
-                                            });
-                                    }
+                        items: [
+                            {
+                                text: l('Edit'),
+                                visible: abp.auth.isGranted('SmartHR.Employees.Edit'),
+                                action: function (data) {
+                                    editModal.open({ id: data.record.id });
                                 }
-                            ]
+                            },
+                            {
+                                text: l('Delete'),
+                                visible: abp.auth.isGranted('SmartHR.Employees.Delete'),
+                                confirmMessage: function (data) {
+                                    return l('EmployeeDeletionConfirmationMessage', data.record.firstName + ' ' + data.record.lastName);
+                                },
+                                action: function (data) {
+                                    wafi.smartHR.employees.employee
+                                        .delete(data.record.id)
+                                        .then(function () {
+                                            abp.notify.info(l('SuccessfullyDeleted'));
+                                            dataTable.ajax.reload();
+                                        });
+                                }
+                            }
+                        ]
                     }
                 }
             ]

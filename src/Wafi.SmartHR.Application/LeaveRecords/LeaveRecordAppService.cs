@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Wafi.SmartHR.Employees;
 using Wafi.SmartHR.LeaveRecords.Dtos;
+using Wafi.SmartHR.Permissions;
 
 namespace Wafi.SmartHR.LeaveRecords
 {
@@ -22,6 +24,7 @@ namespace Wafi.SmartHR.LeaveRecords
             _employeeRepository = employeeRepository;
         }
 
+        [Authorize(SmartHRPermissions.LeaveRecords.Default)]
         public async Task<LeaveRecordDto> GetAsync(Guid id)
         {
             var leaveRecord = await _leaveRecordRepository.GetAsync(id);
@@ -33,6 +36,7 @@ namespace Wafi.SmartHR.LeaveRecords
             return dto;
         }
 
+        [Authorize(SmartHRPermissions.LeaveRecords.Default)]
         public async Task<List<LeaveRecordDto>> GetListAsync()
         {
             var leaveRecords = await _leaveRecordRepository.GetListAsync();
@@ -52,6 +56,7 @@ namespace Wafi.SmartHR.LeaveRecords
             return dtos;
         }
 
+        [Authorize(SmartHRPermissions.LeaveRecords.Create)]
         public async Task<LeaveRecordDto> CreateAsync(CreateUpdateLeaveRecordDto input)
         {
             var employee = await _employeeRepository.GetAsync(input.EmployeeId);
@@ -72,6 +77,7 @@ namespace Wafi.SmartHR.LeaveRecords
             return dto;
         }
 
+        [Authorize(SmartHRPermissions.LeaveRecords.UpdateStatus)]
         public async Task<LeaveRecordDto> UpdateStatusAsync(Guid id, UpdateLeaveStatusDto input)
         {
             var leaveRecord = await _leaveRecordRepository.GetAsync(id);
@@ -92,6 +98,7 @@ namespace Wafi.SmartHR.LeaveRecords
             return dto;
         }
 
+        [Authorize(SmartHRPermissions.LeaveRecords.Delete)]
         public async Task DeleteAsync(Guid id)
         {
             await _leaveRecordRepository.DeleteAsync(id);

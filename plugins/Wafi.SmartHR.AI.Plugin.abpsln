@@ -1,0 +1,16 @@
+{
+  "id": "c5b782b8-05f6-471c-b185-84c2fac8affc",
+  "template": "empty",
+  "options": {
+    "httpRequests": {
+      "ignoredUrls": [
+        "^/metrics$"
+      ]
+    }
+  },
+  "modules": {
+    "Wafi.SmartHR.AI.Plugin": {
+      "path": "wafi.smarthr.ai.plugin/Wafi.SmartHR.AI.Plugin.abpmdl"
+    }
+  }
+}

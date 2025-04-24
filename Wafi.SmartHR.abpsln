@@ -9,6 +9,9 @@
   "modules": {
     "Wafi.SmartHR": {
       "path": "Wafi.SmartHR.abpmdl"
+    },
+    "Wafi.SmartHR.AIPlugin": {
+      "path": "plugins/Wafi.SmartHR.AIPlugin.abpmdl"
     }
   },
   "runProfiles": {
@@ -18,9 +21,7 @@
   },
   "options": {
     "httpRequests": {
-      "ignoredUrls": [
-      
-      ]
+      "ignoredUrls": []
     }
   },
   "creatingStudioConfiguration": {
@@ -42,7 +43,6 @@
     "createInitialMigration": "true",
     "theme": "leptonx-lite",
     "themeStyle": "",
-    "mobileFramework": "none",
     "publicWebsite": "false",
     "socialLogin": ""
   }
