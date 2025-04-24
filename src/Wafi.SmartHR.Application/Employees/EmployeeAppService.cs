@@ -11,32 +11,28 @@ using Wafi.SmartHR.Permissions;
 
 namespace Wafi.SmartHR.Employees;
 
-public class EmployeeAppService : ApplicationService, IEmployeeAppService
+public class EmployeeAppService(IRepository<Employee, Guid> employeeRepository) 
+    : ApplicationService, IEmployeeAppService
 {
-    private readonly IRepository<Employee, Guid> _employeeRepository;
-
-    public EmployeeAppService(IRepository<Employee, Guid> employeeRepository)
-    {
-        _employeeRepository = employeeRepository;
-    }
 
     [Authorize(SmartHRPermissions.Employees.Default)]
     public async Task<EmployeeDto> GetAsync(Guid id)
     {
-        var employee = await _employeeRepository.GetAsync(id);
+        var employee = await employeeRepository.GetAsync(id);
         return ObjectMapper.Map<Employee, EmployeeDto>(employee);
     }
 
     [Authorize(SmartHRPermissions.Employees.Default)]
     public async Task<List<EmployeeDto>> GetListAsync()
     {
-        var employees = await _employeeRepository.GetListAsync();
+        var employees = await employeeRepository.GetListAsync();
         return ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(employees);
     }
 
+    [Authorize(SmartHRPermissions.Employees.Default)]
     public async Task<PagedResultDto<EmployeeDto>> GetPagedListAsync(EmployeeFilter input)
     {
-        var queryable = await _employeeRepository.GetQueryableAsync();
+        var queryable = await employeeRepository.GetQueryableAsync();
 
         if (!input.Filter.IsNullOrWhiteSpace())
         {
@@ -73,7 +69,7 @@ public class EmployeeAppService : ApplicationService, IEmployeeAppService
             input.TotalLeaveDays
         );
 
-        await _employeeRepository.InsertAsync(employee);
+        await employeeRepository.InsertAsync(employee);
 
         return ObjectMapper.Map<Employee, EmployeeDto>(employee);
     }
@@ -81,7 +77,7 @@ public class EmployeeAppService : ApplicationService, IEmployeeAppService
     [Authorize(SmartHRPermissions.Employees.Edit)]
     public async Task<EmployeeDto> UpdateAsync(Guid id, CreateUpdateEmployeeDto input)
     {
-        var employee = await _employeeRepository.GetAsync(id);
+        var employee = await employeeRepository.GetAsync(id);
 
         employee.FirstName = input.FirstName;
         employee.LastName = input.LastName;
@@ -91,7 +87,7 @@ public class EmployeeAppService : ApplicationService, IEmployeeAppService
         employee.JoiningDate = input.JoiningDate;
         employee.TotalLeaveDays = input.TotalLeaveDays;
 
-        await _employeeRepository.UpdateAsync(employee);
+        await employeeRepository.UpdateAsync(employee);
 
         return ObjectMapper.Map<Employee, EmployeeDto>(employee);
     }
@@ -99,6 +95,6 @@ public class EmployeeAppService : ApplicationService, IEmployeeAppService
     [Authorize(SmartHRPermissions.Employees.Delete)]
     public async Task DeleteAsync(Guid id)
     {
-        await _employeeRepository.DeleteAsync(id);
+        await employeeRepository.DeleteAsync(id);
     }
 }
