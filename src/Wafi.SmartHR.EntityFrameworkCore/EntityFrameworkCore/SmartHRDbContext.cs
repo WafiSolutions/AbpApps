@@ -14,6 +14,10 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Wafi.SmartHR.Employees;
+using Wafi.SmartHR.LeaveRecords;
+using Wafi.SmartHR.EntityFrameworkCore.EntityFrameworkCore.Employees;
+using Wafi.SmartHR.EntityFrameworkCore.EntityFrameworkCore.LeaveRecords;
 
 namespace Wafi.SmartHR.EntityFrameworkCore;
 
@@ -57,6 +61,9 @@ public class SmartHRDbContext :
 
     #endregion
 
+    public DbSet<Employee> Employees { get; set; }
+    public DbSet<LeaveRecord> LeaveRecords { get; set; }
+
     public SmartHRDbContext(DbContextOptions<SmartHRDbContext> options)
         : base(options)
     {
@@ -80,12 +87,7 @@ public class SmartHRDbContext :
         builder.ConfigureBlobStoring();
         
         /* Configure your own tables/entities inside here */
-
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(SmartHRConsts.DbTablePrefix + "YourEntities", SmartHRConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
+        builder.ApplyConfiguration(new EmployeeConfiguration());
+        builder.ApplyConfiguration(new LeaveRecordConfiguration());
     }
 }

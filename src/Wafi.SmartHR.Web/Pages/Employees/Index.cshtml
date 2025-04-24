@@ -1,0 +1,33 @@
+@page
+@using Wafi.SmartHR.Web.Pages.Employees
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Wafi.SmartHR.Localization
+@inject IHtmlLocalizer<SmartHRResource> L
+@model IndexModel
+@{
+    ViewData["Title"] = "Employees";
+}
+
+@section scripts {
+    <abp-script src="/Pages/Employees/Index.js" />
+}
+
+<abp-card>
+    <abp-card-header>
+        <h2>@L["Employees"]</h2>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="EmployeesTable">
+            <thead>
+                <tr>
+                    <th>@L["Name"]</th>
+                    <th>@L["Email"]</th>
+                    <th>@L["PhoneNumber"]</th>
+                    <th>@L["TotalLeaveDays"]</th>
+                    <th>@L["RemainingLeaveDays"]</th>
+                    <th>@L["Actions"]</th>
+                </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card> 
