@@ -5,12 +5,11 @@ $(function () {
 
     var dataTable = $('#LeaveRecordsTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
-            serverSide: false,
+            serverSide: true,
             paging: true,
-            order: [[1, "desc"]],
             searching: true,
             scrollX: true,
-            ajax: abp.libs.datatables.createAjax(wafi.smartHR.leaveRecords.leaveRecord.getList),
+            ajax: abp.libs.datatables.createAjax(wafi.smartHR.leaveRecords.leaveRecord.getPagedList),
             columnDefs: [
                 {
                     title: l('Employee'),
