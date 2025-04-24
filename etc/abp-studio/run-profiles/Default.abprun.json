@@ -1,0 +1,15 @@
+﻿{
+  "applications": {
+    "Wafi.SmartHR.Web": {
+      "type": "dotnet-project",
+      "launchUrl": "https://localhost:44325",
+      "path": "../../../src/Wafi.SmartHR.Web/Wafi.SmartHR.Web.csproj",
+      "kubernetesService": ".*-web$",
+      "healthCheckEndpoint": "/health-status",
+      "healthUiEndpoint": "/health-ui",
+      "execution": {
+        "order": 2
+      }
+    }
+  }
+}
