@@ -15,14 +15,17 @@
 <abp-card>
     <abp-card-header>
         <h2>@L["Employees"]</h2>
+        <abp-button id="NewEmployeeButton" text="@L["NewEmployee"].Value" icon="plus" button-type="Primary" />
     </abp-card-header>
     <abp-card-body>
-        <abp-table striped-rows="true" id="EmployeesTable">
+        <abp-table striped-rows="true" id="EmployeesTable" class="nowrap">
             <thead>
                 <tr>
                     <th>@L["Name"]</th>
                     <th>@L["Email"]</th>
                     <th>@L["PhoneNumber"]</th>
+                    <th>@L["DateOfBirth"]</th>
+                    <th>@L["JoiningDate"]</th>
                     <th>@L["TotalLeaveDays"]</th>
                     <th>@L["RemainingLeaveDays"]</th>
                     <th>@L["Actions"]</th>

@@ -1,5 +1,5 @@
 $(function () {
-    var l = abp.localization.getResource('WafiSmartHR');
+    var l = abp.localization.getResource('SmartHR');
     var createModal = new abp.ModalManager(abp.appPath + 'Employees/CreateModal');
     var editModal = new abp.ModalManager(abp.appPath + 'Employees/EditModal');
 

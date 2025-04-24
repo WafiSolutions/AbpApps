@@ -15,9 +15,10 @@
 <abp-card>
     <abp-card-header>
         <h2>@L["LeaveRecords"]</h2>
+        <abp-button id="NewLeaveRecordButton" text="@L["NewLeaveRecord"].Value" icon="plus" button-type="Primary" />
     </abp-card-header>
     <abp-card-body>
-        <abp-table striped-rows="true" id="LeaveRecordsTable">
+        <abp-table striped-rows="true" id="LeaveRecordsTable" class="nowrap">
             <thead>
                 <tr>
                     <th>@L["Employee"]</th>

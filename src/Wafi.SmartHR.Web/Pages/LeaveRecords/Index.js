@@ -1,5 +1,5 @@
 $(function () {
-    var l = abp.localization.getResource('WafiSmartHR');
+    var l = abp.localization.getResource('SmartHR');
     var createModal = new abp.ModalManager(abp.appPath + 'LeaveRecords/CreateModal');
     var updateStatusModal = new abp.ModalManager(abp.appPath + 'LeaveRecords/UpdateStatusModal');
 
