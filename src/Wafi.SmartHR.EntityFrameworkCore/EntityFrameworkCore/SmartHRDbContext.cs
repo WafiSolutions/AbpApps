@@ -5,6 +5,7 @@ using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -15,6 +16,8 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Wafi.SmartHR.Employees;
 using Wafi.SmartHR.LeaveRecords;
+using Wafi.SmartHR.EntityFrameworkCore.EntityFrameworkCore.Employees;
+using Wafi.SmartHR.EntityFrameworkCore.EntityFrameworkCore.LeaveRecords;
 
 namespace Wafi.SmartHR.EntityFrameworkCore;
 
@@ -82,7 +85,9 @@ public class SmartHRDbContext :
         builder.ConfigureOpenIddict();
         builder.ConfigureTenantManagement();
         builder.ConfigureBlobStoring();
-        builder.ConfigureBlobStoring();
-        builder.ConfigureSmartHR();
+        
+        /* Configure your own tables/entities inside here */
+        builder.ApplyConfiguration(new EmployeeConfiguration());
+        builder.ApplyConfiguration(new LeaveRecordConfiguration());
     }
 }
