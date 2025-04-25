@@ -22,7 +22,7 @@
 
     <form method="post" class="message-form" id="chat-form">
         <div class="input-group">
-            <textarea name="UserMessage" id="user-input" class="message-input" placeholder="Type your message here..." required>@Model.UserMessage</textarea>
+            <textarea name="UserMessage" id="user-input" class="message-input" placeholder="Type your message here..." required></textarea>
             <button type="submit" class="send-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -34,12 +34,12 @@
 </div>
 
 <style>
-    /* Base styles */
     .chat-container {
         max-width: 800px;
         margin: 0 auto;
         padding: 20px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        height: 100vh;
         display: flex;
         flex-direction: column;
     }
@@ -225,11 +225,20 @@
             // Show typing indicator
             showTypingIndicator();
 
-            // Simulate AI response after delay
-            setTimeout(() => {
+            // Call your API
+            wafi.smartHR.controllers.smartAI.ask({
+                question: message
+            }, {
+                contentType: 'application/json',
+                dataType: 'json'
+            }).then(function(response) {
                 removeTypingIndicator();
-                addMessage('AI', "This is a simulated response. Replace with actual AI reply.", false);
-            }, 2000);
+                addMessage('AI', response.answer, false);
+            }).catch(function(error) {
+                removeTypingIndicator();
+                addMessage('AI', "Sorry, there was an error processing your request.", false);
+                console.error("API Error:", error);
+            });
 
             return false;
         });
