@@ -25,34 +25,6 @@ public class IndexModel(HttpClient httpClient) : PageModel
         LoadConversationFromTempData();
     }
 
-    public async Task<IActionResult> OnPostAsync()
-    {
-        LoadConversationFromTempData();
-
-        if (!string.IsNullOrWhiteSpace(UserMessage))
-        {
-            // Add user message
-            Conversation.Add(new Message { Sender = "User", Content = UserMessage });
-
-            // Send to AI API
-            //var response = await httpClient.PostAsJsonAsync("/askai", new { input = UserMessage });
-            if (true)
-            {
-                //var aiReply = await response.Content.ReadFromJsonAsync<AIResponse>();
-                Conversation.Add(new Message { Sender = "AI", Content = "(no reply)" });
-            }
-            else
-            {
-                Conversation.Add(new Message { Sender = "AI", Content = "Error getting response from AI.", CreationTime = DateTime.Now });
-            }
-        }
-
-        SaveConversationToTempData();
-
-        ModelState.Clear();
-        return Page();
-    }
-
     private void LoadConversationFromTempData()
     {
         if (!string.IsNullOrEmpty(ConversationJson))
