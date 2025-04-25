@@ -1,0 +1,22 @@
+﻿@page "/chat"
+@model Wafi.SmartHR.Web.Pages.Chats.IndexModel
+@{
+    ViewData["Title"] = "Chat with AI";
+}
+
+<h2>Chat with AI</h2>
+
+<div style="border: 1px solid #ccc; padding: 10px; max-height: 400px; overflow-y: auto;">
+    @foreach (var msg in Model.Conversation)
+    {
+        <div style="margin-bottom: 10px;">
+            <strong>@msg.Sender:</strong> @msg.Content
+        </div>
+    }
+</div>
+
+<form method="post" style="margin-top: 20px;">
+    <textarea name="UserMessage" rows="3" cols="50" placeholder="Type your message here..." required>@Model.UserMessage</textarea>
+    <br />
+    <button type="submit">Send</button>
+</form>

@@ -57,6 +57,18 @@ public class SmartHRMenuContributor : IMenuContributor
             ).RequirePermissions(SmartHRPermissions.LeaveRecords.Default)
         );
 
+
+        //Leave Records
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                SmartHRMenus.LeaveRecords,
+                l["Chat"],
+                url: "/chat",
+                icon: "fa fa-comments",
+                order: 4
+            ).RequirePermissions(SmartHRPermissions.LeaveRecords.Default)
+        );
+
         //Administration
         var administration = context.Menu.GetAdministration();
         administration.Order = 6;
