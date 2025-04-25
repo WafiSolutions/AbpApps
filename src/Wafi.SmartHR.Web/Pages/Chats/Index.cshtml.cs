@@ -10,7 +10,7 @@ using Volo.Abp.Timing;
 
 namespace Wafi.SmartHR.Web.Pages.Chats;
 
-public class IndexModel(HttpClient httpClient) : PageModel
+public class IndexModel : PageModel
 {
     [BindProperty]
     public string UserMessage { get; set; }
