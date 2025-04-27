@@ -82,7 +82,6 @@ public class SmartHRDbContext :
         builder.ConfigureOpenIddict();
         builder.ConfigureTenantManagement();
         builder.ConfigureBlobStoring();
-        builder.ConfigureBlobStoring();
         builder.ConfigureSmartHR();
     }
 }
