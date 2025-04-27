@@ -13,6 +13,7 @@ public class LeaveRecord : FullAuditedAggregateRoot<Guid>
     public int TotalDays { get; private set; }
 
     public Guid EmployeeId { get; set; }
+    public Employee Employee { get; set; }
 
     protected LeaveRecord()
     {

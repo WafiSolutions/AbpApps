@@ -1,24 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\common.props" />
+	<Import Project="..\..\common.props" />
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <RootNamespace>Wafi.SmartHR</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<RootNamespace>Wafi.SmartHR</RootNamespace>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Wafi.SmartHR.Domain\Wafi.SmartHR.Domain.csproj" />
-    <ProjectReference Include="..\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Wafi.SmartHR.Domain\Wafi.SmartHR.Domain.csproj" />
+		<ProjectReference Include="..\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="9.1.0" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="9.1.0" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="9.1.0" />
-    <PackageReference Include="Volo.Abp.Account.Application" Version="9.1.0" />
-    <PackageReference Include="Volo.Abp.Identity.Application" Version="9.1.0" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="9.1.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="9.1.0" />
+		<PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="9.1.0" />
+		<PackageReference Include="Volo.Abp.SettingManagement.Application" Version="9.1.0" />
+		<PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="9.1.0" />
+		<PackageReference Include="Volo.Abp.Account.Application" Version="9.1.0" />
+		<PackageReference Include="Volo.Abp.Identity.Application" Version="9.1.0" />
+		<PackageReference Include="Volo.Abp.TenantManagement.Application" Version="9.1.0" />
+	</ItemGroup>
 
 </Project>

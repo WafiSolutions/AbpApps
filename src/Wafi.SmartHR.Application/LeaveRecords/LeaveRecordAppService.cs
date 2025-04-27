@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,45 +34,59 @@ public class LeaveRecordAppService(
     [Authorize(SmartHRPermissions.LeaveRecords.Default)]
     public async Task<List<LeaveRecordDto>> GetListAsync()
     {
-        var leaveRecords = await leaveRecordRepository.GetListAsync();
-        var employees = await employeeRepository.GetListAsync();
+        var employeeQueryable = (await employeeRepository.GetQueryableAsync()).AsNoTracking();
+        var leaveRCQueryable = (await leaveRecordRepository.GetQueryableAsync())
+                            .AsNoTracking();
 
-        var dtos = ObjectMapper.Map<List<LeaveRecord>, List<LeaveRecordDto>>(leaveRecords);
+        var totalCount = await leaveRCQueryable.CountAsync();
 
-        foreach (var dto in dtos)
-        {
-            var employee = employees.FirstOrDefault(e => e.Id == dto.EmployeeId);
-            if (employee != null)
-            {
-                dto.EmployeeName = $"{employee.FirstName} {employee.LastName}";
-            }
-        }
+        var result = await (from leave in leaveRCQueryable
+                            join employee in employeeQueryable on leave.EmployeeId equals employee.Id into qo
+                            from p in qo.DefaultIfEmpty()
+                            select new LeaveRecordDto
+                            {
+                                Id = leave.Id,
+                                EmployeeName = $"{p.FirstName} {p.LastName}",
+                                StartDate = leave.StartDate,
+                                EndDate = leave.EndDate,
+                                Status = leave.Status,
+                                Reason = leave.Reason,
+                                TotalDays = leave.TotalDays
+                            }).ToListAsync(); ;
 
-        return dtos;
+        return result;
     }
 
 
     public async Task<PagedResultDto<LeaveRecordDto>> GetPagedListAsync(LeaveRecordFilter input)
     {
-        var queryable = await leaveRecordRepository.GetQueryableAsync();
+        string sortBy = !string.IsNullOrWhiteSpace(input.Sorting) ? input.Sorting : nameof(LeaveRecord.CreationTime);
 
-        if (!input.Filter.IsNullOrWhiteSpace())
-        {
-            queryable = queryable.Where(e =>
-                e.Reason.Contains(input.Filter));
-        }
+        var employeeQueryable = (await employeeRepository.GetQueryableAsync()).AsNoTracking();
+        var leaveRCQueryable = (await leaveRecordRepository.GetQueryableAsync())
+                            .AsNoTracking()
+                            .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+                                      e => e.Reason.Contains(input.Filter));
 
-        var totalCount = await AsyncExecuter.CountAsync(queryable);
+        var totalCount = await leaveRCQueryable.CountAsync();
 
-        var data = await AsyncExecuter.ToListAsync(
-            queryable
-                .OrderBy(e => e.CreationTime)
-                .PageBy(input.SkipCount, input.MaxResultCount)
-        );
+        var result = await (from leave in leaveRCQueryable
+                            join employee in employeeQueryable on leave.EmployeeId equals employee.Id into qo
+                            from p in qo.DefaultIfEmpty()
+                            select new LeaveRecordDto
+                            {
+                                Id = leave.Id,
+                                EmployeeName = $"{p.FirstName} {p.LastName}",
+                                StartDate = leave.StartDate,
+                                EndDate = leave.EndDate,
+                                Status = leave.Status,
+                                Reason = leave.Reason,
+                                TotalDays = leave.TotalDays
+                            }).OrderBy(x => x.Id).PageBy(input).ToListAsync(); ;
 
         return new PagedResultDto<LeaveRecordDto>(
             totalCount,
-            ObjectMapper.Map<List<LeaveRecord>, List<LeaveRecordDto>>(data)
+            result
         );
     }
 
