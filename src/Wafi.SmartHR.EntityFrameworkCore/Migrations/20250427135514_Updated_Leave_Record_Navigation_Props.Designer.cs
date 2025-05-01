@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using Wafi.SmartHR.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using Wafi.SmartHR.EntityFrameworkCore;
 namespace Wafi.SmartHR.Migrations
 {
     [DbContext(typeof(SmartHRDbContext))]
-    partial class SmartHRDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250427135514_Updated_Leave_Record_Navigation_Props")]
+    partial class Updated_Leave_Record_Navigation_Props
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1992,8 +1995,6 @@ namespace Wafi.SmartHR.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
-
                     b.ToTable("SmartHRLeaveRecords", (string)null);
                 });
 
@@ -2146,17 +2147,6 @@ namespace Wafi.SmartHR.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Wafi.SmartHR.LeaveRecords.LeaveRecord", b =>
-                {
-                    b.HasOne("Wafi.SmartHR.Employees.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

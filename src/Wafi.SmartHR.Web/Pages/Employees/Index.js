@@ -5,18 +5,17 @@ $(function () {
 
     var dataTable = $('#EmployeesTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
-            serverSide: false,
+            serverSide: true,
             paging: true,
-            order: [[0, "asc"]],
             searching: true,
             scrollX: true,
-            ajax: abp.libs.datatables.createAjax(wafi.smartHR.employees.employee.getList),
+            ajax: abp.libs.datatables.createAjax(wafi.smartHR.employees.employee.getPagedList),
             columnDefs: [
                 {
                     title: l('Name'),
-                    data: null,
-                    render: function (data) {
-                        return data.firstName + ' ' + data.lastName;
+                    data: 'firstName',
+                    render: function (data, type, row) {
+                        return row.firstName + ' ' + row.lastName;
                     }
                 },
                 {
@@ -90,8 +89,9 @@ $(function () {
         dataTable.ajax.reload();
     });
 
-    $('#NewEmployeeButton').click(function (e) {
+    $('#NewEmployeeButton').on('click', function () {
         e.preventDefault();
         createModal.open();
     });
+
 }); 

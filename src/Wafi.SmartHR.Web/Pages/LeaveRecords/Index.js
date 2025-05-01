@@ -5,16 +5,19 @@ $(function () {
 
     var dataTable = $('#LeaveRecordsTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
-            serverSide: false,
+            serverSide: true,
             paging: true,
-            order: [[1, "desc"]],
             searching: true,
             scrollX: true,
-            ajax: abp.libs.datatables.createAjax(wafi.smartHR.leaveRecords.leaveRecord.getList),
+            ajax: abp.libs.datatables.createAjax(wafi.smartHR.leaveRecords.leaveRecord.getPagedList),
             columnDefs: [
                 {
                     title: l('Employee'),
-                    data: "employeeName"
+                    data: null,
+                    orderable: false,
+                    render: function (data) {
+                        return data.employeeName;
+                    }
                 },
                 {
                     title: l('StartDate'),
@@ -86,7 +89,7 @@ $(function () {
         dataTable.ajax.reload();
     });
 
-    $('#NewLeaveRecordButton').click(function (e) {
+    $('#NewLeaveRecordButton').on('click', function () {
         e.preventDefault();
         createModal.open();
     });

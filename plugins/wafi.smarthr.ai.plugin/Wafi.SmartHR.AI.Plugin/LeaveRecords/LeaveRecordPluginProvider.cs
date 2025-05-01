@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Wafi.Abp.OpenAISemanticKernel;
-using Wafi.SmartHR.AI.Plugin.LeaveRecords;
+﻿using Wafi.Abp.OpenAISemanticKernel;
 
-namespace Wafi.SmartHR.AI.Plugin.Employees
+namespace Wafi.SmartHR.AI.Plugin.LeaveRecords;
+
+public class LeaveRecordPluginProvider : SemanticPluginProviderBase<LeaveRecordPlugin>
 {
-    public class LeaveRecordPluginProvider : SemanticPluginProviderBase<LeaveRecordPlugin>
+    public LeaveRecordPluginProvider(LeaveRecordPlugin plugin) : base(plugin)
     {
-        public LeaveRecordPluginProvider(LeaveRecordPlugin plugin) : base(plugin)
-        {
-        }
-
-        public override string Name => "LeaveRecord";
     }
+
+    public override string Name => "LeaveRecord";
 }

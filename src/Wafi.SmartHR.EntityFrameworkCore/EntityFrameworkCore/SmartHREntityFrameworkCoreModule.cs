@@ -42,9 +42,7 @@ public class SmartHREntityFrameworkCoreModule : AbpModule
     {
         context.Services.AddAbpDbContext<SmartHRDbContext>(options =>
         {
-                /* Remove "includeAllEntities: true" to create
-                 * default repositories only for aggregate roots */
-            options.AddDefaultRepositories(includeAllEntities: true);
+            options.AddDefaultRepositories();
         });
 
         if (AbpStudioAnalyzeHelper.IsInAnalyzeMode)

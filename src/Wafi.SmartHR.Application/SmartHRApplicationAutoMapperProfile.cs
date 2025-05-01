@@ -11,9 +11,9 @@ public class SmartHRApplicationAutoMapperProfile : Profile
     public SmartHRApplicationAutoMapperProfile()
     {
         CreateMap<Employee, EmployeeDto>();
-        CreateMap<CreateUpdateEmployeeDto, Employee>();
+        CreateMap<CreateUpdateEmployeeInput, Employee>();
 
         CreateMap<LeaveRecord, LeaveRecordDto>();
-        CreateMap<CreateUpdateLeaveRecordDto, LeaveRecord>();
+        CreateMap<CreateUpdateLeaveRecordInput, LeaveRecord>();
     }
 }
