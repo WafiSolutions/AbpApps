@@ -92,7 +92,7 @@ public class LeaveRecordAppService(
     }
 
     [Authorize(SmartHRPermissions.LeaveRecords.Create)]
-    public async Task<LeaveRecordDto> CreateAsync(CreateUpdateLeaveRecordDto input)
+    public async Task<LeaveRecordDto> CreateAsync(CreateUpdateLeaveRecordInput input)
     {
         var employee = await employeeRepository.GetAsync(input.EmployeeId);
 
@@ -113,7 +113,7 @@ public class LeaveRecordAppService(
     }
 
     [Authorize(SmartHRPermissions.LeaveRecords.UpdateStatus)]
-    public async Task<LeaveRecordDto> UpdateStatusAsync(Guid id, UpdateLeaveStatusDto input)
+    public async Task<LeaveRecordDto> UpdateStatusAsync(Guid id, UpdateLeaveStatusInput input)
     {
         var leaveRecord = await leaveRecordRepository.GetAsync(id);
         var employee = await employeeRepository.GetAsync(leaveRecord.EmployeeId);

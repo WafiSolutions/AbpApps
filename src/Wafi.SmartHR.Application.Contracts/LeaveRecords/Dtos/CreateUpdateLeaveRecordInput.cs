@@ -2,7 +2,7 @@
 
 namespace Wafi.SmartHR.LeaveRecords.Dtos;
 
-public class CreateUpdateLeaveRecordDto
+public class CreateUpdateLeaveRecordInput
 {
     public Guid EmployeeId { get; set; }
     public DateTime StartDate { get; set; }
