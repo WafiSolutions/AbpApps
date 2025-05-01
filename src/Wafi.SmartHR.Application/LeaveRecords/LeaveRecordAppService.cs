@@ -73,6 +73,8 @@ public class LeaveRecordAppService(
                             from p in qo.DefaultIfEmpty()
                             where string.IsNullOrEmpty(input.Filter) ||
                                          input.Filter.Contains(p.FirstName) ||
+                                         input.Filter.Contains(p.PhoneNumber) ||
+                                         input.Filter.Contains(p.Email) ||
                                          input.Filter.Contains(p.LastName)
                             select new LeaveRecordDto
                             {
