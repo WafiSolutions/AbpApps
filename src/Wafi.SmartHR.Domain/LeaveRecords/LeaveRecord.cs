@@ -29,10 +29,24 @@ public class LeaveRecord : FullAuditedAggregateRoot<Guid>
     ) : base(id)
     {
         EmployeeId = employeeId;
-        StartDate = startDate;
-        EndDate = endDate;
         Reason = reason;
         Status = LeaveStatus.Pending;
+        SetLeaveDate(startDate, endDate);
+    }
+
+    private void SetLeaveDate(DateTime startDate, DateTime endDate)
+    {
+        // Validate: StartDate should not be after EndDate
+        if (StartDate > EndDate)
+            throw new ArgumentException("Start date cannot be after end date.");
+
+        StartDate = startDate;
+
+        // If endDate is not provided (is default), treat it as a single-day leave
+        EndDate = endDate == default || endDate == DateTime.MinValue
+            ? startDate
+            : endDate;
+
         CalculateTotalDays();
     }
 
