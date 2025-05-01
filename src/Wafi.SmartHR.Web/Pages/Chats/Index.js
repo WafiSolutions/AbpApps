@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const chatForm = document.getElementById('chat-form');
     const chatMessages = document.getElementById('chat-messages');
     const userInput = document.getElementById('user-input');
+    const userName = abp.currentUser.userName;
 
     // Scroll to bottom initially
     scrollToBottom();
@@ -14,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (message === '') return;
 
         // Add user message immediately with animation
-        addMessage('User', message, true);
+        addMessage(userName, message, true);
         userInput.value = '';
 
         // Show typing indicator
