@@ -36,6 +36,20 @@ public class LeaveRecordPlugin : ApplicationService, ITransientDependency
     }
 
 
+
+    [KernelFunction, Description("Get leave records of employee from their name, email, PhoneNumber")]
+    public async Task<string> GetEmployeeLeaveRecordsAsync(string filter)
+    {
+        var employees = await _leaveRecordService.GetPagedListAsync(new LeaveRecordFilter() { Filter = filter });
+        if (employees is null)
+        {
+            return $"leave records for filter '{filter}' not found.";
+        }
+
+        return JsonSerializer.Serialize(employees);
+    }
+
+
     [KernelFunction, Description("Create a new leave record for a employee")]
     public async Task<string> CreateLeaveRecordAsync(string leaveRecordData)
     {
