@@ -20,10 +20,7 @@
     flex: 1;
     overflow-y: auto;
     padding: 15px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
     margin-bottom: 20px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
     scroll-behavior: smooth;
     padding-bottom: 100px; /* Add space for sticky form */
 }
