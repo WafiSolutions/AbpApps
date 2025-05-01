@@ -3,7 +3,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const chatForm = document.getElementById('chat-form');
     const chatMessages = document.getElementById('chat-messages');
     const userInput = document.getElementById('user-input');
+    const sendButton = document.querySelector('.send-button');
     const userName = abp.currentUser.userName;
+    let isProcessing = false;
 
     // Scroll to bottom initially
     scrollToBottom();
@@ -11,8 +13,15 @@ document.addEventListener('DOMContentLoaded', function () {
     chatForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
+        // Prevent submission if already processing
+        if (isProcessing) return;
+
         const message = userInput.value.trim();
         if (message === '') return;
+
+        // Disable send button while processing
+        disableSendButton();
+        isProcessing = true;
 
         // Add user message immediately with animation
         addMessage(userName, message, true);
@@ -30,14 +39,30 @@ document.addEventListener('DOMContentLoaded', function () {
         }).then(function (response) {
             removeTypingIndicator();
             addMessage('AI', response.answer, false);
+            enableSendButton();
+            isProcessing = false;
         }).catch(function (error) {
             removeTypingIndicator();
             addMessage('AI', "Sorry, there was an error processing your request.", false);
             console.error("API Error:", error);
+            enableSendButton();
+            isProcessing = false;
         });
 
         return false;
     });
+
+    function disableSendButton() {
+        sendButton.disabled = true;
+        sendButton.style.opacity = '0.5';
+        sendButton.style.cursor = 'not-allowed';
+    }
+
+    function enableSendButton() {
+        sendButton.disabled = false;
+        sendButton.style.opacity = '1';
+        sendButton.style.cursor = 'pointer';
+    }
 
     function addMessage(sender, content, isUser) {
         const now = new Date();
@@ -108,7 +133,11 @@ document.addEventListener('DOMContentLoaded', function () {
     userInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            chatForm.dispatchEvent(new Event('submit'));
+            
+            // Only dispatch submit event if not currently processing
+            if (!isProcessing) {
+                chatForm.dispatchEvent(new Event('submit'));
+            }
         }
     });
 
