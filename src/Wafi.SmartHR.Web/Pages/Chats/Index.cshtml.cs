@@ -23,6 +23,20 @@ public class IndexModel : PageModel
     public void OnGet()
     {
         LoadConversationFromTempData();
+        
+        if (Conversation == null || Conversation.Count == 0)
+        {
+            Conversation = new List<Message>
+            {
+                new Message
+                {
+                    Sender = "AI",
+                    Content = "Hello! I'm your SmartHR Assistant. How can I help you with employee and leave record queries today?",
+                    CreationTime = DateTime.Now
+                }
+            };
+            SaveConversationToTempData();
+        }
     }
 
     private void LoadConversationFromTempData()
