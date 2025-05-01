@@ -7,3 +7,8 @@
 :root {
     --lpx-brand: #355dff !important;
 }
+
+.pagination .page-item.active .page-link {
+    background-color: var(--lpx-brand) !important;
+}
+
