@@ -13,9 +13,9 @@ $(function () {
             columnDefs: [
                 {
                     title: l('Name'),
-                    data: null,
-                    render: function (data) {
-                        return data.firstName + ' ' + data.lastName;
+                    data: 'firstName',
+                    render: function (data, type, row) {
+                        return row.firstName + ' ' + row.lastName;
                     }
                 },
                 {

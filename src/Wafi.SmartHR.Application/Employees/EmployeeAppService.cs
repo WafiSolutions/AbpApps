@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,12 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Wafi.SmartHR.Employees.Dtos;
+using System.Linq.Dynamic.Core;
 using Wafi.SmartHR.Permissions;
 
 namespace Wafi.SmartHR.Employees;
 
-public class EmployeeAppService(IRepository<Employee, Guid> employeeRepository) 
+public class EmployeeAppService(IRepository<Employee, Guid> employeeRepository)
     : ApplicationService, IEmployeeAppService
 {
 
@@ -32,31 +34,40 @@ public class EmployeeAppService(IRepository<Employee, Guid> employeeRepository)
     [Authorize(SmartHRPermissions.Employees.Default)]
     public async Task<PagedResultDto<EmployeeDto>> GetPagedListAsync(EmployeeFilter input)
     {
-        var queryable = await employeeRepository.GetQueryableAsync();
+        string sortBy = !string.IsNullOrWhiteSpace(input.Sorting) ? input.Sorting : nameof(Employee.JoiningDate);
 
-        if (!input.Filter.IsNullOrWhiteSpace())
-        {
-            queryable = queryable.Where(e =>
-                e.FirstName.Contains(input.Filter) ||
-                e.LastName.Contains(input.Filter));
-        }
+        var employeeQueryable = (await employeeRepository.GetQueryableAsync())
+                                        .AsNoTracking()
+                                        .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+                                          e => e.FirstName.Contains(input.Filter) ||
+                                               e.LastName.Contains(input.Filter) ||
+                                               e.Email.Contains(input.Filter) ||
+                                               e.PhoneNumber.Contains(input.Filter));
 
-        var totalCount = await AsyncExecuter.CountAsync(queryable);
+        var totalCount = await employeeQueryable.CountAsync();
 
-        var employees = await AsyncExecuter.ToListAsync(
-            queryable
-                .OrderBy(e => e.CreationTime)
-                .PageBy(input.SkipCount, input.MaxResultCount)
-        );
+        var result = await (from employee in employeeQueryable
+                            select new EmployeeDto
+                            {
+                                Id = employee.Id,
+                                FirstName = employee.FirstName,
+                                LastName = employee.LastName,
+                                DateOfBirth = employee.DateOfBirth,
+                                Email = employee.Email,
+                                PhoneNumber = employee.PhoneNumber,
+                                JoiningDate = employee.JoiningDate,
+                                TotalLeaveDays = employee.TotalLeaveDays,
+                                RemainingLeaveDays = employee.RemainingLeaveDays,
+                            }).OrderBy(sortBy).PageBy(input).ToListAsync();
 
         return new PagedResultDto<EmployeeDto>(
             totalCount,
-            ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(employees)
+            result
         );
     }
 
     [Authorize(SmartHRPermissions.Employees.Create)]
-    public async Task<EmployeeDto> CreateAsync(CreateUpdateEmployeeDto input)
+    public async Task<EmployeeDto> CreateAsync(CreateUpdateEmployeeInput input)
     {
         var employee = new Employee(
             GuidGenerator.Create(),
@@ -75,7 +86,7 @@ public class EmployeeAppService(IRepository<Employee, Guid> employeeRepository)
     }
 
     [Authorize(SmartHRPermissions.Employees.Edit)]
-    public async Task<EmployeeDto> UpdateAsync(Guid id, CreateUpdateEmployeeDto input)
+    public async Task<EmployeeDto> UpdateAsync(Guid id, CreateUpdateEmployeeInput input)
     {
         var employee = await employeeRepository.GetAsync(id);
 
