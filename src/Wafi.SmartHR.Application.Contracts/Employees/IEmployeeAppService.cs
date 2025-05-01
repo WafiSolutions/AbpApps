@@ -11,8 +11,8 @@ public interface IEmployeeAppService : IApplicationService
 {
     Task<EmployeeDto> GetAsync(Guid id);
     Task<List<EmployeeDto>> GetListAsync();
-    Task<EmployeeDto> CreateAsync(CreateUpdateEmployeeDto input);
-    Task<EmployeeDto> UpdateAsync(Guid id, CreateUpdateEmployeeDto input);
+    Task<EmployeeDto> CreateAsync(CreateUpdateEmployeeInput input);
+    Task<EmployeeDto> UpdateAsync(Guid id, CreateUpdateEmployeeInput input);
     Task DeleteAsync(Guid id);
     Task<PagedResultDto<EmployeeDto>> GetPagedListAsync(EmployeeFilter filter);
 }
