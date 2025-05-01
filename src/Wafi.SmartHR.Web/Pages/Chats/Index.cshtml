@@ -21,7 +21,7 @@
     <div id="chat-messages" class="chat-messages">
         @foreach (var msg in Model.Conversation)
         {
-            <div class="message @(msg.Sender == "User" ? "user-message" : "ai-message")">
+            <div class="message @(msg.Sender == "SmartHR" ? "ai-message" : "user-message")">
                 <div class="message-header">
                     <div class="message-sender">@msg.Sender</div>
                     <div class="message-time">@(msg.CreationTime.ToString("t"))</div>
