@@ -13,7 +13,11 @@ $(function () {
             columnDefs: [
                 {
                     title: l('Employee'),
-                    data: "employeeName"
+                    data: null,
+                    orderable: false,
+                    render: function (data) {
+                        return data.employeeName;
+                    }
                 },
                 {
                     title: l('StartDate'),

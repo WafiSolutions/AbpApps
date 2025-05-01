@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq.Dynamic.Core;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -60,13 +61,13 @@ public class LeaveRecordAppService(
 
     public async Task<PagedResultDto<LeaveRecordDto>> GetPagedListAsync(LeaveRecordFilter input)
     {
-        string sortBy = !string.IsNullOrWhiteSpace(input.Sorting) ? input.Sorting : nameof(LeaveRecord.CreationTime);
+        string sortBy = !string.IsNullOrWhiteSpace(input.Sorting) ? input.Sorting : nameof(LeaveRecord.StartDate);
 
         var employeeQueryable = (await employeeRepository.GetQueryableAsync()).AsNoTracking();
         var leaveRCQueryable = (await leaveRecordRepository.GetQueryableAsync())
-                            .AsNoTracking()
-                            .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
-                                      e => e.Reason.Contains(input.Filter));
+                                        .AsNoTracking()
+                                        .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+                                                  e => e.Reason.Contains(input.Filter));
 
         var totalCount = await leaveRCQueryable.CountAsync();
 
@@ -82,7 +83,7 @@ public class LeaveRecordAppService(
                                 Status = leave.Status,
                                 Reason = leave.Reason,
                                 TotalDays = leave.TotalDays
-                            }).OrderBy(x => x.Id).PageBy(input).ToListAsync(); ;
+                            }).OrderBy(sortBy).PageBy(input).ToListAsync();
 
         return new PagedResultDto<LeaveRecordDto>(
             totalCount,
