@@ -36,28 +36,27 @@ public class EmployeeAppService(IRepository<Employee, Guid> employeeRepository)
     {
         string sortBy = !string.IsNullOrWhiteSpace(input.Sorting) ? input.Sorting : nameof(Employee.JoiningDate);
 
-        var employeeQueryable = (await employeeRepository.GetQueryableAsync())
-                                        .AsNoTracking()
-                                        .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
-                                          e => e.FirstName.Contains(input.Filter) ||
-                                               e.LastName.Contains(input.Filter) ||
-                                               e.Email.Contains(input.Filter) ||
-                                               e.PhoneNumber.Contains(input.Filter));
+        var employeeQueryable = (await employeeRepository.GetQueryableAsync()).AsNoTracking();
 
         var totalCount = await employeeQueryable.CountAsync();
 
-        var result = await (from employee in employeeQueryable
+        var result = await (from e in employeeQueryable
+                            where string.IsNullOrEmpty(input.Filter) ||
+                                         input.Filter.Contains(e.FirstName) ||
+                                         input.Filter.Contains(e.LastName) ||
+                                         input.Filter.Contains(e.Email) ||
+                                         input.Filter.Contains(e.PhoneNumber)
                             select new EmployeeDto
                             {
-                                Id = employee.Id,
-                                FirstName = employee.FirstName,
-                                LastName = employee.LastName,
-                                DateOfBirth = employee.DateOfBirth,
-                                Email = employee.Email,
-                                PhoneNumber = employee.PhoneNumber,
-                                JoiningDate = employee.JoiningDate,
-                                TotalLeaveDays = employee.TotalLeaveDays,
-                                RemainingLeaveDays = employee.RemainingLeaveDays,
+                                Id = e.Id,
+                                FirstName = e.FirstName,
+                                LastName = e.LastName,
+                                DateOfBirth = e.DateOfBirth,
+                                Email = e.Email,
+                                PhoneNumber = e.PhoneNumber,
+                                JoiningDate = e.JoiningDate,
+                                TotalLeaveDays = e.TotalLeaveDays,
+                                RemainingLeaveDays = e.RemainingLeaveDays,
                             }).OrderBy(sortBy).PageBy(input).ToListAsync();
 
         return new PagedResultDto<EmployeeDto>(

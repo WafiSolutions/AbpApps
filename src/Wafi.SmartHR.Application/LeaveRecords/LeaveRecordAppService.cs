@@ -64,16 +64,16 @@ public class LeaveRecordAppService(
         string sortBy = !string.IsNullOrWhiteSpace(input.Sorting) ? input.Sorting : nameof(LeaveRecord.StartDate);
 
         var employeeQueryable = (await employeeRepository.GetQueryableAsync()).AsNoTracking();
-        var leaveRCQueryable = (await leaveRecordRepository.GetQueryableAsync())
-                                        .AsNoTracking()
-                                        .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
-                                                  e => e.Reason.Contains(input.Filter));
+        var leaveRCQueryable = (await leaveRecordRepository.GetQueryableAsync()).AsNoTracking();
 
         var totalCount = await leaveRCQueryable.CountAsync();
 
         var result = await (from leave in leaveRCQueryable
                             join employee in employeeQueryable on leave.EmployeeId equals employee.Id into qo
                             from p in qo.DefaultIfEmpty()
+                            where string.IsNullOrEmpty(input.Filter) ||
+                                         input.Filter.Contains(p.FirstName) ||
+                                         input.Filter.Contains(p.LastName)
                             select new LeaveRecordDto
                             {
                                 Id = leave.Id,
