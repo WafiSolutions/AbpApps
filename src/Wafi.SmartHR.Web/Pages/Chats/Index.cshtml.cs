@@ -30,7 +30,7 @@ public class IndexModel : PageModel
             {
                 new Message
                 {
-                    Sender = "AI",
+                    Sender = "SmartHR",
                     Content = "Hello! I'm your SmartHR Assistant. How can I help you with employee and leave record queries today?",
                     CreationTime = DateTime.Now
                 }

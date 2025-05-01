@@ -38,12 +38,12 @@ document.addEventListener('DOMContentLoaded', function () {
             dataType: 'json'
         }).then(function (response) {
             removeTypingIndicator();
-            addMessage('AI', response.answer, false);
+            addMessage('SmartHR', response.answer, false);
             enableSendButton();
             isProcessing = false;
         }).catch(function (error) {
             removeTypingIndicator();
-            addMessage('AI', "Sorry, there was an error processing your request.", false);
+            addMessage('SmartHR', "Sorry, there was an error processing your request.", false);
             console.error("API Error:", error);
             enableSendButton();
             isProcessing = false;
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
         typingDiv.className = 'message ai-message typing-indicator-container';
         typingDiv.innerHTML = `
             <div class="message-header">
-                <div class="message-sender">AI</div>
+                <div class="message-sender">SmartHR</div>
                 <div class="message-time">${timeString}</div>
             </div>
             <div class="message-content">
