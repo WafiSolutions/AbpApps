@@ -96,4 +96,21 @@ document.addEventListener('DOMContentLoaded', function () {
     function scrollToBottom() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+
+    // Auto-resize textarea
+    userInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+
+    // Handle Enter key (Shift+Enter for new line)
+    userInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            chatForm.dispatchEvent(new Event('submit'));
+        }
+    });
+
+    // Focus textarea on page load
+    userInput.focus();
 });
