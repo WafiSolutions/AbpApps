@@ -1,16 +1,57 @@
-﻿// Index.js
-document.addEventListener('DOMContentLoaded', function () {
+﻿/**
+ * SmartHR Chat Interface
+ * Handles real-time communication with the SmartHR AI assistant
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    // DOM Elements
     const chatForm = document.getElementById('chat-form');
     const chatMessages = document.getElementById('chat-messages');
     const userInput = document.getElementById('user-input');
     const sendButton = document.querySelector('.send-button');
     const userName = abp.currentUser.userName;
+    
+    // State
     let isProcessing = false;
 
-    // Scroll to bottom initially
-    scrollToBottom();
+    /**
+     * Initialize the chat interface
+     */
+    const initialize = () => {
+        scrollToBottom();
+        setupEventListeners();
+        userInput.focus();
+    };
 
-    chatForm.addEventListener('submit', function (e) {
+    /**
+     * Setup all event listeners
+     */
+    const setupEventListeners = () => {
+        // Form submission handler
+        chatForm.addEventListener('submit', handleSubmit);
+        
+        // Auto-resize textarea
+        userInput.addEventListener('input', () => {
+            userInput.style.height = 'auto';
+            userInput.style.height = `${userInput.scrollHeight}px`;
+        });
+        
+        // Handle Enter key (Shift+Enter for new line)
+        userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                
+                if (!isProcessing) {
+                    chatForm.dispatchEvent(new Event('submit'));
+                }
+            }
+        });
+    };
+
+    /**
+     * Handle form submission
+     * @param {Event} e - Submit event
+     */
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         // Prevent submission if already processing
@@ -19,10 +60,34 @@ document.addEventListener('DOMContentLoaded', function () {
         const message = userInput.value.trim();
         if (message === '') return;
 
-        // Disable send button while processing
+        // Start processing sequence
+        startProcessing();
+        sendMessageToAPI(message);
+        
+        return false;
+    };
+
+    /**
+     * Setup UI state for processing
+     */
+    const startProcessing = () => {
         disableSendButton();
         isProcessing = true;
+    };
 
+    /**
+     * Reset UI state after processing
+     */
+    const endProcessing = () => {
+        enableSendButton();
+        isProcessing = false;
+    };
+
+    /**
+     * Send message to API and handle response
+     * @param {string} message - User message
+     */
+    const sendMessageToAPI = (message) => {
         // Add user message immediately with animation
         addMessage(userName, message, true);
         userInput.value = '';
@@ -30,48 +95,60 @@ document.addEventListener('DOMContentLoaded', function () {
         // Show typing indicator
         showTypingIndicator();
 
-        // Call your API
-        wafi.smartHR.controllers.smartAI.ask({
-            question: message
-        }, {
-            contentType: 'application/json',
-            dataType: 'json'
-        }).then(function (response) {
+        // Call API
+        wafi.smartHR.controllers.smartAI.ask(
+            { question: message },
+            {
+                contentType: 'application/json',
+                dataType: 'json'
+            }
+        )
+        .then((response) => {
             removeTypingIndicator();
             addMessage('SmartHR', response.answer, false);
-            enableSendButton();
-            isProcessing = false;
-        }).catch(function (error) {
+            endProcessing();
+        })
+        .catch((error) => {
             removeTypingIndicator();
             addMessage('SmartHR', "Sorry, there was an error processing your request.", false);
             console.error("API Error:", error);
-            enableSendButton();
-            isProcessing = false;
+            endProcessing();
         });
+    };
 
-        return false;
-    });
-
-    function disableSendButton() {
+    /**
+     * Disable send button during processing
+     */
+    const disableSendButton = () => {
         sendButton.disabled = true;
         sendButton.style.opacity = '0.5';
         sendButton.style.cursor = 'not-allowed';
-    }
+    };
 
-    function enableSendButton() {
+    /**
+     * Enable send button after processing
+     */
+    const enableSendButton = () => {
         sendButton.disabled = false;
         sendButton.style.opacity = '1';
         sendButton.style.cursor = 'pointer';
-    }
+    };
 
-    function addMessage(sender, content, isUser) {
+    /**
+     * Add a message to the chat
+     * @param {string} sender - Message sender
+     * @param {string} content - Message content
+     * @param {boolean} isUser - Whether message is from user
+     */
+    const addMessage = (sender, content, isUser) => {
         const now = new Date();
         const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+        // Create message container
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'} fade-in`;
         
-        // Create DOM elements instead of using innerHTML for better security
+        // Create header elements
         const messageHeader = document.createElement('div');
         messageHeader.className = 'message-header';
         
@@ -83,24 +160,26 @@ document.addEventListener('DOMContentLoaded', function () {
         messageTime.className = 'message-time';
         messageTime.textContent = timeString;
         
+        // Create content element
         const messageContent = document.createElement('div');
         messageContent.className = 'message-content';
         
-        // Set HTML content for AI messages, text content for user messages
+        // Handle content differently based on sender
         if (isUser) {
             messageContent.textContent = content;
         } else {
-            // Convert markdown-style bold formatting (**text**) to HTML bold tags
+            // Convert markdown-style bold formatting to HTML
             const formattedContent = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-            messageContent.innerHTML = formattedContent; // Allows HTML formatting from AI responses
+            messageContent.innerHTML = formattedContent;
         }
         
-        // Assemble the message component
+        // Assemble message components
         messageHeader.appendChild(messageSender);
         messageHeader.appendChild(messageTime);
         messageDiv.appendChild(messageHeader);
         messageDiv.appendChild(messageContent);
 
+        // Add to chat
         const typingIndicator = document.querySelector('.typing-indicator-container');
         if (typingIndicator) {
             chatMessages.replaceChild(messageDiv, typingIndicator);
@@ -109,9 +188,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         scrollToBottom();
-    }
+    };
 
-    function showTypingIndicator() {
+    /**
+     * Show typing indicator while waiting for response
+     */
+    const showTypingIndicator = () => {
         const now = new Date();
         const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -133,37 +215,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
         chatMessages.appendChild(typingDiv);
         scrollToBottom();
-    }
+    };
 
-    function removeTypingIndicator() {
+    /**
+     * Remove typing indicator when response is received
+     */
+    const removeTypingIndicator = () => {
         const typingIndicator = document.querySelector('.typing-indicator-container');
         if (typingIndicator) {
             typingIndicator.remove();
         }
-    }
+    };
 
-    function scrollToBottom() {
+    /**
+     * Scroll chat to bottom
+     */
+    const scrollToBottom = () => {
         chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
+    };
 
-    // Auto-resize textarea
-    userInput.addEventListener('input', function() {
-        this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px';
-    });
-
-    // Handle Enter key (Shift+Enter for new line)
-    userInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            
-            // Only dispatch submit event if not currently processing
-            if (!isProcessing) {
-                chatForm.dispatchEvent(new Event('submit'));
-            }
-        }
-    });
-
-    // Focus textarea on page load
-    userInput.focus();
+    // Initialize the chat interface
+    initialize();
 });
