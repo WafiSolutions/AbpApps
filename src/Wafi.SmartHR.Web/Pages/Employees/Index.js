@@ -89,8 +89,9 @@ $(function () {
         dataTable.ajax.reload();
     });
 
-    $('#NewEmployeeButton').click(function (e) {
+    $('#NewEmployeeButton').on('click', function () {
         e.preventDefault();
         createModal.open();
     });
+
 }); 

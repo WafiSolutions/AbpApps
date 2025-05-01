@@ -89,7 +89,7 @@ $(function () {
         dataTable.ajax.reload();
     });
 
-    $('#NewLeaveRecordButton').click(function (e) {
+    $('#NewLeaveRecordButton').on('click', function () {
         e.preventDefault();
         createModal.open();
     });
