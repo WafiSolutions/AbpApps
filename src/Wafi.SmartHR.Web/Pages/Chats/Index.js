@@ -70,13 +70,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'} fade-in`;
-        messageDiv.innerHTML = `
-            <div class="message-header">
-                <div class="message-sender">${sender}</div>
-                <div class="message-time">${timeString}</div>
-            </div>
-            <div class="message-content">${content}</div>
-        `;
+        
+        // Create DOM elements instead of using innerHTML for better security
+        const messageHeader = document.createElement('div');
+        messageHeader.className = 'message-header';
+        
+        const messageSender = document.createElement('div');
+        messageSender.className = 'message-sender';
+        messageSender.textContent = sender;
+        
+        const messageTime = document.createElement('div');
+        messageTime.className = 'message-time';
+        messageTime.textContent = timeString;
+        
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        
+        // Set HTML content for AI messages, text content for user messages
+        if (isUser) {
+            messageContent.textContent = content;
+        } else {
+            // Convert markdown-style bold formatting (**text**) to HTML bold tags
+            const formattedContent = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+            messageContent.innerHTML = formattedContent; // Allows HTML formatting from AI responses
+        }
+        
+        // Assemble the message component
+        messageHeader.appendChild(messageSender);
+        messageHeader.appendChild(messageTime);
+        messageDiv.appendChild(messageHeader);
+        messageDiv.appendChild(messageContent);
 
         const typingIndicator = document.querySelector('.typing-indicator-container');
         if (typingIndicator) {
