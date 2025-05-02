@@ -4,6 +4,7 @@ using Microsoft.SemanticKernel;
 using Volo.Abp.Modularity;
 using Wafi.Abp.OpenAISemanticKernel.Plugins;
 using Wafi.Abp.OpenAISemanticKernel.Services.Chat;
+using Microsoft.Extensions.Configuration;
 
 namespace Wafi.Abp.OpenAISemanticKernel;
 
@@ -12,9 +13,12 @@ public class WafiOpenAISemanticKernelModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
 
-        context.Services.Configure<WafiOpenAISemanticKernelOptions>(options =>
+        var configuration = context.Services.GetConfiguration();
+
+        Configure<WafiOpenAISemanticKernelOptions>(options =>
         {
-            /* Set via appsettings.json or externally */
+            options.ModelId = configuration.GetValue<string>("SemanticKernel:OpenAI:ModelId");
+            options.ApiKey = configuration.GetValue<string>("SemanticKernel:OpenAI:ApiKey");
         });
 
         context.Services.AddSingleton(serviceProvider =>

@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
-        <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <RootNamespace>Wafi.Abp.OpenAISemanticKernel</RootNamespace>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
