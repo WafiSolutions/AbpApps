@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Shouldly;
 using Wafi.Abp.OpenAISemanticKernel.Chat;
 using Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
+using Wafi.Abp.OpenAISemanticKernel.Chat.Enums;
 using Xunit;
 using Xunit.Abstractions;
 

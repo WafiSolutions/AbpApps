@@ -2,7 +2,7 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
+using Wafi.Abp.OpenAISemanticKernel.Chat.Enums;
 
 namespace Wafi.Abp.OpenAISemanticKernel.Services;
 

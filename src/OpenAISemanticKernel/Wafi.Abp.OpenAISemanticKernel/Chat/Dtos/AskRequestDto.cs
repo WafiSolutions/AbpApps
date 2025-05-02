@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Wafi.Abp.OpenAISemanticKernel.Chat.Enums;
 
 namespace Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
 
