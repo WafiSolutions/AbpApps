@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Wafi.SmartHR.HttpApi.Client\Wafi.SmartHR.HttpApi.Client.csproj" />
+    <ProjectReference Include="..\..\host\Wafi.SmartHR.HttpApi.Client\Wafi.SmartHR.HttpApi.Client.csproj" />
   </ItemGroup>
 
   <ItemGroup>

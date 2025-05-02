@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Wafi.SmartHR.Domain\Wafi.SmartHR.Domain.csproj" />
+    <ProjectReference Include="..\..\host\Wafi.SmartHR.Domain\Wafi.SmartHR.Domain.csproj" />
     <ProjectReference Include="..\Wafi.SmartHR.TestBase\Wafi.SmartHR.TestBase.csproj" />
   </ItemGroup>
 

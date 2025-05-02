@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Autofac" Version="9.1.0" />
-    <ProjectReference Include="..\..\modules\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj" />
     <ProjectReference Include="..\Wafi.SmartHR.EntityFrameworkCore\Wafi.SmartHR.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj" />
   </ItemGroup>

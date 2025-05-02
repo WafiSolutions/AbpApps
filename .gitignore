@@ -255,16 +255,16 @@ paket-files/
 **/.abpstudio/
 
 # SmartHR
-src/Wafi.SmartHR.Web/Logs/*
-src/Wafi.SmartHR.Web.Host/Logs/*
-src/Wafi.SmartHR.Web.Public/Logs/*
-src/Wafi.SmartHR.Web.Public.Host/Logs/*
-src/Wafi.SmartHR.AuthServer/Logs/*
-src/Wafi.SmartHR.HttpApi.Host/Logs/*
-src/Wafi.SmartHR.HttpApi.HostWithIds/Logs/*
-src/Wafi.SmartHR.DbMigrator/Logs/*
-src/Wafi.SmartHR.Blazor.Server/Logs/*
-src/Wafi.SmartHR.Blazor.Server.Tiered/Logs/*
+host/Wafi.SmartHR.Web/Logs/*
+host/Wafi.SmartHR.Web.Host/Logs/*
+host/Wafi.SmartHR.Web.Public/Logs/*
+host/Wafi.SmartHR.Web.Public.Host/Logs/*
+host/Wafi.SmartHR.AuthServer/Logs/*
+host/Wafi.SmartHR.HttpApi.Host/Logs/*
+host/Wafi.SmartHR.HttpApi.HostWithIds/Logs/*
+host/Wafi.SmartHR.DbMigrator/Logs/*
+host/Wafi.SmartHR.Blazor.Server/Logs/*
+host/Wafi.SmartHR.Blazor.Server.Tiered/Logs/*
 
 # Use abp install-libs to restore.
 **/wwwroot/libs/*

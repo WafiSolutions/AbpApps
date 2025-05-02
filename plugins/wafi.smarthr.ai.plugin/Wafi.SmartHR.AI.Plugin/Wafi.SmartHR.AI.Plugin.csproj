@@ -15,8 +15,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\modules\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj" />
-      <ProjectReference Include="..\..\..\src\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj" />
+      <ProjectReference Include="..\..\..\host\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj" />
+      <ProjectReference Include="..\..\..\src\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj" />
     </ItemGroup>
 
 </Project>
