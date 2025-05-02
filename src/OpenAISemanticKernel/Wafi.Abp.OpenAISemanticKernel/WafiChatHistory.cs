@@ -16,7 +16,9 @@ public class WafiChatHistory
     {
         foreach (var message in messages)
         {
-            Messages.Add((message.Sender, message.Content));
+            var role = ConvertToSenderType(message.UserType);
+            Messages.Add((role, message.Content));
+
         }
     }
 
@@ -28,6 +30,16 @@ public class WafiChatHistory
     public void AddSystemMessage(string message)
     {
         Messages.Add((SenderType.System, message));
+    }
+
+    private SenderType ConvertToSenderType(UserType userType)
+    {
+        return userType switch
+        {
+            UserType.User => SenderType.User,
+            UserType.Ai => SenderType.Assistant,
+            _ => SenderType.User
+        };
     }
 
 }

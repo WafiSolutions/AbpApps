@@ -35,7 +35,7 @@ public class AiAppServiceTests : OpenAISemanticKernelTestBase
             Question = message,
             History = new List<Message>
             {
-                new Message { Sender = SenderType.User, Content = message }
+                new Message { UserType = UserType.User, Content = message }
             }
         };
 
@@ -59,7 +59,7 @@ public class AiAppServiceTests : OpenAISemanticKernelTestBase
             Question = firstQuestion,
             History = new List<Message>
             {
-                new Message { Sender = SenderType.User, Content = firstQuestion }
+                new Message { UserType = UserType.User, Content = firstQuestion }
             }
         };
 
@@ -73,9 +73,9 @@ public class AiAppServiceTests : OpenAISemanticKernelTestBase
             Question = secondQuestion,
             History = new List<Message>
             {
-                new Message { Sender = SenderType.User, Content = firstQuestion },
-                new Message { Sender = SenderType.Assistant, Content = firstResponse.Answer },
-                new Message { Sender = SenderType.User, Content = secondQuestion }
+                new Message { UserType = UserType.User, Content = firstQuestion },
+                new Message { UserType = UserType.Ai, Content = firstResponse.Answer },
+                new Message { UserType = UserType.User, Content = secondQuestion }
             }
         };
 

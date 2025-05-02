@@ -6,3 +6,9 @@ public enum SenderType
     Assistant,
     System
 }
+
+public enum UserType
+{
+    User,
+    Ai
+}
