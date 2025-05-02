@@ -1,5 +1,5 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using Volo.Abp;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
@@ -15,11 +15,13 @@ public class OpenAISemanticKernelTestModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        // Override configuration with test values
+        var configuration = context.Services.GetConfiguration();
+
+        // Configure OpenAI settings from appsettings.json
         context.Services.Configure<WafiOpenAISemanticKernelOptions>(options =>
         {
-            options.ModelId = "test-model";
-            options.ApiKey = "test-api-key";
+            options.ModelId = configuration.GetValue<string>("SemanticKernel:OpenAI:ModelId");
+            options.ApiKey = configuration.GetValue<string>("SemanticKernel:OpenAI:ApiKey");
         });
     }
 

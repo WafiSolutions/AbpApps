@@ -30,4 +30,10 @@
     <ProjectReference Include="..\..\src\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project> 
