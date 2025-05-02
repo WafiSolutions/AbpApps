@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showTypingIndicator();
 
         // Call API
-        wafi.smartHR.controllers.smartAI.ask(
+        wafi.abp.openAISemanticKernel.chat.ai.ask(
             { question: message },
             {
                 contentType: 'application/json',
