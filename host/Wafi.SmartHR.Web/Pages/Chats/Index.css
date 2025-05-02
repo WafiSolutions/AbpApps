@@ -2,7 +2,7 @@
 .chat-container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 20px 20px 0px 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     height: 100vh;
     display: flex;
@@ -13,7 +13,20 @@
 .chat-title {
     color: #2c3e50;
     text-align: center;
+    padding-right: 15px;
+}
+
+.chat-subtitle {
+    font-size: 16px;
+    color: #718096;
+    text-align: center;
+    margin-top: -10px;
+    padding-right: 15px;
     margin-bottom: 20px;
+}
+
+img.microsoft-logo {
+    height: 15px;
 }
 
 .chat-messages {
@@ -182,4 +195,8 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+.lpx-content-container .lpx-content {
+    padding: 0;
+    margin: 0 auto;
 }
