@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\host\Wafi.SmartHR.EntityFrameworkCore\Wafi.SmartHR.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\Wafi.SmartHR.Application.Tests\Wafi.SmartHR.Application.Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup>
