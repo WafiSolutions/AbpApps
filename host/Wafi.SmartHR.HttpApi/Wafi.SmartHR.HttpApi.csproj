@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>Wafi.SmartHR</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\plugins\wafi.smarthr.ai.plugin\Wafi.SmartHR.AI.Plugin\Wafi.SmartHR.AI.Plugin.csproj" />
+    <ProjectReference Include="..\..\src\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj" />
+    <ProjectReference Include="..\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="9.1.0" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="9.1.0" />
+    <PackageReference Include="Volo.Abp.SettingManagement.HttpApi" Version="9.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="9.1.0" />
+    <PackageReference Include="Volo.Abp.Account.HttpApi" Version="9.1.0" />
+    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="9.1.0" />
+  </ItemGroup>
+
+</Project>

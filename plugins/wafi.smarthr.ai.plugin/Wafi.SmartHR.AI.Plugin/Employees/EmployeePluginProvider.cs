@@ -1,4 +1,4 @@
-﻿using Wafi.Abp.OpenAISemanticKernel;
+﻿using Wafi.Abp.OpenAISemanticKernel.Plugins;
 
 namespace Wafi.SmartHR.AI.Plugin.Employees;
 
