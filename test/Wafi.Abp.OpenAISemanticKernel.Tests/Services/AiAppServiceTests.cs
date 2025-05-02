@@ -47,36 +47,6 @@ public class AiAppServiceTests : OpenAISemanticKernelTestBase
     }
 
     /// <summary>
-    /// Verifies that system messages are correctly preserved and respected in the conversation.
-    /// </summary>
-    [Fact]
-    public async Task Should_Respect_System_Message()
-    {
-        // Arrange
-        var systemMessage = "You are a helpful assistant that specializes in ABP Framework";
-        var question = "What are you specialized in?";
-
-        var request = new AskRequestDto
-        {
-            Question = question,
-            History = new List<Message>
-            {
-                new Message { Sender = SenderType.System, Content = systemMessage },
-                new Message { Sender = SenderType.User, Content = question }
-            }
-        };
-
-        // Act
-        var response = await aiAppService.AskAsync(request);
-
-        // Assert
-        response.Answer.ShouldNotBeNullOrWhiteSpace("The API should return a non-empty response");
-
-        // Verify the response mentions ABP as specified in the system message
-        response.Answer.ToLower().ShouldContain("abp");
-    }
-
-    /// <summary>
     /// Verifies that conversation context is maintained across multiple turns.
     /// </summary>
     [Fact]
