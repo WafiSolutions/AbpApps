@@ -57,9 +57,5 @@ public class IndexModel : PageModel
         public string Content { get; set; }
         public DateTime CreationTime { get; set; }
     }
-
-    public class AIResponse
-    {
-        public string Response { get; set; }
-    }
 }
+
