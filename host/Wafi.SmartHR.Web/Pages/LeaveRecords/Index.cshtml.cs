@@ -1,22 +1,15 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
-using Wafi.SmartHR.LeaveRecords;
+using Microsoft.AspNetCore.Authorization;
+using Wafi.SmartHR.Permissions;
 
-namespace Wafi.SmartHR.Web.Pages.LeaveRecords
+namespace Wafi.SmartHR.Web.Pages.LeaveRecords;
+
+
+[Authorize(SmartHRPermissions.LeaveRecords.Default)]
+public class IndexModel : SmartHRPageModel
 {
-    public class IndexModel : SmartHRPageModel
+    public async Task OnGetAsync()
     {
-        private readonly ILeaveRecordAppService _leaveRecordAppService;
-
-        public IndexModel(ILeaveRecordAppService leaveRecordAppService)
-        {
-            _leaveRecordAppService = leaveRecordAppService;
-        }
-
-        public async Task OnGetAsync()
-        {
-            await Task.CompletedTask;
-        }
+        await Task.CompletedTask;
     }
-} 
+}

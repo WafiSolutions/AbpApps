@@ -1,15 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Volo.Abp.Timing;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Wafi.SmartHR.Permissions;
 
 namespace Wafi.SmartHR.Web.Pages.Chats;
 
+[Authorize(SmartHRPermissions.LeaveRecords.Default)]
 public class IndexModel : PageModel
 {
     [BindProperty]
@@ -23,7 +22,7 @@ public class IndexModel : PageModel
     public void OnGet()
     {
         LoadConversationFromTempData();
-        
+
         if (Conversation == null || Conversation.Count == 0)
         {
             Conversation = new List<Message>
