@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Wafi.Abp.OpenAISemanticKernel.Services.Chat;
+namespace Wafi.Abp.OpenAISemanticKernel.Services;
 
 public interface IWafiChatCompletionService
 {

@@ -12,14 +12,37 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // State
     let isProcessing = false;
+    let conversationHistory = [];
 
     /**
      * Initialize the chat interface
      */
     const initialize = () => {
         scrollToBottom();
+        loadExistingConversation();
         setupEventListeners();
         userInput.focus();
+    };
+
+    /**
+     * Load existing conversation from the DOM
+     */
+    const loadExistingConversation = () => {
+        // Grab all existing messages from the DOM
+        const existingMessages = document.querySelectorAll('.message');
+        
+        existingMessages.forEach(messageElement => {
+            const isUser = messageElement.classList.contains('user-message');
+            const content = messageElement.querySelector('.message-content').textContent;
+            const sender = messageElement.querySelector('.message-sender').textContent;
+            
+            // Add to the conversation history
+            conversationHistory.push({
+                sender: isUser ? 0 : 1, // 0 for user, 1 for AI (SenderType enum)
+                content: content,
+                creationTime: new Date().toISOString()
+            });
+        });
     };
 
     /**
@@ -90,14 +113,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendMessageToAPI = (message) => {
         // Add user message immediately with animation
         addMessage(userName, message, true);
+        
+        // Add user message to conversation history
+        conversationHistory.push({
+            sender: 0, // user
+            content: message,
+            creationTime: new Date().toISOString()
+        });
+        
         userInput.value = '';
 
         // Show typing indicator
         showTypingIndicator();
 
-        // Call API
-        wafi.smartHR.controllers.smartAI.ask(
-            { question: message },
+        // Call API with updated payload
+        wafi.abp.openAISemanticKernel.chat.ai.ask(
+            { 
+                question: message,
+                history: conversationHistory
+            },
             {
                 contentType: 'application/json',
                 dataType: 'json'
@@ -106,11 +140,28 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((response) => {
             removeTypingIndicator();
             addMessage('SmartHR', response.answer, false);
+            
+            // Add AI response to conversation history
+            conversationHistory.push({
+                sender: 1, // ai
+                content: response.answer,
+                creationTime: new Date().toISOString()
+            });
+            
             endProcessing();
         })
         .catch((error) => {
             removeTypingIndicator();
-            addMessage('SmartHR', "Sorry, there was an error processing your request.", false);
+            const errorMessage = "Sorry, there was an error processing your request.";
+            addMessage('SmartHR', errorMessage, false);
+            
+            // Add error message to conversation history
+            conversationHistory.push({
+                sender: 1, // ai
+                content: errorMessage,
+                creationTime: new Date().toISOString()
+            });
+            
             console.error("API Error:", error);
             endProcessing();
         });
