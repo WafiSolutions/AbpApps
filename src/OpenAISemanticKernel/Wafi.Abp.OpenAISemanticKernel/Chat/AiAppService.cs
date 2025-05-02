@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using DeviceDetectorNET;
 using Volo.Abp.Application.Services;
-using Wafi.Abp.OpenAISemanticKernel.Services.Chat;
-using Wafi.Abp.OpenAISemanticKernel.Services.Dtos;
+using Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
+using Wafi.Abp.OpenAISemanticKernel.Services;
 
-namespace Wafi.Abp.OpenAISemanticKernel.Services;
+namespace Wafi.Abp.OpenAISemanticKernel.Chat;
 
 /// <summary>
 /// Application service implementation for AI chat completions

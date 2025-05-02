@@ -3,7 +3,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
-namespace Wafi.Abp.OpenAISemanticKernel.Services.Chat;
+namespace Wafi.Abp.OpenAISemanticKernel.Services;
 
 public class WafiChatCompletionService : IWafiChatCompletionService
 {

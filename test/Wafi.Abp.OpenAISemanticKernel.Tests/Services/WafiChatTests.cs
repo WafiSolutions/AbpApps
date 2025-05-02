@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Shouldly;
-using Wafi.Abp.OpenAISemanticKernel.Services.Chat;
 using Xunit;
 using Xunit.Abstractions;
 

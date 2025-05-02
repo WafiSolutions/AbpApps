@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Wafi.Abp.OpenAISemanticKernel.Services.Dtos;
+namespace Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
 
 /// <summary>
 /// Represents a request to ask a question to the AI assistant

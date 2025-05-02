@@ -1,4 +1,4 @@
-namespace Wafi.Abp.OpenAISemanticKernel.Services.Dtos;
+namespace Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
 
 /// <summary>
 /// Represents a response from the AI assistant

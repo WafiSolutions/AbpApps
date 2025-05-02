@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
-using Wafi.Abp.OpenAISemanticKernel.Services.Dtos;
+using Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
 
-namespace Wafi.Abp.OpenAISemanticKernel.Services;
+namespace Wafi.Abp.OpenAISemanticKernel.Chat;
 
 /// <summary>
 /// Application service interface for AI chat completions

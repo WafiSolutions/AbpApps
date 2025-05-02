@@ -5,7 +5,7 @@ using Microsoft.SemanticKernel;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
 using Wafi.Abp.OpenAISemanticKernel.Plugins;
-using Wafi.Abp.OpenAISemanticKernel.Services.Chat;
+using Wafi.Abp.OpenAISemanticKernel.Services;
 
 namespace Wafi.Abp.OpenAISemanticKernel;
 
