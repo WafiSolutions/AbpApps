@@ -9,6 +9,7 @@ public class LeaveRecord : FullAuditedAggregateRoot<Guid>
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public LeaveStatus Status { get; set; }
+    public LeaveType Type { get; set; }
     public string Reason { get; set; }
     public int TotalDays { get; private set; }
 
