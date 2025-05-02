@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using Shouldly;
+using Wafi.Abp.OpenAISemanticKernel.Services.Chat;
 using Xunit;
 
 namespace Wafi.Abp.OpenAISemanticKernel.Services;

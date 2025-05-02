@@ -1,8 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
-using System;
 using Volo.Abp.Modularity;
+using Wafi.Abp.OpenAISemanticKernel.Plugins;
+using Wafi.Abp.OpenAISemanticKernel.Services.Chat;
 
 namespace Wafi.Abp.OpenAISemanticKernel;
 

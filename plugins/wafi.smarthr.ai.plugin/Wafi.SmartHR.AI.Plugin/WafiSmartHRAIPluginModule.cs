@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;
 using Wafi.Abp.OpenAISemanticKernel;
+using Wafi.Abp.OpenAISemanticKernel.Plugins;
 using Wafi.SmartHR.AI.Plugin.Employees;
 using Wafi.SmartHR.AI.Plugin.LeaveRecords;
 

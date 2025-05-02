@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc;
 using Wafi.Abp.OpenAISemanticKernel;
+using Wafi.Abp.OpenAISemanticKernel.Services.Chat;
 using Wafi.SmartHR.Models.AI;
 
 namespace Wafi.SmartHR.Controllers
