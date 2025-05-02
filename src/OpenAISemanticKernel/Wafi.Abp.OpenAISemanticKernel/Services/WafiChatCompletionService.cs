@@ -2,6 +2,7 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
 
 namespace Wafi.Abp.OpenAISemanticKernel.Services;
 
@@ -23,11 +24,11 @@ public class WafiChatCompletionService : IWafiChatCompletionService
         // Convert WafiChatHistory to ChatHistory
         foreach (var (role, message) in wafiHistory.Messages)
         {
-            if (role == "user")
+            if (role == SenderType.User)
                 history.AddUserMessage(message);
-            else if (role == "assistant")
+            else if (role == SenderType.Assistant)
                 history.AddAssistantMessage(message);
-            else if (role == "system")
+            else if (role == SenderType.System)
                 history.AddSystemMessage(message);
         }
 

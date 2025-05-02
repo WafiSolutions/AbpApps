@@ -5,37 +5,29 @@ namespace Wafi.Abp.OpenAISemanticKernel;
 
 public class WafiChatHistory
 {
-    private readonly List<(string Role, string Message)> _messages = new();
+    public readonly List<(SenderType Role, string Message)> Messages = new();
 
     public void AddUserMessage(string message)
     {
-        _messages.Add(("user", message));
+        Messages.Add((SenderType.User, message));
     }
 
     public void AddUserMessages(List<Message> messages)
     {
         foreach (var message in messages)
         {
-            var role = message.Sender switch
-            {
-                SenderType.user => "user",
-                SenderType.ai => "assistant",
-                _ => "user" // default to user if unknown
-            };
-            
-            _messages.Add((role, message.Content));
+            Messages.Add((message.Sender, message.Content));
         }
     }
 
     public void AddAssistantMessage(string message)
     {
-        _messages.Add(("assistant", message));
+        Messages.Add((SenderType.Assistant, message));
     }
 
     public void AddSystemMessage(string message)
     {
-        _messages.Add(("system", message));
+        Messages.Add((SenderType.System, message));
     }
 
-    public IEnumerable<(string Role, string Message)> Messages => _messages;
 }
