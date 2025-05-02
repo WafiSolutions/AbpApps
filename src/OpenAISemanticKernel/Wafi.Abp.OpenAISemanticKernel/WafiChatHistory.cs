@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
 
 namespace Wafi.Abp.OpenAISemanticKernel;
 
@@ -12,9 +12,19 @@ public class WafiChatHistory
         _messages.Add(("user", message));
     }
 
-    public void AddUserMessages(List<string> messages)
+    public void AddUserMessages(List<Message> messages)
     {
-        _messages.AddRange(messages.Select(m => ("user", m)));
+        foreach (var message in messages)
+        {
+            var role = message.Sender switch
+            {
+                SenderType.user => "user",
+                SenderType.ai => "assistant",
+                _ => "user" // default to user if unknown
+            };
+            
+            _messages.Add((role, message.Content));
+        }
     }
 
     public void AddAssistantMessage(string message)

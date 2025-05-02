@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,9 +15,9 @@ public class AskRequestDto
     [Required]
     [StringLength(4000, MinimumLength = 1)]
     public string Question { get; set; }
-    
+
     /// <summary>
     /// Conversation history
     /// </summary>
-    public List<string> History { get; set; }
-} 
+    public List<Message> History { get; set; }
+}
