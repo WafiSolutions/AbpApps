@@ -51,7 +51,7 @@ public class LeaveRecordPlugin : ApplicationService, ITransientDependency
 
 
     [KernelFunction, Description("Create a new leave record for a employee")]
-    public async Task<string> CreateLeaveRecordAsync(string leaveRecordData)
+    public async Task<string> CreateLeaveRecordAsync(CreateUpdateLeaveRecordInput leaveRecordData)
     {
         if (!await _authorizationService.IsGrantedAsync(SmartHRPermissions.LeaveRecords.Create))
         {
@@ -60,8 +60,7 @@ public class LeaveRecordPlugin : ApplicationService, ITransientDependency
 
         try
         {
-            var leaveRecordDto = JsonSerializer.Deserialize<CreateUpdateLeaveRecordInput>(leaveRecordData);
-            var result = await _leaveRecordService.CreateAsync(leaveRecordDto);
+            var result = await _leaveRecordService.CreateAsync(leaveRecordData);
             return JsonSerializer.Serialize(result);
         }
         catch (Exception ex)
