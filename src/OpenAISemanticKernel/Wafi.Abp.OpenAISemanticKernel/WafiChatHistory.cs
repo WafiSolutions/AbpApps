@@ -12,7 +12,7 @@ public class WafiChatHistory
         Messages.Add((SenderType.User, message));
     }
 
-    public void AddUserMessages(List<Message> messages)
+    public void AddConversationHistory(List<Message> messages)
     {
         foreach (var message in messages)
         {

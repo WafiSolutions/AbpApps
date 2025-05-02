@@ -29,7 +29,7 @@ public class AiAppService(IWafiChatCompletionService aiAppService)
 
         if (input.History.Any())
         {
-            history.AddUserMessages(input.History);
+            history.AddConversationHistory(input.History);
         }
 
 
