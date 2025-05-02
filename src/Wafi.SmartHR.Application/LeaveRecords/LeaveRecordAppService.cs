@@ -36,8 +36,7 @@ public class LeaveRecordAppService(
     public async Task<List<LeaveRecordDto>> GetListAsync()
     {
         var employeeQueryable = (await employeeRepository.GetQueryableAsync()).AsNoTracking();
-        var leaveRCQueryable = (await leaveRecordRepository.GetQueryableAsync())
-                            .AsNoTracking();
+        var leaveRCQueryable = (await leaveRecordRepository.GetQueryableAsync()).AsNoTracking();
 
         var totalCount = await leaveRCQueryable.CountAsync();
 
@@ -52,6 +51,7 @@ public class LeaveRecordAppService(
                                 EndDate = leave.EndDate,
                                 Status = leave.Status,
                                 Reason = leave.Reason,
+                                Type = leave.Type,
                                 TotalDays = leave.TotalDays
                             }).ToListAsync(); ;
 
@@ -84,6 +84,7 @@ public class LeaveRecordAppService(
                                 EndDate = leave.EndDate,
                                 Status = leave.Status,
                                 Reason = leave.Reason,
+                                Type = leave.Type,
                                 TotalDays = leave.TotalDays
                             }).OrderBy(sortBy).PageBy(input).ToListAsync();
 
@@ -104,7 +105,8 @@ public class LeaveRecordAppService(
             input.StartDate,
             input.EndDate,
             input.Reason
-        );
+        )
+        { Type = input.Type };
 
         await leaveRecordRepository.InsertAsync(leaveRecord);
 

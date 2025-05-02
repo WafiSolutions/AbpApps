@@ -42,7 +42,7 @@ public class EmployeePlugin(IEmployeeAppService employeeService, IAuthorizationS
 
 
     [KernelFunction, Description("Create a new employee")]
-    public async Task<string> CreateEmployeeAsync(string employeeData)
+    public async Task<string> CreateEmployeeAsync(CreateUpdateEmployeeInput employeeData)
     {
         if (!await authorizationService.IsGrantedAsync(SmartHRPermissions.Employees.Create))
         {
@@ -51,8 +51,7 @@ public class EmployeePlugin(IEmployeeAppService employeeService, IAuthorizationS
 
         try
         {
-            var employeeDto = JsonSerializer.Deserialize<CreateUpdateEmployeeInput>(employeeData);
-            var result = await employeeService.CreateAsync(employeeDto);
+            var result = await employeeService.CreateAsync(employeeData);
             return JsonSerializer.Serialize(result);
         }
         catch (Exception ex)

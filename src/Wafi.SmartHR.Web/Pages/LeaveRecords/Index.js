@@ -45,6 +45,13 @@ $(function () {
                     }
                 },
                 {
+                    title: l('leaveType'),
+                    data: "type",
+                    render: function (data) {
+                        return l('Enum:LeaveType:' + data);
+                    }
+                },
+                {
                     title: l('Reason'),
                     data: "reason"
                 },
