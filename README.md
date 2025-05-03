@@ -49,6 +49,8 @@ public class YourAppHttpApiModule : AbpModule
 
 In your Web project, create a chat interface to interact with the `/ai/ask` API. You can refer to the host/`Wafi.SmartHR.Web` project for a sample implementation.
 
+![chat-page-location](/etc/img/folder-chat-page.gif)
+
 ---
 
 ### 🔹 Step 3: Create a Plugin Module to Interact with Your Database
@@ -95,6 +97,11 @@ public class YourEntityPlugin : ApplicationService, ITransientDependency
     [Description("Search for entities by name or any relevant property using a keyword or phrase")]
     public async Task<string> SearchEntitiesAsync(string filter)
     {
+        if (!await _authorizationService.IsGrantedAsync(YourPermissions.Default))
+        {
+            return "You are not authorized to access this data";
+        }
+
         var entities = await _entityService.GetListAsync(filter);
         
         if (entities is null || entities.Items.Count == 0)
@@ -125,6 +132,23 @@ namespace YourApp.AI.Plugin
     }
 }
 ```
+
+
+#### 🔐 Authorization
+
+All requests are protected by ABP's permission system. If a user doesn't have the required permissions, they will receive an appropriate message:
+
+> ⚠️ **You are not authorized to access this data.**
+
+The authorization check is performed in each plugin method:
+
+```csharp
+if (!await _authorizationService.IsGrantedAsync(YourPermissions.Default))
+{
+    return "You are not authorized to access this data";
+}
+```
+
 
 ---
 
@@ -164,26 +188,6 @@ Content-Type: application/json
 **Response:**
 
 >  Here is the list of employee leave records: **John Doe**   - Annual leave from January 1 to January 5, 2025 (5 days)  - Sick leave from March 15 to March 16, 2025 (2 days)\n   - Personal leave from June 1 to June 3, 2025 (3 days) **Jane Smith**   - Sick leave from February 1 to February 3, 2025 (3 days)   - Annual leave from July 1 to July 10, 2025 (10 days)"
-
-
-#### Authorization
-
-All requests are protected by ABP's permission system. If a user doesn't have the required permissions, they will receive an appropriate message:
-
-```json
-{
-    "answer": "You are not authorized to access this data"
-}
-```
-
-The authorization check is performed in each plugin method:
-
-```csharp
-if (!await _authorizationService.IsGrantedAsync(YourPermissions.Default))
-{
-    return "You are not authorized to access this data";
-}
-```
 
 ---
 
