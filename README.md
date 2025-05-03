@@ -132,7 +132,7 @@ namespace YourApp.AI.Plugin
 ## ✅ Final Outcome 
 The Semantic Kernel integration can be accessed through the `/askai` endpoint. Here are some example interactions:
 
-![Demo](path/to/your-demo.gif)
+![Demo](/etc/img/chat_sample.gif)
 
 #### Example 1: Employee List Query
 
