@@ -71,11 +71,13 @@ public class LeaveRecordAppService(
         var result = await (from leave in leaveRCQueryable
                             join employee in employeeQueryable on leave.EmployeeId equals employee.Id into qo
                             from p in qo.DefaultIfEmpty()
-                            where string.IsNullOrEmpty(input.Filter) ||
-                                         input.Filter.Contains(p.FirstName) ||
-                                         input.Filter.Contains(p.PhoneNumber) ||
-                                         input.Filter.Contains(p.Email) ||
-                                         input.Filter.Contains(p.LastName)
+                            where (string.IsNullOrEmpty(input.Filter) ||
+                                    input.Filter.Contains(p.FirstName) ||
+                                    input.Filter.Contains(p.PhoneNumber) ||
+                                    input.Filter.Contains(p.Email) ||
+                                    input.Filter.Contains(p.LastName)) &&
+                                    (!input.Type.HasValue || leave.Type == input.Type) &&
+                                    (!input.Status.HasValue || leave.Status == input.Status)
                             select new LeaveRecordDto
                             {
                                 Id = leave.Id,
