@@ -1,230 +1,138 @@
-﻿# Wafi.SmartHR - Semantic Kernel Integration
+﻿# ![Microsoft Logo](https://img.icons8.com/color/48/microsoft.png) Using Semantic Kernel in an ABP Application &nbsp;&nbsp;&nbsp;
 
-## Overview
+This guide demonstrates how to integrate **Microsoft's Semantic Kernel SDK** with the **ABP.io** framework. It includes a wrapper implementation to help you create AI-powered plugins for your ABP application services in a clean, modular way.
 
-This project demonstrates the integration of Microsoft's Semantic Kernel SDK with ABP.io framework. It provides a wrapper implementation that makes it easy to use Semantic Kernel in ABP.io applications, allowing you to create AI-powered plugins for your application services.
 
-## Architecture
+## 🏗️ Architecture Overview
 
-The solution consists of two main modules:
+The solution consists of two primary modules:
 
-1. **WafiOpenAISemanticKernelModule**: Core module that provides Semantic Kernel integration
-2. **WafiSmartHRAIPluginModule**: Sample implementation module showing how to create AI plugins
+1. **`WafiOpenAISemanticKernelModule`**
+   Core module that provides integration with Semantic Kernel.
 
-### Core Components
+2. **`WafiSmartHRAIPluginModule`**
+   Sample implementation module demonstrating how to create AI plugins for business entities.
 
-#### 1. WafiOpenAISemanticKernelModule
 
-This module provides the foundation for Semantic Kernel integration:
+## ⚙️ Implementation Steps
 
-```csharp
-public class WafiOpenAISemanticKernelModule : AbpModule
-{
-    public override void ConfigureServices(ServiceConfigurationContext context)
-    {
-        context.Services.Configure<WafiOpenAISemanticKernelOptions>(options =>
-        {
-            /* Set via appsettings.json or externally */
-        });
+Follow these steps to integrate Semantic Kernel into your ABP application.
 
-        context.Services.AddSingleton(serviceProvider =>
-        {
-            var options = serviceProvider.GetRequiredService<IOptions<WafiOpenAISemanticKernelOptions>>().Value;
-            var kernelBuilder = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion(modelId: options.ModelId, apiKey: options.ApiKey);
-            
-            // Register plugins
-            var pluginProviders = serviceProvider.GetServices<IWafiPluginProvider>();
-            foreach (var provider in pluginProviders)
-            {
-                var plugin = provider.GetPlugin();
-                var skPlugin = KernelPluginFactory.CreateFromObject(
-                    plugin.Instance,
-                    plugin.Name
-                );
-                kernelBuilder.Plugins.Add(skPlugin);
-            }
+---
 
-            return kernelBuilder.Build();
-        });
-    }
-}
+### 🔹 Step 1: Add the Package to Your HttpApi Project
+
+1. Add the Semantic Kernel wrapper package:
+
+```bash
+dotnet add YourApp.HttpApi.csproj package Wafi.Abp.OpenAISemanticKernel
 ```
 
-#### 2. Base Classes and Interfaces
-
-- `SemanticPluginProviderBase<TPlugin>`: Base class for all application plugins
-- `IWafiPluginProvider`: Interface for plugin providers
-
-### Sample Implementation
-
-The solution includes two sample plugins with their providers:
-
-#### 1. Employee Plugin Implementation
-
-```csharp
-public class EmployeePlugin : ApplicationService, ITransientDependency
-{
-    private readonly IEmployeeAppService _employeeService;
-    private readonly IAuthorizationService _authorizationService;
-
-    public EmployeePlugin(IEmployeeAppService employeeService, IAuthorizationService authorizationService) 
-    {
-        _employeeService = employeeService;
-        _authorizationService = authorizationService;
-    }
-
-    [KernelFunction, Description("Get employee list")]
-    public async Task<string> GetEmployeesAsync()
-    {
-        if (!await _authorizationService.IsGrantedAsync(SmartHRPermissions.Employees.Default))
-        {
-            return "You are not authorized to access employee records";
-        }
-
-        var result = await _employeeService.GetListAsync();
-        return JsonSerializer.Serialize(result);
-    }
-}
-
-public class EmployeePluginProvider : SemanticPluginProviderBase<EmployeePlugin>
-{
-    public EmployeePluginProvider(EmployeePlugin plugin) : base(plugin)
-    {
-    }
-
-    public override string Name => "Employee";
-}
-```
-
-#### 2. Leave Record Plugin Implementation
-
-```csharp
-public class LeaveRecordPlugin : ApplicationService, ITransientDependency
-{
-    private readonly ILeaveRecordAppService _leaveRecordService;
-    private readonly IAuthorizationService _authorizationService;
-
-    public LeaveRecordPlugin(ILeaveRecordAppService leaveRecordService, IAuthorizationService authorizationService) 
-    {
-        _leaveRecordService = leaveRecordService;
-        _authorizationService = authorizationService;
-    }
-
-    [KernelFunction, Description("Get leave record list")]
-    public async Task<string> GetLeaveRecordsAsync()
-    {
-        if (!await _authorizationService.IsGrantedAsync(SmartHRPermissions.LeaveRecords.Default))
-        {
-            return "You are not authorized to access leave records";
-        }
-
-        var result = await _leaveRecordService.GetListAsync();
-        return JsonSerializer.Serialize(result);
-    }
-}
-
-public class LeaveRecordPluginProvider : SemanticPluginProviderBase<LeaveRecordPlugin>
-{
-    public LeaveRecordPluginProvider(LeaveRecordPlugin plugin) : base(plugin)
-    {
-    }
-
-    public override string Name => "LeaveRecord";
-}
-```
-
-## Configuration
-
-### Module Dependencies
-
-To use the Semantic Kernel integration, add the following dependencies to your module:
+2. Add the module dependency:
 
 ```csharp
 [DependsOn(
-    typeof(WafiOpenAISemanticKernelModule),
-    typeof(WafiSmartHRAIPluginModule)
+    // your existing dependencies
+    typeof(WafiOpenAISemanticKernelModule)
 )]
-public class SmartHRHttpApiModule : AbpModule
+public class YourAppHttpApiModule : AbpModule
 {
-    public override void ConfigureServices(ServiceConfigurationContext context)
-    {
-        var configuration = context.Services.GetConfiguration();
-        
-        Configure<WafiOpenAISemanticKernelOptions>(options =>
-        {
-            options.ModelId = configuration.GetValue<string>("SemanticKernel:OpenAI:ModelId");
-            options.ApiKey = configuration.GetValue<string>("SemanticKernel:OpenAI:ApiKey");
-        });
-    }
+    // ...
 }
 ```
 
-### AppSettings Configuration
+> ✅ This exposes the `/api/OpenAISemanticKernel/ai/ask` endpoint automatically, which the chat interface will use to interact with Semantic Kernel.
 
-Add the following configuration to your `appsettings.json`:
+---
 
-```json
-{
-  "SemanticKernel": {
-    "OpenAI": {
-      "ApiKey": "your-openai-key",
-      "ModelId": "gpt-4"
-    }
-  }
-}
+### 🔹 Step 2: Implement a Chat Interface
+
+In your Web project, create a chat interface to interact with the `/ai/ask` API. You can refer to the host/`Wafi.SmartHR.Web` project for a sample implementation.
+
+---
+
+### 🔹 Step 3: Create a Plugin Module to Interact with Your Database
+
+#### 1. Add dependencies to the plugin project:
+
+```bash
+dotnet add package Wafi.Abp.OpenAISemanticKernel
+dotnet add reference ../YourApp.Application/YourApp.Application.csproj
 ```
 
-## Usage
-
-### 1. Plugin Implementation
-
-Create a new plugin class that inherits from `ApplicationService` and implements `ITransientDependency`:
+Add this to your plugin module class:
 
 ```csharp
-public class YourPlugin : ApplicationService, ITransientDependency
+[DependsOn(typeof(YourAppApplicationModule))]
+public class YourAppAIPluginModule : AbpModule
 {
-    private readonly IYourAppService _yourService;
+    // ...
+}
+```
+
+
+#### 2. Create AI Plugins for Your Entities
+
+Each plugin class should clearly describe what the AI will get when calling its methods.
+
+📄 Example: `YourEntityPlugin.cs`
+
+```csharp
+public class YourEntityPlugin : ApplicationService, ITransientDependency
+{
+    private readonly IYourEntityAppService _entityService;
     private readonly IAuthorizationService _authorizationService;
 
-    public YourPlugin(IYourAppService yourService, IAuthorizationService authorizationService) 
+    public YourEntityPlugin(
+        IYourEntityAppService entityService,
+        IAuthorizationService authorizationService)
     {
-        _yourService = yourService;
+        _entityService = entityService;
         _authorizationService = authorizationService;
     }
 
-    [KernelFunction, Description("Your function description")]
-    public async Task<string> YourFunctionAsync()
+    [KernelFunction]
+    [Description("Search for entities by name or any relevant property using a keyword or phrase")]
+    public async Task<string> SearchEntitiesAsync(string filter)
     {
-        if (!await _authorizationService.IsGrantedAsync(YourPermissions.Default))
+        var entities = await _entityService.GetListAsync(filter);
+        
+        if (entities is null || entities.Items.Count == 0)
         {
-            return "You are not authorized to access this data";
+            return $"No entities found for filter '{filter}'";
         }
 
-        var result = await _yourService.GetListAsync();
-        return JsonSerializer.Serialize(result);
+        return JsonSerializer.Serialize(entities);
     }
 }
 ```
+> 🧠 Be sure to give a meaningful `[Description]` so that the AI knows exactly what this method does.
 
-### 2. Provider Implementation
 
-Create a provider class that inherits from `SemanticPluginProviderBase<TPlugin>`:
+####  3. Create a Plugin Provider
 
 ```csharp
-public class YourPluginProvider : SemanticPluginProviderBase<YourPlugin>
-{
-    public YourPluginProvider(YourPlugin plugin) : base(plugin)
-    {
-    }
+using Wafi.Abp.OpenAISemanticKernel.Plugins;
+using YourApp.AI.Plugin.YourEntities;
 
-    public override string Name => "YourPlugin";
+namespace YourApp.AI.Plugin
+{
+    public class YourEntityPluginProvider : SemanticPluginProviderBase<YourEntityPlugin>, IWafiPluginProvider
+    {
+        public YourEntityPluginProvider(YourEntityPlugin plugin) : base(plugin) { }
+
+        public override string Name => "Your Entity Name";
+    }
 }
 ```
 
-### 3. Example Queries and Responses
+---
 
+
+## ✅ Final Outcome 
 The Semantic Kernel integration can be accessed through the `/askai` endpoint. Here are some example interactions:
+
+![Demo](path/to/your-demo.gif)
 
 #### Example 1: Employee List Query
 
@@ -239,11 +147,7 @@ Content-Type: application/json
 ```
 
 **Response:**
-```json
-{
-    "answer": "Here is the list of employees:\n\n1. **John Doe**\n   - Email: john.doe@example.com\n   - Phone: 1234567890\n   - Date of Birth: January 1, 1990\n   - Joining Date: January 1, 2020\n   - Total Leave Days: 20\n   - Remaining Leave Days: 20\n\n2. **Jane Smith**\n   - Email: jane.smith@example.com\n   - Phone: 0987654321\n   - Date of Birth: February 1, 1991\n   - Joining Date: February 1, 2021\n   - Total Leave Days: 20\n   - Remaining Leave Days: 15"
-}
-```
+> Here is the list of employees: **John Doe**   - Email: john.doe@example.com   - Phone: 1234567890   - Date of Birth: January 1, 1990   - Joining Date: January 1, 2020   - Total Leave Days: 20   - Remaining Leave Days: 20. **Jane Smith**   - Email: jane.smith@example.com   - Phone: 0987654321   - Date of Birth: February 1, 1991   - Joining Date: February 1, 2021   - Total Leave Days: 20   - Remaining Leave Days: 15
 
 #### Example 2: Leave Records Query
 
@@ -258,13 +162,11 @@ Content-Type: application/json
 ```
 
 **Response:**
-```json
-{
-    "answer": "Here is the list of employee leave records:\n\n1. **John Doe**\n   - Annual leave from January 1 to January 5, 2025 (5 days)\n   - Sick leave from March 15 to March 16, 2025 (2 days)\n   - Personal leave from June 1 to June 3, 2025 (3 days)\n\n2. **Jane Smith**\n   - Sick leave from February 1 to February 3, 2025 (3 days)\n   - Annual leave from July 1 to July 10, 2025 (10 days)"
-}
-```
 
-### 4. Authorization
+>  Here is the list of employee leave records: **John Doe**   - Annual leave from January 1 to January 5, 2025 (5 days)  - Sick leave from March 15 to March 16, 2025 (2 days)\n   - Personal leave from June 1 to June 3, 2025 (3 days) **Jane Smith**   - Sick leave from February 1 to February 3, 2025 (3 days)   - Annual leave from July 1 to July 10, 2025 (10 days)"
+
+
+#### Authorization
 
 All requests are protected by ABP's permission system. If a user doesn't have the required permissions, they will receive an appropriate message:
 
@@ -283,18 +185,19 @@ if (!await _authorizationService.IsGrantedAsync(YourPermissions.Default))
 }
 ```
 
-### 5. UI Integration
+---
 
-> Note: An interactive chat UI for the AI assistant is coming soon.
 
-## Security
+## 📚 Want to Go Deeper?
 
-The implementation includes built-in authorization checks using ABP's permission system. Each plugin method should check for appropriate permissions before executing sensitive operations.
+For advanced scenarios, internal architecture, and roadmap, check the full documentation:
 
-## Contributing
+🔗 [Understanding the Wafi.Abp.OpenAISemanticKernel Module](https://github.com/WafiSolutions/Wafi.Abp.SemanticKernel/tree/main/src/OpenAISemanticKernel)
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+This includes:
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+* Detailed module design and explaination
+* Integration examples
+* Customization and extensions
+* Community contributions
+ 
