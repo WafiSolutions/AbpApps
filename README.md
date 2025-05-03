@@ -1,4 +1,7 @@
-﻿# ![Microsoft Logo](https://img.icons8.com/color/48/microsoft.png) Using Semantic Kernel in an ABP Application &nbsp;&nbsp;&nbsp;
+﻿<h1 style="display: flex; align-items: center;">
+  <img src="https://img.icons8.com/color/48/microsoft.png" alt="Microsoft Logo" style="vertical-align: middle; margin-right: 10px;">
+  Using Semantic Kernel in an ABP Framework
+</h1>
 
 This guide demonstrates how to integrate **Microsoft's Semantic Kernel SDK** with the **ABP.io** framework. It includes a wrapper implementation to help you create AI-powered plugins for your ABP application services in a clean, modular way.
 
