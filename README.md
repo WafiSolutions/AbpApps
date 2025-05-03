@@ -195,16 +195,10 @@ Content-Type: application/json
 ---
 
 
-## 📚 Want to Go Deeper?
+## 📚 Additional Resources
 
-For advanced scenarios, internal architecture, and roadmap, check the full documentation:
+For a deeper understanding of the module's implementation, architecture decisions, and advanced customization options, see:
 
-🔗 [Understanding the Wafi.Abp.OpenAISemanticKernel Module](https://github.com/WafiSolutions/Wafi.Abp.SemanticKernel/tree/main/src/OpenAISemanticKernel)
-
-This includes:
-
-* Detailed module design and explaination
-* Integration examples
-* Customization and extensions
-* Community contributions
- 
+- [Microsoft Semantic Kernel Documentation](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
+- [ABP Framework Documentation](https://docs.abp.io/en/abp/latest/)
+- [Full Module Source Code](https://github.com/WafiSolutions/Wafi.Abp.SemanticKernel/tree/main/src/OpenAISemanticKernel/Wafi.Abp.OpenAISemanticKernel) 
