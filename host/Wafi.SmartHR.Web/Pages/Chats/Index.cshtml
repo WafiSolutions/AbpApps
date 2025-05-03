@@ -16,7 +16,13 @@
 }
 
 <div class="chat-container">
-    <h2 class="chat-title">Chat with SmartHR Assistant</h2>
+    <h2 class="chat-title">Smart HR</h2>
+    <p class="chat-subtitle">
+        Powered by 
+        <img src="~/icons/microsoft_logo.svg" alt="Microsoft Logo" class="microsoft-logo" />
+        Microsoft SemanticKernel
+    </p>
+
 
     <div id="chat-messages" class="chat-messages">
         @foreach (var msg in Model.Conversation)

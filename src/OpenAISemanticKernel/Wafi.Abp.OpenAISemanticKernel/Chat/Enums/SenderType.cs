@@ -1,4 +1,4 @@
-﻿namespace Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
+﻿namespace Wafi.Abp.OpenAISemanticKernel.Chat.Enums;
 
 public enum SenderType
 {

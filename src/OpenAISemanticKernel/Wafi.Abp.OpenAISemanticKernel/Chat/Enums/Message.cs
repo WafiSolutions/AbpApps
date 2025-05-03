@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
+namespace Wafi.Abp.OpenAISemanticKernel.Chat.Enums;
 
 public class Message
 {

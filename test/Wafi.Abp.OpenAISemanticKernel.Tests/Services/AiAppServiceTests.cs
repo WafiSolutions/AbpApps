@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Shouldly;
 using Wafi.Abp.OpenAISemanticKernel.Chat;
 using Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
+using Wafi.Abp.OpenAISemanticKernel.Chat.Enums;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -23,20 +24,19 @@ public class AiAppServiceTests : OpenAISemanticKernelTestBase
     }
 
     /// <summary>
-    /// Verifies that user messages are correctly added to the chat history.
+    /// Verifies that ai is responding.
     /// </summary>
     [Fact]
-    public async Task Should_Add_User_Message_To_History()
+    public async Task Should_Return_Answer_When_Asked()
     {
         // Arrange
         var message = "Hello, I need help";
         var request = new AskRequestDto
         {
             Question = message,
-            History = new List<Message>
-            {
-                new Message { UserType = UserType.User, Content = message }
-            }
+            History = [
+                new() { UserType = UserType.User, Content = message }
+            ]
         };
 
         // Act
@@ -57,10 +57,9 @@ public class AiAppServiceTests : OpenAISemanticKernelTestBase
         var firstRequest = new AskRequestDto
         {
             Question = firstQuestion,
-            History = new List<Message>
-            {
-                new Message { UserType = UserType.User, Content = firstQuestion }
-            }
+            History = [
+                new() { UserType = UserType.User, Content = firstQuestion }
+            ]
         };
 
         // First interaction
@@ -71,12 +70,11 @@ public class AiAppServiceTests : OpenAISemanticKernelTestBase
         var secondRequest = new AskRequestDto
         {
             Question = secondQuestion,
-            History = new List<Message>
-            {
-                new Message { UserType = UserType.User, Content = firstQuestion },
-                new Message { UserType = UserType.Ai, Content = firstResponse.Answer },
-                new Message { UserType = UserType.User, Content = secondQuestion }
-            }
+            History = [
+                new() { UserType = UserType.User, Content = firstQuestion },
+                new() { UserType = UserType.Ai, Content = firstResponse.Answer },
+                new() { UserType = UserType.User, Content = secondQuestion }
+            ]
         };
 
         // Act

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Wafi.Abp.OpenAISemanticKernel.Chat.Dtos;
+using Wafi.Abp.OpenAISemanticKernel.Chat.Enums;
 
 namespace Wafi.Abp.OpenAISemanticKernel;
 

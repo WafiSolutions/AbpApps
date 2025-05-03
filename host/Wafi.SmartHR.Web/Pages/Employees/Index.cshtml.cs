@@ -1,23 +1,15 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
-using Wafi.SmartHR.Employees;
-using Wafi.SmartHR.Employees.Dtos;
+using Microsoft.AspNetCore.Authorization;
+using Wafi.SmartHR.Permissions;
 
-namespace Wafi.SmartHR.Web.Pages.Employees
+namespace Wafi.SmartHR.Web.Pages.Employees;
+
+
+[Authorize(SmartHRPermissions.Employees.Default)]
+public class IndexModel : SmartHRPageModel
 {
-    public class IndexModel : SmartHRPageModel
+    public async Task OnGetAsync()
     {
-        private readonly IEmployeeAppService _employeeAppService;
-
-        public IndexModel(IEmployeeAppService employeeAppService)
-        {
-            _employeeAppService = employeeAppService;
-        }
-
-        public async Task OnGetAsync()
-        {
-            await Task.CompletedTask;
-        }
+        await Task.CompletedTask;
     }
-} 
+}
