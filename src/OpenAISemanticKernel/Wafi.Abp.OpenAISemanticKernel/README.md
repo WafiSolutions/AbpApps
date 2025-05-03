@@ -1,48 +1,28 @@
-# Wafi.Abp.OpenAISemanticKernel Module
+## Wafi.Abp.OpenAISemanticKernel Module
 
-This module provides integration between ABP.io and Microsoft's Semantic Kernel, making it easy to add AI capabilities to your ABP applications.
+The module is built around these key components:
 
-## Features
+### Main Module Class
 
-- Seamless integration with OpenAI's models via Microsoft Semantic Kernel
-- Direct chat completion services for AI interactions
-- Support for custom AI plugins
-- Chat history management
-- System message customization
+`WafiOpenAISemanticKernelModule` configures the services and integrates with ABP's dependency injection system. It registers:
 
-## Installation
+- The Semantic Kernel instance
+- The chat completion service
+- Automatic API controller registration
+- Plugin providers
 
-1. Add the Wafi.Abp.OpenAISemanticKernel package to your project:
+### Chat Components
 
-```bash
-dotnet add package Wafi.Abp.OpenAISemanticKernel
-```
+- `IWafiChatCompletionService`: Core interface for interacting with AI models
+- `WafiChatCompletionService`: Implementation that converts ABP abstractions to Semantic Kernel calls
+- `WafiChatHistory`: Manages conversation history with different sender types (User, Assistant, System)
+- `AiAppService`: Auto-exposed API controller for chat interactions
 
-2. Add the module dependency to your ABP module:
+### Plugin System
 
-```csharp
-[DependsOn(
-    // other dependencies
-    typeof(WafiOpenAISemanticKernelModule)
-)]
-public class YourAppModule : AbpModule
-{
-    // ...
-}
-```
-
-3. Configure OpenAI settings in your `appsettings.json`:
-
-```json
-{
-  "SemanticKernel": {
-    "OpenAI": {
-      "ApiKey": "your-openai-key",
-      "ModelId": "gpt-4o-mini" // or any other model you want to use
-    }
-  }
-}
-```
+- `IWafiPluginProvider`: Interface for custom plugin providers
+- `SemanticPluginProviderBase<T>`: Base class to simplify creating custom plugin providers
+- `WafiKernelPlugin`: Model that represents a plugin to be registered with Semantic Kernel
 
 ## Using the Chat Completion Service
 
@@ -62,7 +42,7 @@ public class YourService
     {
         var history = new WafiChatHistory();
         
-        // Optional: Add a system message to control AI behavior
+        // Add a system message to control AI behavior
         history.AddSystemMessage("You are a helpful assistant specialized in business applications.");
         
         // Ask the question and get the response
@@ -87,65 +67,27 @@ var firstResponse = await _chatService.AskAsync("What is Semantic Kernel?", hist
 var secondResponse = await _chatService.AskAsync("How does it compare to LangChain?", history);
 ```
 
-## Implementing a Custom Controller
+## Using the Built-in API Controller
 
-To create your own controller for AI interactions:
+The module auto-registers an API controller at `/api/openAISemanticKernel/ai` with:
 
-```csharp
-[Route("api/my-ai")]
-public class MyAIController : AbpController
+- `AskAsync` endpoint that accepts an `AskRequestDto` with:
+  - Question (required)
+  - Optional conversation history
+
+Example API call:
+
+```http
+POST /api/openAISemanticKernel/ai/ask
 {
-    private readonly IWafiChatCompletionService _chatService;
-    private readonly ICurrentUser _currentUser;
-    
-    public MyAIController(IWafiChatCompletionService chatService, ICurrentUser currentUser)
-    {
-        _chatService = chatService;
-        _currentUser = currentUser;
-    }
-    
-    [HttpPost("ask")]
-    public async Task<IActionResult> AskAsync([FromBody] MyQuestionModel input)
-    {
-        var history = new WafiChatHistory();
-        
-        history.AddSystemMessage(input.SystemMessage ?? "You are a helpful assistant.");
-        
-        // Add user context if needed
-        if (_currentUser.Id.HasValue)
-        {
-            history.AddSystemMessage($"Current user: {_currentUser.Name}");
-        }
-        
-        var answer = await _chatService.AskAsync(input.Question, history);
-        
-        return Ok(new { Answer = answer });
-    }
+  "question": "What is ABP.io?",
+  "history": [] // Optional previous messages
 }
-
-public class MyQuestionModel
-{
-    [Required]
-    public string Question { get; set; }
-    
-    public string SystemMessage { get; set; }
-}
-```
-
-## Advanced Configuration
-
-If you need to customize the behavior of the chat completion service, you can replace the default implementation:
-
-```csharp
-// In your module's ConfigureServices method:
-context.Services.Replace(ServiceDescriptor.Singleton<IWafiChatCompletionService, YourCustomService>());
 ```
 
 ## Creating Custom Plugins
 
-You can create custom AI plugins to extend functionality:
-
-1. Create a plugin class:
+1. Create a plugin class with methods decorated with `KernelFunction` attribute:
 
 ```csharp
 public class YourPlugin : ApplicationService, ITransientDependency
@@ -159,7 +101,7 @@ public class YourPlugin : ApplicationService, ITransientDependency
 }
 ```
 
-2. Create a provider:
+2. Create a provider by inheriting from the base class:
 
 ```csharp
 public class YourPluginProvider : SemanticPluginProviderBase<YourPlugin>
@@ -169,9 +111,7 @@ public class YourPluginProvider : SemanticPluginProviderBase<YourPlugin>
 }
 ```
 
-## Plugin Registration
-
-Register your custom plugins in your module's `ConfigureServices` method:
+3. Register your provider in your module's `ConfigureServices` method:
 
 ```csharp
 public override void ConfigureServices(ServiceConfigurationContext context)
@@ -181,25 +121,18 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 }
 ```
 
-## Testing
+## Advanced Configuration
 
-When testing, configure your test module to use the Semantic Kernel services:
+If you need to customize the behavior of the chat completion service, you can replace the default implementation:
 
 ```csharp
-public class YourTestModule : AbpModule
-{
-    public override void ConfigureServices(ServiceConfigurationContext context)
-    {
-        var configuration = context.Services.GetConfiguration();
-        
-        // Configure OpenAI settings for testing
-        Configure<WafiOpenAISemanticKernelOptions>(options =>
-        {
-            options.ModelId = configuration.GetValue<string>("SemanticKernel:OpenAI:ModelId");
-            options.ApiKey = configuration.GetValue<string>("SemanticKernel:OpenAI:ApiKey");
-        });
-    }
-}
+// In your module's ConfigureServices method:
+context.Services.Replace(ServiceDescriptor.Singleton<IWafiChatCompletionService, YourCustomService>());
 ```
 
-For more details, see the full documentation. 
+## Dependencies
+
+The module depends on:
+- Microsoft.SemanticKernel.Connectors.OpenAI (1.47.0)
+- Volo.Abp.Core (9.1.0)
+- Volo.Abp.AspNetCore.Mvc (9.1.0) 
