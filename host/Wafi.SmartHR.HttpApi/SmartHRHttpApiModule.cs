@@ -1,4 +1,6 @@
 ﻿using Localization.Resources.AbpUi;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -29,6 +31,18 @@ public class SmartHRHttpApiModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         ConfigureLocalization();
+        ConfigureOpenAISemanticKernelOptions(context);
+    }
+
+    private void ConfigureOpenAISemanticKernelOptions(ServiceConfigurationContext context)
+    {
+        var configuration = context.Services.GetConfiguration();
+
+        Configure<WafiOpenAISemanticKernelOptions>(options =>
+        {
+            options.ModelId = configuration.GetValue<string>("SemanticKernel:OpenAI:ModelId");
+            options.ApiKey = configuration.GetValue<string>("SemanticKernel:OpenAI:ApiKey");
+        });
     }
 
     private void ConfigureLocalization()
