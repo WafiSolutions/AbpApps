@@ -79,7 +79,7 @@ In your Web project, create a chat interface to interact with the `/ai/ask` API.
 
 ---
 
-### 🔹 Step 3: Create a Plugin Module to Interact with Your Database
+### 🔹 Step 3: Build Plugins to Connect ABP Services with Semantic Kernel
 
 #### 1. Add dependencies to the plugin project:
 
@@ -154,7 +154,7 @@ namespace YourApp.AI.Plugin
     {
         public YourEntityPluginProvider(YourEntityPlugin plugin) : base(plugin) { }
 
-        public override string Name => "Your Entity Name";
+        public override string Name => "Your Plugin Name";
     }
 }
 ```
