@@ -31,7 +31,8 @@ Follow these steps to integrate Semantic Kernel into your ABP application.
 dotnet add YourApp.HttpApi.csproj package Wafi.Abp.OpenAISemanticKernel
 ```
 
-2. Add the module dependency:
+2. Add the module dependency and configure Semantic Kernel options:
+   This connects your ABP module with the Semantic Kernel framework and sets up OpenAI credentials.
 
 ```csharp
 [DependsOn(
@@ -144,6 +145,8 @@ public class YourEntityPlugin : ApplicationService, ITransientDependency
 
 ####  3. Create a Plugin Provider
 
+Create a provider class to register your plugin with Semantic Kernel. This is a crucial step that makes your plugin discoverable by the AI system.
+
 ```csharp
 using Wafi.Abp.OpenAISemanticKernel.Plugins;
 using YourApp.AI.Plugin.YourEntities;
@@ -180,9 +183,20 @@ if (!await _authorizationService.IsGrantedAsync(YourPermissions.Default))
 
 
 ## ✅ Final Outcome 
-The Semantic Kernel integration can be accessed through the `/askai` endpoint. Here are some example interactions:
+
+After completing these steps, your ABP application will have a fully functioning AI assistant powered by Semantic Kernel. 
 
 ![Demo](/etc/img/chat_sample.gif)
+
+The AI interface can be accessed through the `/askai` endpoint in your web application. When users send questions to this endpoint, the system:
+
+1. Processes the natural language query
+2. Determines which registered plugins can fulfill the request
+3. Calls the appropriate application services through the plugins
+4. Returns formatted results to the user
+
+Here are some example interactions:
+
 
 #### Example 1: Employee List Query
 
