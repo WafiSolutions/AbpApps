@@ -40,9 +40,32 @@ dotnet add YourApp.HttpApi.csproj package Wafi.Abp.OpenAISemanticKernel
 )]
 public class YourAppHttpApiModule : AbpModule
 {
-    // ...
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        var configuration = context.Services.GetConfiguration();
+
+        Configure<WafiOpenAISemanticKernelOptions>(options =>
+        {
+            options.ModelId = configuration.GetValue<string>("SemanticKernel:OpenAI:ModelId");
+            options.ApiKey = configuration.GetValue<string>("SemanticKernel:OpenAI:ApiKey");
+        });
+    }
 }
 ```
+
+3. Add the following configuration to your appsettings.json:
+
+```
+{
+  "SemanticKernel": {
+    "OpenAI": {
+      "ApiKey": "your-openai-key",
+      "ModelId": "gpt-4"
+    }
+  }
+}
+```
+
 
 > ✅ This exposes the `/api/OpenAISemanticKernel/ai/ask` endpoint automatically, which the chat interface will use to interact with Semantic Kernel.
 
