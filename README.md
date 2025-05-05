@@ -195,9 +195,6 @@ The AI interface can be accessed through the `/askai` endpoint in your web appli
 3. Calls the appropriate application services through the plugins
 4. Returns formatted results to the user
 
-Here are some example interactions:
-
-
 #### Example 1: Employee List Query
 
 **Request:**
