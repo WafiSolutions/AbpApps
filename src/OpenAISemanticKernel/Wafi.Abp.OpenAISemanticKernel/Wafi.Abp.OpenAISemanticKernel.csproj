@@ -5,8 +5,14 @@
 		<LangVersion>latest</LangVersion>
 		<RootNamespace>Wafi.Abp.OpenAISemanticKernel</RootNamespace>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<NoWarn>$(NoWarn);CS1591</NoWarn>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Version>1.0.0</Version>
+		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="../../../etc/img/icon.png" Pack="true" Visible="false" PackagePath="/" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.47.0" />
