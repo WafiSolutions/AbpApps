@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wafi.Abp.Workspace
 {
-    class WorkspaceResolveOptions
+    public class WorkspaceResolveOptions
     {
         public List<IWorkspaceResolveContributor> WorkspaceResolvers { get; }
 

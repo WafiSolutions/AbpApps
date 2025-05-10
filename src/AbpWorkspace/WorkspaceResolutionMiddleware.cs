@@ -12,7 +12,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace Wafi.Abp.Workspace
 {
-    class WorkspaceResolutionMiddleware : IMiddleware, ITransientDependency
+    public class WorkspaceResolutionMiddleware : IMiddleware, ITransientDependency
     {
         private readonly ILogger<WorkspaceResolutionMiddleware> _logger;
         private readonly WorkspaceResolveOptions _options;

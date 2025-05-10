@@ -49,6 +49,7 @@ using Volo.Abp.OpenIddict;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.SettingManagement.Web;
 using Volo.Abp.Studio.Client.AspNetCore;
+using Wafi.Abp.Workspace;
 
 namespace Workspace.Sample.Web;
 
@@ -63,7 +64,8 @@ namespace Workspace.Sample.Web;
     typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpFeatureManagementWebModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpAspNetCoreSerilogModule)
+    typeof(AbpAspNetCoreSerilogModule),
+    typeof(WorkspaceModule)
 )]
 public class SampleWebModule : AbpModule
 {
@@ -278,6 +280,10 @@ public class SampleWebModule : AbpModule
         app.MapAbpStaticAssets();
         app.UseAbpStudioLink();
         app.UseRouting();
+
+
+        app.UseMiddleware<WorkspaceResolutionMiddleware>();
+
         app.UseAbpSecurityHeaders();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();

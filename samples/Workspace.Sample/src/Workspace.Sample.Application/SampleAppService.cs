@@ -1,5 +1,6 @@
 ﻿using Workspace.Sample.Localization;
 using Volo.Abp.Application.Services;
+using Wafi.Abp.Workspace;
 
 namespace Workspace.Sample;
 
@@ -7,6 +8,7 @@ namespace Workspace.Sample;
  */
 public abstract class SampleAppService : ApplicationService
 {
+    protected ICurrentWorkspace CurrentWorkspace => LazyServiceProvider.LazyGetRequiredService<ICurrentWorkspace>();
     protected SampleAppService()
     {
         LocalizationResource = typeof(SampleResource);
