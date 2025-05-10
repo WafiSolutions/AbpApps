@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\AbpWorkspace\Wafi.Abp.Workspace.csproj" />
     <ProjectReference Include="..\Workspace.Sample.Domain.Shared\Workspace.Sample.Domain.Shared.csproj" />
   </ItemGroup>
 
