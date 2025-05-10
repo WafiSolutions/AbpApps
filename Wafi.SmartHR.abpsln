@@ -10,8 +10,8 @@
     "Wafi.SmartHR": {
       "path": "Wafi.SmartHR.abpmdl"
     },
-    "Wafi.SmartHR.AIPlugin": {
-      "path": "plugins/Wafi.SmartHR.AIPlugin.abpmdl"
+    "Wafi.SmartHR.AI.Plugin": {
+      "path": "plugins/wafi.smarthr.ai.plugin/Wafi.SmartHR.AI.Plugin.abpmdl"
     }
   },
   "runProfiles": {
