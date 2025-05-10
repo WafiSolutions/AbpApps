@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.Abp.OpenAISemanticKern
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.Abp.OpenAISemanticKernel.Tests", "test\Wafi.Abp.OpenAISemanticKernel.Tests\Wafi.Abp.OpenAISemanticKernel.Tests.csproj", "{DCBBD59E-1F6B-4BB0-B7BD-E022FED4D4A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.Abp.Workspace", "src\AbpWorkspace\Wafi.Abp.Workspace.csproj", "{603E05A8-5583-428B-5BC7-30F394023800}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -189,6 +191,18 @@ Global
 		{DCBBD59E-1F6B-4BB0-B7BD-E022FED4D4A8}.Release|x64.Build.0 = Release|Any CPU
 		{DCBBD59E-1F6B-4BB0-B7BD-E022FED4D4A8}.Release|x86.ActiveCfg = Release|Any CPU
 		{DCBBD59E-1F6B-4BB0-B7BD-E022FED4D4A8}.Release|x86.Build.0 = Release|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Debug|x64.Build.0 = Debug|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Debug|x86.Build.0 = Debug|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Release|Any CPU.Build.0 = Release|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Release|x64.ActiveCfg = Release|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Release|x64.Build.0 = Release|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Release|x86.ActiveCfg = Release|Any CPU
+		{603E05A8-5583-428B-5BC7-30F394023800}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -206,6 +220,7 @@ Global
 		{260394E2-EBB9-4BAF-64BF-EB37351331A5} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{81DF2F05-50D0-DB7C-F0EE-54DB26A8A5E7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{DCBBD59E-1F6B-4BB0-B7BD-E022FED4D4A8} = {04DBDB01-70F4-4E06-B468-8F87850B22BE}
+		{603E05A8-5583-428B-5BC7-30F394023800} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
