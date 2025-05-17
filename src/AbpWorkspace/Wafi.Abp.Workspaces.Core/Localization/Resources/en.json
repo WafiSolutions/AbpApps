@@ -1,0 +1,15 @@
+{
+  "culture": "en",
+  "texts": {
+    "Workspace": "Workspace",
+    "SelectWorkspace": "Select workspace",
+    "WorkspaceChanged": "Workspace changed to: {0}",
+    "NoWorkspacesAvailable": "No workspaces available",
+    "CurrentWorkspace": "Current Workspace",
+    "WorkspaceSettings": "Workspace Settings",
+    "ManageWorkspaces": "Manage Workspaces",
+    "CreateWorkspace": "Create Workspace",
+    "EditWorkspace": "Edit Workspace",
+    "DeleteWorkspaceConfirmationMessage": "Are you sure you want to delete workspace '{0}'?"
+  }
+} 

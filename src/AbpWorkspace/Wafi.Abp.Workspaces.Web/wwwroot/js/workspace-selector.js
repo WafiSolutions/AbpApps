@@ -37,7 +37,9 @@
         if (localStorage.getItem(CONFIG.WORKSPACE_CHANGED) === 'true') {
             const workspaceName = localStorage.getItem(CONFIG.WORKSPACE_NAME);
             if (workspaceName) {
-                abp.notify.info('Workspace changed to: ' + workspaceName);
+                // Use the localized format string
+                const message = abp.localization.getResource('Workspace')('WorkspaceChanged').replace('{0}', workspaceName);
+                abp.notify.info(message);
             }
             // Clear the flags
             localStorage.removeItem(CONFIG.WORKSPACE_CHANGED);
@@ -126,4 +128,4 @@
 
     // Start initialization process
     waitForDependencies();
-})();
+})(); 

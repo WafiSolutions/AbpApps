@@ -1,0 +1,14 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Wafi.Abp.Workspaces.Localization
+@inject IHtmlLocalizer<WorkspaceResource> L
+
+<div class="workspace-selector mb-2 px-3">
+    <label class="form-label">
+        <i class="lpx-icon fa fa-briefcase"></i>
+        @L["Workspace"]
+    </label>
+    <select id="workspaceSelector" class="form-select">
+        <option value="">@L["SelectWorkspace"]</option>
+    </select>
+</div>
+<div class="dropdown-divider"></div> 

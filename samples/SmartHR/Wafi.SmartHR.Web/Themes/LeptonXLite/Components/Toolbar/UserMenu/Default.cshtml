@@ -3,6 +3,7 @@
 @using Volo.Abp.MultiTenancy
 @using Volo.Abp.UI.Navigation
 @using Volo.Abp.Users
+@using Wafi.Abp.Workspaces.Web.Components.WorkspaceSelector
 @inject ICurrentUser CurrentUser
 @inject ICurrentTenant CurrentTenant
 @inject IHtmlLocalizer<AbpUiResource> L
@@ -28,16 +29,8 @@
 		}
 	</div>
 	<div id="user-dropdown-menu" class="dropdown-menu" aria-labelledby="userDropdown">
-		<div class="workspace-selector mb-2 px-3">
-			<label class="form-label">
-				<i class="lpx-icon fa fa-briefcase"></i>
-				@L["Workspace"]
-			</label>
-			<select id="workspaceSelector" class="form-select">
-				<option value="">@L["SelectWorkspace"]</option>
-			</select>
-		</div>
-		<div class="dropdown-divider"></div>
+
+		@await Component.InvokeAsync(typeof(WorkspaceSelectorViewComponent))
 
 		@for (var i = 0; i < Model.Items.Count; i++)
 		{

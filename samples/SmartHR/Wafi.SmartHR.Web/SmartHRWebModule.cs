@@ -1,56 +1,48 @@
+using System;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using OpenIddict.Server.AspNetCore;
+using OpenIddict.Validation.AspNetCore;
+using Volo.Abp;
+using Volo.Abp.Account.Web;
+using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.Localization;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
+using Volo.Abp.AspNetCore.Serilog;
+using Volo.Abp.Autofac;
+using Volo.Abp.AutoMapper;
+using Volo.Abp.FeatureManagement;
+using Volo.Abp.Identity.Web;
+using Volo.Abp.Localization;
+using Volo.Abp.Modularity;
+using Volo.Abp.OpenIddict;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.Security.Claims;
+using Volo.Abp.Studio.Client.AspNetCore;
+using Volo.Abp.Swashbuckle;
+using Volo.Abp.TenantManagement.Web;
+using Volo.Abp.UI.Navigation;
+using Volo.Abp.UI.Navigation.Urls;
+using Volo.Abp.VirtualFileSystem;
+using Wafi.Abp.Workspaces;
+using Wafi.Abp.Workspaces.Localization;
+using Wafi.Abp.Workspaces.Web;
 using Wafi.SmartHR.EntityFrameworkCore;
 using Wafi.SmartHR.Localization;
 using Wafi.SmartHR.MultiTenancy;
-using Wafi.SmartHR.Permissions;
-using Wafi.SmartHR.Web.Menus;
 using Wafi.SmartHR.Web.HealthChecks;
-using Microsoft.OpenApi.Models;
-using Volo.Abp;
-using Volo.Abp.Studio;
-using Volo.Abp.AspNetCore.Mvc;
-using Volo.Abp.AspNetCore.Mvc.Localization;
-using Volo.Abp.AspNetCore.Mvc.UI;
-using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
-using Volo.Abp.Autofac;
-using Volo.Abp.AutoMapper;
-using Volo.Abp.Modularity;
-using Volo.Abp.PermissionManagement;
-using Volo.Abp.PermissionManagement.Web;
-using Volo.Abp.UI.Navigation.Urls;
-using Volo.Abp.UI;
-using Volo.Abp.UI.Navigation;
-using Volo.Abp.VirtualFileSystem;
-using Volo.Abp.Identity.Web;
-using Volo.Abp.FeatureManagement;
-using OpenIddict.Server.AspNetCore;
-using OpenIddict.Validation.AspNetCore;
-using Volo.Abp.TenantManagement.Web;
-using System;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Extensions.DependencyInjection;
-using Volo.Abp.Account.Web;
-using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
-using Volo.Abp.AspNetCore.Serilog;
-using Volo.Abp.Identity;
-using Volo.Abp.Swashbuckle;
-using Volo.Abp.OpenIddict;
-using Volo.Abp.Security.Claims;
-using Volo.Abp.SettingManagement.Web;
-using Volo.Abp.Studio.Client.AspNetCore;
-using Wafi.Abp.Workspaces;
+using Wafi.SmartHR.Web.Menus;
 
 namespace Wafi.SmartHR.Web;
 
@@ -66,7 +58,8 @@ namespace Wafi.SmartHR.Web;
     typeof(AbpTenantManagementWebModule),
     typeof(AbpFeatureManagementWebModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpAspNetCoreSerilogModule)
+    typeof(AbpAspNetCoreSerilogModule),
+    typeof(WorkspacesWebModule)
 )]
 public class SmartHRWebModule : AbpModule
 {
@@ -84,6 +77,12 @@ public class SmartHRWebModule : AbpModule
                 typeof(SmartHRApplicationModule).Assembly,
                 typeof(SmartHRApplicationContractsModule).Assembly,
                 typeof(SmartHRWebModule).Assembly
+            );
+
+            // Add WorkspaceResource for localization
+            options.AddAssemblyResource(
+                typeof(WorkspaceResource),
+                typeof(WorkspacesWebModule).Assembly
             );
         });
 
@@ -129,7 +128,7 @@ public class SmartHRWebModule : AbpModule
             {
                 options.DisableTransportSecurityRequirement = true;
             });
-            
+
             Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedProto;
@@ -168,14 +167,6 @@ public class SmartHRWebModule : AbpModule
                 {
                     bundle.AddFiles("/global-scripts.js");
                     bundle.AddFiles("/global-styles.css");
-                }
-            );
-            
-            options.ScriptBundles.Configure(
-                LeptonXLiteThemeBundles.Scripts.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/Themes/LeptonXLite/Components/Toolbar/UserMenu/workspace-selector.js");
                 }
             );
         });

@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Library</OutputType>
+    <IsPackable>true</IsPackable>
+    <RootNamespace>Wafi.Abp.Workspaces.Web</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\WorkSpaces\Index.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\Resources\*.json" />
+    <EmbeddedResource Include="wwwroot\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="9.1.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="9.1.0" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="9.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Wafi.Abp.Workspaces.Core\Wafi.Abp.Workspaces.csproj" />
+  </ItemGroup>
+</Project> 

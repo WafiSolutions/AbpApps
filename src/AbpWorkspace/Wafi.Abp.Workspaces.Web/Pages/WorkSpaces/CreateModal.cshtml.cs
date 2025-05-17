@@ -1,35 +1,31 @@
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
 using Wafi.Abp.Workspaces.Services;
 using Wafi.Abp.Workspaces.Services.Dtos;
 
-namespace Wafi.SmartHR.Web.Pages.WorkSpaces;
+namespace Wafi.Abp.Workspaces.Web.Pages.WorkSpaces;
 
-public class EditModalModel : SmartHRPageModel
+public class CreateModalModel : AbpPageModel
 {
-    [HiddenInput]
-    [BindProperty(SupportsGet = true)]
-    public Guid Id { get; set; }
-
     [BindProperty]
     public WorkspaceDto Workspace { get; set; }
 
     private readonly IWorkspaceAppService _workspaceAppService;
 
-    public EditModalModel(IWorkspaceAppService workspaceAppService)
+    public CreateModalModel(IWorkspaceAppService workspaceAppService)
     {
         _workspaceAppService = workspaceAppService;
     }
 
-    public async Task OnGetAsync()
+    public void OnGet()
     {
-        Workspace = await _workspaceAppService.GetAsync(Id);
+        Workspace = new WorkspaceDto();
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        await _workspaceAppService.UpdateAsync(Id, Workspace.Name);
+        await _workspaceAppService.CreateAsync(Workspace.Name);
         return NoContent();
     }
 } 
