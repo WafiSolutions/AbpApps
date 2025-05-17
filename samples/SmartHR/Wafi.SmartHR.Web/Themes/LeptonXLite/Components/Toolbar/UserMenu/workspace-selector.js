@@ -7,7 +7,9 @@
 
     // Reference to the shared constants
     const CONFIG = window.WORKSPACE_CONSTANTS || {
-        STORAGE_KEY: 'selectedWorkspaceId'
+        STORAGE_KEY: 'selectedWorkspaceId',
+        WORKSPACE_CHANGED: 'workspaceChanged',
+        WORKSPACE_NAME: 'workspaceName'
     };
 
     /**
@@ -23,6 +25,24 @@
         
         // Set up change handler
         setupChangeHandler(workspaceSelector);
+        
+        // Show notification if workspace was just changed
+        showNotificationIfWorkspaceChanged();
+    }
+    
+    /**
+     * Show notification if workspace was changed before page reload
+     */
+    function showNotificationIfWorkspaceChanged() {
+        if (localStorage.getItem(CONFIG.WORKSPACE_CHANGED) === 'true') {
+            const workspaceName = localStorage.getItem(CONFIG.WORKSPACE_NAME);
+            if (workspaceName) {
+                abp.notify.info('Workspace changed to: ' + workspaceName);
+            }
+            // Clear the flags
+            localStorage.removeItem(CONFIG.WORKSPACE_CHANGED);
+            localStorage.removeItem(CONFIG.WORKSPACE_NAME);
+        }
     }
 
     /**
@@ -76,8 +96,15 @@
         selectorElement.on('change', function() {
             const selectedWorkspaceId = $(this).val();
             if (selectedWorkspaceId) {
+                const workspaceName = $(this).find('option:selected').text();
+                
+                // Store data for after reload
                 localStorage.setItem(CONFIG.STORAGE_KEY, selectedWorkspaceId);
-                abp.notify.info('Workspace changed to: ' + $(this).find('option:selected').text());
+                localStorage.setItem(CONFIG.WORKSPACE_CHANGED, 'true');
+                localStorage.setItem(CONFIG.WORKSPACE_NAME, workspaceName);
+                
+                // Reload page immediately
+                location.reload();
             }
         });
     }
