@@ -2,7 +2,7 @@
 
 namespace Wafi.Abp.Workspaces.Services.Dtos;
 
-public class WorkspaceDto : EntityDto<Guid>
+public class WorkspaceDto : AuditedEntityDto<Guid>
 {
     public string Name { get; set; }
 }

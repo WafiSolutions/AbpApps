@@ -8,6 +8,10 @@
 @inject IHtmlLocalizer<AbpUiResource> L
 @model ApplicationMenu
 
+<!-- Make sure jQuery is loaded first -->
+<script src="~/libs/jquery/jquery.js"></script>
+<script src="~/Themes/LeptonXLite/Components/Toolbar/UserMenu/workspace-selector.js"></script>
+
 <div class="dropdown">
 	<div class="lpx-user-profile dropdown-toggle" role="button" id="userDropdown" data-bs-toggle="dropdown"
 		aria-expanded="false">
@@ -28,6 +32,13 @@
 		}
 	</div>
 	<div class="dropdown-menu" aria-labelledby="userDropdown">
+		<div class="workspace-selector mb-2 px-3">
+			<label class="form-label">@L["Workspace"]</label>
+			<select id="workspaceSelector" class="form-select">
+				<option value="">@L["SelectWorkspace"]</option>
+			</select>
+		</div>
+		<div class="dropdown-divider"></div>
 
 		@for (var i = 0; i < Model.Items.Count; i++)
 		{

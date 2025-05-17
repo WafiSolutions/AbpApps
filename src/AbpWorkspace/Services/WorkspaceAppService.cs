@@ -47,7 +47,8 @@ public class WorkspaceAppService(IRepository<Workspace, Guid> workspaceRepositor
                             select new WorkspaceDto
                             {
                                 Id = e.Id,
-                                Name = e.Name
+                                Name = e.Name,
+                                CreationTime = e.CreationTime
                             }).OrderBy(sortBy).PageBy(filter).ToListAsync();
 
         return new PagedResultDto<WorkspaceDto>(
