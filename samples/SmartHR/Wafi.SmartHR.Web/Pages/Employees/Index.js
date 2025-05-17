@@ -89,7 +89,7 @@ $(function () {
         dataTable.ajax.reload();
     });
 
-    $('#NewEmployeeButton').on('click', function () {
+    $('#NewEmployeeButton').on('click', function (e) {
         e.preventDefault();
         createModal.open();
     });
