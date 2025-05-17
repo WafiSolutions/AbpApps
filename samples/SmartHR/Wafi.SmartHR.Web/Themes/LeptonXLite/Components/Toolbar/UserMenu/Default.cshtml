@@ -27,7 +27,7 @@
 			<span class="user-full-name"><i>@CurrentTenant.Name</i>\@CurrentUser.UserName</span>
 		}
 	</div>
-	<div class="dropdown-menu" aria-labelledby="userDropdown">
+	<div id="user-dropdown-menu" class="dropdown-menu" aria-labelledby="userDropdown">
 		<div class="workspace-selector mb-2 px-3">
 			<label class="form-label">@L["Workspace"]</label>
 			<select id="workspaceSelector" class="form-select">
@@ -60,3 +60,9 @@
 		}
 	</div>
 </div>
+
+<style>
+	#user-dropdown-menu{
+		width: 300px
+	}
+</style>
