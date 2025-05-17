@@ -19,9 +19,6 @@ public class WorkspaceModule : AbpModule
             options.AddDefaultRepositories();
         });
 
-        // Register the MultiWorkspaceFilter
-        context.Services.AddTransient<IMultiWorkspaceFilter, MultiWorkspaceFilter>();
-
         // Configure workspace resolver options
         Configure<WorkspaceResolveOptions>(options =>
         {
