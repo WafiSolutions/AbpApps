@@ -1,5 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
+using Wafi.Abp.Workspaces.EntityFrameworkCore;
 
 namespace Wafi.Abp.Workspaces;
 
@@ -9,6 +11,11 @@ public class WorkspaceModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         ConfigureAutoAPIControllers();
+
+        context.Services.AddAbpDbContext<WorkspaceDbContext>(options =>
+        {
+            options.AddDefaultRepositories();
+        });
     }
 
     private void ConfigureAutoAPIControllers()
