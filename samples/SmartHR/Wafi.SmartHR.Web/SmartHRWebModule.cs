@@ -141,7 +141,7 @@ public class SmartHRWebModule : AbpModule
         ConfigureAuthentication(context);
         ConfigureAutoMapper();
         ConfigureVirtualFileSystem(hostingEnvironment);
-        ConfigureNavigationServices(configuration);
+        ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
 
@@ -215,11 +215,11 @@ public class SmartHRWebModule : AbpModule
         });
     }
 
-    private void ConfigureNavigationServices(IConfiguration configuration)
+    private void ConfigureNavigationServices()
     {
         Configure<AbpNavigationOptions>(options =>
         {
-            options.MenuContributors.Add(new SmartHRMenuContributor(configuration));
+            options.MenuContributors.Add(new SmartHRMenuContributor());
         });
 
         Configure<AbpToolbarOptions>(options =>
