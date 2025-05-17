@@ -6,11 +6,11 @@
 (function () {
     'use strict';
 
-    // Configuration
-    const CONFIG = Object.freeze({
+    // Reference to the shared constants
+    const CONFIG = window.WORKSPACE_CONSTANTS || {
         STORAGE_KEY: 'selectedWorkspaceId',
         HEADER_NAME: 'X-Workspace-Id'
-    });
+    };
 
     /**
      * Add workspace header to any XHR object

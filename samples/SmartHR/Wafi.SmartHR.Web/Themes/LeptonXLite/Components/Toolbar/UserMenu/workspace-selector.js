@@ -5,6 +5,11 @@
 (function () {
     'use strict';
 
+    // Reference to the shared constants
+    const CONFIG = window.WORKSPACE_CONSTANTS || {
+        STORAGE_KEY: 'selectedWorkspaceId'
+    };
+
     /**
      * Initialize the workspace selector functionality
      */
@@ -57,7 +62,7 @@
      * @param {jQuery} selectorElement - The workspace selector element
      */
     function restoreSavedSelection(selectorElement) {
-        const savedWorkspaceId = localStorage.getItem('selectedWorkspaceId');
+        const savedWorkspaceId = localStorage.getItem(CONFIG.STORAGE_KEY);
         if (savedWorkspaceId) {
             selectorElement.val(savedWorkspaceId);
         }
@@ -71,7 +76,7 @@
         selectorElement.on('change', function() {
             const selectedWorkspaceId = $(this).val();
             if (selectedWorkspaceId) {
-                localStorage.setItem('selectedWorkspaceId', selectedWorkspaceId);
+                localStorage.setItem(CONFIG.STORAGE_KEY, selectedWorkspaceId);
                 abp.notify.info('Workspace changed to: ' + $(this).find('option:selected').text());
             }
         });
