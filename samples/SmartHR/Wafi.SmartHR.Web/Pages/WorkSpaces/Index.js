@@ -1,7 +1,7 @@
 $(function () {
     var l = abp.localization.getResource('SmartHR');
-    var createModal = new abp.ModalManager(abp.appPath + 'Workspaces/CreateModal');
-    var editModal = new abp.ModalManager(abp.appPath + 'Workspaces/EditModal');
+    var createModal = new abp.ModalManager(abp.appPath + 'WorkSpaces/CreateModal');
+    var editModal = new abp.ModalManager(abp.appPath + 'WorkSpaces/EditModal');
 
     var dataTable = $('#WorkspacesTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
@@ -21,19 +21,17 @@ $(function () {
                         items: [
                             {
                                 text: l('Edit'),
-                                visible: abp.auth.isGranted('SmartHR.Workspaces.Edit'),
                                 action: function (data) {
                                     editModal.open({ id: data.record.id });
                                 }
                             },
                             {
                                 text: l('Delete'),
-                                visible: abp.auth.isGranted('SmartHR.Workspaces.Delete'),
                                 confirmMessage: function (data) {
-                                    return l('WorkspaceDeletionConfirmationMessage', data.record.firstName + ' ' + data.record.lastName);
+                                    return l('WorkspaceDeletionConfirmationMessage', data.record.name);
                                 },
                                 action: function (data) {
-                                    wafi.smartHR.workspaces.workspace
+                                    wafi.abp.workspaces.services.workspace
                                         .delete(data.record.id)
                                         .then(function () {
                                             abp.notify.info(l('SuccessfullyDeleted'));
@@ -56,7 +54,7 @@ $(function () {
         dataTable.ajax.reload();
     });
 
-    $('#NewWorkspaceButton').on('click', function () {
+    $('#NewWorkspaceButton').click(function (e) {
         e.preventDefault();
         createModal.open();
     });
