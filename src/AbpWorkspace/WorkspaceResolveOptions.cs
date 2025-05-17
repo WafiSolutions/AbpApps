@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Wafi.Abp.Workspaces;
 
-namespace Wafi.Abp.Workspaces
+public class WorkspaceResolveOptions
 {
-    public class WorkspaceResolveOptions
+    public List<IWorkspaceResolveContributor> WorkspaceResolvers { get; }
+
+    public WorkspaceResolveOptions()
     {
-        public List<IWorkspaceResolveContributor> WorkspaceResolvers { get; }
+        WorkspaceResolvers = new List<IWorkspaceResolveContributor>();
+    }
 
-        public WorkspaceResolveOptions()
-        {
-            WorkspaceResolvers = new List<IWorkspaceResolveContributor>();
-        }
-
-        public void AddResolver(IWorkspaceResolveContributor resolver)
-        {
-            WorkspaceResolvers.Add(resolver);
-        }
+    public void AddResolver(IWorkspaceResolveContributor resolver)
+    {
+        WorkspaceResolvers.Add(resolver);
     }
 }

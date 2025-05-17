@@ -16,6 +16,12 @@ public class WorkspaceModule : AbpModule
         {
             options.AddDefaultRepositories();
         });
+
+        // Configure hotel resolver options
+        Configure<WorkspaceResolveOptions>(options =>
+        {
+            options.AddResolver(context.Services.GetRequiredService<WorkspaceIdHeaderResolveContributor>());
+        });
     }
 
     private void ConfigureAutoAPIControllers()

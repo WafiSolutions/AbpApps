@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.DependencyInjection;
 
 namespace Wafi.Abp.Workspaces.Services;
 
-public class CurrentWorkspace : ICurrentWorkspace
+public class CurrentWorkspace : ICurrentWorkspace, ISingletonDependency
 {
     private readonly AsyncLocal<WorkspaceCacheItem> _currentWorkspaceCacheItem = new AsyncLocal<WorkspaceCacheItem>();
     private readonly ConcurrentDictionary<string, WorkspaceCacheItem> _workspaceConfigurations = new ConcurrentDictionary<string, WorkspaceCacheItem>();
