@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\host\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj" />
+      <ProjectReference Include="..\..\..\samples\SmartHR\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj" />
       <ProjectReference Include="..\..\..\src\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj" />
     </ItemGroup>
 

@@ -1,0 +1,49 @@
+﻿@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@model ContentLayout
+
+@if (Model.ShouldShowBreadCrumb())
+{
+	<ol class="lpx-breadcrumb">
+
+		@if (Model.BreadCrumb.ShowHome)
+		{
+			<li class="lpx-breadcrumb-item">
+				<a href="~/"><i class="lpx-breadcrumb-item-icon bi-house-door-fill" aria-hidden="true"></i></a>
+			</li>
+		}
+
+		@foreach (var breadCrumbItem in Model.BreadCrumb.Items)
+		{
+			<li class="lpx-breadcrumb-separator"><i class="lpx-icon bi bi-chevron-right"></i></li>
+
+			if (breadCrumbItem.Url.IsNullOrWhiteSpace())
+			{
+				<li class="lpx-breadcrumb-item">
+					<i class="lpx-breadcrumb-item-icon" aria-hidden="true"></i>
+
+					<a href="#">@breadCrumbItem.Text</a>
+				</li>
+			}
+			else
+			{
+				<li class="lpx-breadcrumb-item">
+					<i class="lpx-breadcrumb-item-icon" aria-hidden="true"></i>
+
+					<a href="@breadCrumbItem.Url">@breadCrumbItem.Text</a>
+				</li>
+			}
+
+		}
+
+		@if (Model.BreadCrumb.ShowCurrent)
+		{
+			<li class="lpx-breadcrumb-separator"><i class="lpx-icon bi bi-chevron-right"></i></li>
+
+			<li class="lpx-breadcrumb-item">
+				<i class="lpx-breadcrumb-item-icon" aria-hidden="true"></i>
+
+				<a href="#">@Model.Title</a>
+			</li>
+		}
+	</ol>
+}
