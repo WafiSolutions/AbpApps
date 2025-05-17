@@ -1,0 +1,28 @@
+@page
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Wafi.SmartHR.Localization
+@using Wafi.SmartHR.Permissions
+@inject IHtmlLocalizer<SmartHRResource> L
+@inject IAuthorizationService AuthorizationService
+@model Wafi.SmartHR.Web.Pages.WorkSpaces.IndexModel
+@{
+	ViewData["Title"] = "Workspaces";
+}
+
+@section scripts {
+	<abp-script src="/Pages/Workspaces/Index.js" />
+}
+
+<abp-card>
+	<abp-card-header class="d-flex justify-content-between align-items-center">
+		<h2 class="m-0">@L["Employees"]</h2> &nbsp;
+		<button id="NewWorkspaceButton" class="btn btn-primary">
+			<i class="fa fa-plus"></i>
+			<span class="label">@L["NewEmployee"]</span>
+		</button>
+	</abp-card-header>
+	<abp-card-body>
+		<abp-table striped-rows="true" id="WorkspacesTable"></abp-table>
+	</abp-card-body>
+</abp-card>

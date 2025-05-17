@@ -10,6 +10,7 @@ using Volo.Abp.TenantManagement.Web.Navigation;
 using Volo.Abp.Account.Localization;
 using Microsoft.Extensions.Configuration;
 using System;
+using Volo.Abp.AspNetCore.Mvc.UI.Theming;
 
 namespace Wafi.SmartHR.Web.Menus;
 
@@ -20,6 +21,7 @@ public class SmartHRMenuContributor(IConfiguration configuration) : IMenuContrib
         if (context.Menu.Name == StandardMenus.Main)
         {
             await ConfigureMainMenuAsync(context);
+            await ConfigureAdminMenuAsync(context);
         }
         else if (context.Menu.Name == StandardMenus.User)
         {
@@ -82,7 +84,7 @@ public class SmartHRMenuContributor(IConfiguration configuration) : IMenuContrib
 
         //Administration->Identity
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
-    
+
         if (MultiTenancyConsts.IsEnabled)
         {
             administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
@@ -91,12 +93,31 @@ public class SmartHRMenuContributor(IConfiguration configuration) : IMenuContrib
         {
             administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
         }
-        
+
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
 
         //Administration->Settings
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 7);
-        
+
+        return Task.CompletedTask;
+    }
+
+    private Task ConfigureAdminMenuAsync(MenuConfigurationContext context)
+    {
+        var l = context.GetLocalizer<SmartHRResource>();
+
+        //Add main menu items.
+        var administration = context.Menu.GetAdministration();
+        administration.AddItem(
+            new ApplicationMenuItem(
+                "Workspaces",
+                l["Workspaces"],
+                "/workspaces",
+                icon: "fa fa-comments",
+                order: 5
+            )
+        );
+
         return Task.CompletedTask;
     }
 
