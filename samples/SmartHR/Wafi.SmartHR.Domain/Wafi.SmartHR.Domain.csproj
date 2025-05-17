@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\AbpWorkspace\Wafi.Abp.Workspaces.csproj" />
+    <ProjectReference Include="..\..\..\src\AbpWorkspace\Wafi.Abp.Workspaces.Core\Wafi.Abp.Workspaces.csproj" />
     <ProjectReference Include="..\Wafi.SmartHR.Domain.Shared\Wafi.SmartHR.Domain.Shared.csproj" />
   </ItemGroup>
 

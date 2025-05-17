@@ -29,7 +29,6 @@ namespace Wafi.SmartHR.EntityFrameworkCore;
     typeof(AbpIdentityEntityFrameworkCoreModule),
     typeof(AbpOpenIddictEntityFrameworkCoreModule),
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
-    typeof(WorkspaceModule),
     typeof(BlobStoringDatabaseEntityFrameworkCoreModule)
     )]
 public class SmartHREntityFrameworkCoreModule : AbpModule

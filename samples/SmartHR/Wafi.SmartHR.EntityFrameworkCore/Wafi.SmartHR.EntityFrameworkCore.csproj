@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\AbpWorkspace\Wafi.Abp.Workspaces.csproj" />
     <ProjectReference Include="..\Wafi.SmartHR.Domain\Wafi.SmartHR.Domain.csproj" />
   </ItemGroup>
 

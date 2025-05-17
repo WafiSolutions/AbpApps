@@ -66,7 +66,6 @@ namespace Wafi.SmartHR.Web;
     typeof(AbpTenantManagementWebModule),
     typeof(AbpFeatureManagementWebModule),
     typeof(AbpSwashbuckleModule),
-    typeof(WorkspaceModule),
     typeof(AbpAspNetCoreSerilogModule)
 )]
 public class SmartHRWebModule : AbpModule
