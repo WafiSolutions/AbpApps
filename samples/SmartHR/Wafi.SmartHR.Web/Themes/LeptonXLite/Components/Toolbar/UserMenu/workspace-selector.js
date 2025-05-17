@@ -1,85 +1,98 @@
-// Define a function to initialize once jQuery is available
-function initializeWhenJQueryReady() {
-    console.log('Workspace selector script loaded');
-    
-    // Make sure wafi.abp.workspaces.services.workspace is defined
-    var checkApiAvailable = function() {
-        if (typeof wafi !== 'undefined' && 
-            wafi.abp && 
-            wafi.abp.workspaces && 
-            wafi.abp.workspaces.services && 
-            wafi.abp.workspaces.services.workspace) {
-            
-            initWorkspaceSelector();
-        } else {
-            console.log('API not available yet, retrying in 500ms');
-            setTimeout(checkApiAvailable, 500);
-        }
-    };
-    
-    var initWorkspaceSelector = function() {
-        console.log('Initializing workspace selector');
-        var workspaceSelector = $('#workspaceSelector');
+/**
+ * Workspace Selector Module
+ * Handles workspace selection in the user menu
+ */
+(function () {
+    'use strict';
+
+    /**
+     * Initialize the workspace selector functionality
+     */
+    function initWorkspaceSelector() {
+        const workspaceSelector = $('#workspaceSelector');
         
-        if (workspaceSelector.length === 0) {
-            console.error('Workspace selector element not found');
-            return;
-        }
+        if (!workspaceSelector.length) return;
         
-        console.log('Calling workspace API');
+        // Load workspaces from API
+        loadWorkspaces(workspaceSelector);
         
-        // Load workspaces
+        // Set up change handler
+        setupChangeHandler(workspaceSelector);
+    }
+
+    /**
+     * Load workspaces from the API and populate the dropdown
+     * @param {jQuery} selectorElement - The workspace selector element
+     */
+    function loadWorkspaces(selectorElement) {
         wafi.abp.workspaces.services.workspace.getAll({})
-            .then(function(result) {
-                console.log('API result:', result);
-                if (result && result.items && result.items.length > 0) {
-                    result.items.forEach(function(workspace) {
-                        workspaceSelector.append(
-                            $('<option></option>')
-                                .val(workspace.id)
-                                .text(workspace.name)
-                        );
-                    });
-                    
-                    // Set previously selected workspace if exists
-                    var savedWorkspaceId = localStorage.getItem('selectedWorkspaceId');
-                    if (savedWorkspaceId) {
-                        workspaceSelector.val(savedWorkspaceId);
-                    }
-                } else {
-                    console.log('No workspaces found or empty result');
+            .then(result => {
+                if (result?.items?.length) {
+                    populateOptions(selectorElement, result.items);
+                    restoreSavedSelection(selectorElement);
                 }
             })
-            .catch(function(error) {
-                console.error('Error loading workspaces:', error);
+            .catch(error => {
+                // Silently handle error - could add proper error handling if required
             });
+    }
 
-        // Handle workspace change
-        workspaceSelector.on('change', function() {
-            var selectedWorkspaceId = $(this).val();
+    /**
+     * Populate dropdown options with workspace data
+     * @param {jQuery} selectorElement - The workspace selector element
+     * @param {Array} workspaces - Array of workspace objects
+     */
+    function populateOptions(selectorElement, workspaces) {
+        workspaces.forEach(workspace => {
+            selectorElement.append(
+                $('<option></option>')
+                    .val(workspace.id)
+                    .text(workspace.name)
+            );
+        });
+    }
+
+    /**
+     * Restore previously selected workspace from localStorage
+     * @param {jQuery} selectorElement - The workspace selector element
+     */
+    function restoreSavedSelection(selectorElement) {
+        const savedWorkspaceId = localStorage.getItem('selectedWorkspaceId');
+        if (savedWorkspaceId) {
+            selectorElement.val(savedWorkspaceId);
+        }
+    }
+
+    /**
+     * Set up change event handler for workspace selection
+     * @param {jQuery} selectorElement - The workspace selector element
+     */
+    function setupChangeHandler(selectorElement) {
+        selectorElement.on('change', function() {
+            const selectedWorkspaceId = $(this).val();
             if (selectedWorkspaceId) {
-                // Store the selected workspace ID in localStorage
                 localStorage.setItem('selectedWorkspaceId', selectedWorkspaceId);
-                // You can add additional logic here to handle workspace change
                 abp.notify.info('Workspace changed to: ' + $(this).find('option:selected').text());
             }
         });
-    };
-    
-    // Start checking if API is available
-    checkApiAvailable();
-}
-
-// Check if jQuery is available, if not wait for it
-(function checkJQuery() {
-    if (typeof window.jQuery !== 'undefined') {
-        // jQuery is loaded, initialize
-        jQuery(document).ready(function() {
-            initializeWhenJQueryReady();
-        });
-    } else {
-        // jQuery is not loaded yet, wait and try again
-        console.log('jQuery not available yet, waiting...');
-        setTimeout(checkJQuery, 100);
     }
+
+    /**
+     * Wait for dependencies to be available before initializing
+     */
+    function waitForDependencies() {
+        if (typeof window.jQuery !== 'undefined' && 
+            typeof abp !== 'undefined' && 
+            typeof wafi?.abp?.workspaces?.services?.workspace !== 'undefined') {
+            
+            // All dependencies available, initialize on document ready
+            $(document).ready(initWorkspaceSelector);
+        } else {
+            // Wait for dependencies
+            setTimeout(waitForDependencies, 50);
+        }
+    }
+
+    // Start initialization process
+    waitForDependencies();
 })();

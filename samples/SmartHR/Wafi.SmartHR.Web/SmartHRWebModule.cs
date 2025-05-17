@@ -171,6 +171,14 @@ public class SmartHRWebModule : AbpModule
                     bundle.AddFiles("/global-styles.css");
                 }
             );
+            
+            options.ScriptBundles.Configure(
+                LeptonXLiteThemeBundles.Scripts.Global,
+                bundle =>
+                {
+                    bundle.AddFiles("/Themes/LeptonXLite/Components/Toolbar/UserMenu/workspace-selector.js");
+                }
+            );
         });
     }
 
