@@ -9,44 +9,11 @@ $(function () {
             paging: true,
             searching: true,
             scrollX: true,
-            ajax: abp.libs.datatables.createAjax(wafi.smartHR.Workspaces.Workspace.getPagedList),
+            ajax: abp.libs.datatables.createAjax(wafi.abp.workspaces.services.workspace.getAll),
             columnDefs: [
                 {
                     title: l('Name'),
-                    data: 'firstName',
-                    render: function (data, type, row) {
-                        return row.firstName + ' ' + row.lastName;
-                    }
-                },
-                {
-                    title: l('Email'),
-                    data: "email"
-                },
-                {
-                    title: l('PhoneNumber'),
-                    data: "phoneNumber"
-                },
-                {
-                    title: l('DateOfBirth'),
-                    data: "dateOfBirth",
-                    render: function (data) {
-                        return luxon.DateTime.fromISO(data).toLocaleString();
-                    }
-                },
-                {
-                    title: l('JoiningDate'),
-                    data: "joiningDate",
-                    render: function (data) {
-                        return luxon.DateTime.fromISO(data).toLocaleString();
-                    }
-                },
-                {
-                    title: l('TotalLeaveDays'),
-                    data: "totalLeaveDays"
-                },
-                {
-                    title: l('RemainingLeaveDays'),
-                    data: "remainingLeaveDays"
+                    data: 'name'
                 },
                 {
                     title: l('Actions'),

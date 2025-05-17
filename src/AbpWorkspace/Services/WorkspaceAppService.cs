@@ -1,5 +1,8 @@
-﻿using Volo.Abp.Application.Services;
+﻿using Microsoft.EntityFrameworkCore;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using System.Linq.Dynamic.Core;
 using Wafi.Abp.Workspaces.Core;
 using Wafi.Abp.Workspaces.Services.Dtos;
 
@@ -32,10 +35,25 @@ public class WorkspaceAppService(IRepository<Workspace, Guid> workspaceRepositor
         return new WorkspaceDto { Id = workspace.Id, Name = workspace.Name };
     }
 
-    public async Task<List<WorkspaceDto>> GetAllAsync()
+    public async Task<PagedResultDto<WorkspaceDto>> GetAllAsync(PagedAndSortedResultRequestDto filter)
     {
-        var workspaces = await workspaceRepository.GetListAsync();
-        return [.. workspaces.Select(w => new WorkspaceDto { Id = w.Id, Name = w.Name })];
+        string sortBy = !string.IsNullOrWhiteSpace(filter.Sorting) ? filter.Sorting : nameof(Workspace.CreationTime);
+
+        var workspaceQueryable = (await workspaceRepository.GetQueryableAsync()).AsNoTracking();
+
+        var totalCount = await workspaceQueryable.CountAsync();
+
+        var result = await (from e in workspaceQueryable 
+                            select new WorkspaceDto
+                            {
+                                Id = e.Id,
+                                Name = e.Name
+                            }).OrderBy(sortBy).PageBy(filter).ToListAsync();
+
+        return new PagedResultDto<WorkspaceDto>(
+            totalCount,
+            result
+        );
     }
 
     public async Task DeleteAsync(Guid id)
