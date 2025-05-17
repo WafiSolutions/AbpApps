@@ -50,7 +50,7 @@ using Volo.Abp.OpenIddict;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.SettingManagement.Web;
 using Volo.Abp.Studio.Client.AspNetCore;
-using Wafi.Abp.Workspace;
+using Wafi.Abp.Workspaces;
 
 namespace Wafi.SmartHR.Web;
 

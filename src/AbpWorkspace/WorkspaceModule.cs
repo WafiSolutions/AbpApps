@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
 
-namespace Wafi.Abp.Workspace;
+namespace Wafi.Abp.Workspaces;
 
 [DependsOn(typeof(AbpAspNetCoreMvcModule))]
 public class WorkspaceModule : AbpModule

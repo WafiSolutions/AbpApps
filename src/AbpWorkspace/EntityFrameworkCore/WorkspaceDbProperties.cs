@@ -1,6 +1,6 @@
-﻿namespace Wafi.Abp.Workspace.Core;
+﻿namespace Wafi.Abp.Workspaces.EntityFrameworkCore;
 
-public static class SmartHRDbProperties
+public static class WorkspaceDbProperties
 {
     public static string DbTablePrefix { get; set; } = "Workspace";
 

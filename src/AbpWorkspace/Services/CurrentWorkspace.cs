@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wafi.Abp.Workspace.Services;
+namespace Wafi.Abp.Workspaces.Services;
 
 public class CurrentWorkspace : ICurrentWorkspace
 {

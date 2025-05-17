@@ -9,9 +9,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
-using Wafi.Abp.Workspace.Services;
+using Wafi.Abp.Workspaces.Services;
 
-namespace Wafi.Abp.Workspace
+namespace Wafi.Abp.Workspaces
 {
     public class WorkspaceResolutionMiddleware : IMiddleware, ITransientDependency
     {

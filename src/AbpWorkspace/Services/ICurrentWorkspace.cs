@@ -1,4 +1,4 @@
-﻿namespace Wafi.Abp.Workspace.Services;
+﻿namespace Wafi.Abp.Workspaces.Services;
 
 public interface ICurrentWorkspace
 {

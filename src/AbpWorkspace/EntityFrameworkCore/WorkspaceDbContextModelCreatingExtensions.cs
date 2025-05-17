@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
+using Wafi.Abp.Workspaces.Core;
 
-namespace Wafi.Abp.Workspace.Core;
+namespace Wafi.Abp.Workspaces.EntityFrameworkCore;
 
 public static class WorkspaceDbContextModelCreatingExtensions
 {
@@ -19,7 +15,7 @@ public static class WorkspaceDbContextModelCreatingExtensions
 
         builder.Entity<Workspace>(b =>
         {
-            b.ToTable(SmartHRDbProperties.DbTablePrefix + "Workspaces", SmartHRDbProperties.DbSchema);
+            b.ToTable(WorkspaceDbProperties.DbTablePrefix + "Workspaces", WorkspaceDbProperties.DbSchema);
             b.ConfigureByConvention();
         });
 

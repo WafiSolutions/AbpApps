@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wafi.Abp.Workspace
+namespace Wafi.Abp.Workspaces
 {
     public class WorkspaceResolveContext : IWorkspaceResolveContext
     {
