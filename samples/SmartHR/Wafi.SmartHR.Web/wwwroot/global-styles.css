@@ -1,0 +1,14 @@
+/* Your Global Styles */
+:root .lpx-brand-logo {
+    --lpx-logo: url('/images/logo/leptonxlite/logo-light.png');
+    --lpx-logo-icon: url('/images/logo/leptonxlite/logo-light-thumbnail.png');
+}
+
+:root {
+    --lpx-brand: #355dff !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--lpx-brand) !important;
+}
+
