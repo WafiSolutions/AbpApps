@@ -1,4 +1,4 @@
-﻿namespace Wafi.Abp.Workspace;
+﻿namespace Wafi.Abp.Workspace.Core;
 
 public interface IWorkspace
 {

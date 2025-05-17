@@ -7,6 +7,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.EntityFrameworkCore;
+using Wafi.Abp.Workspace.Core;
+using Wafi.Abp.Workspace.Services;
 
 namespace Wafi.Abp.Workspace
 {

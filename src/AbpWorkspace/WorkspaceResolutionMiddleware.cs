@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
+using Wafi.Abp.Workspace.Services;
 
 namespace Wafi.Abp.Workspace
 {

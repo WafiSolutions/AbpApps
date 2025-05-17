@@ -14,6 +14,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.Studio;
+using Wafi.Abp.Workspace;
 
 namespace Wafi.SmartHR.EntityFrameworkCore;
 
@@ -28,6 +29,7 @@ namespace Wafi.SmartHR.EntityFrameworkCore;
     typeof(AbpIdentityEntityFrameworkCoreModule),
     typeof(AbpOpenIddictEntityFrameworkCoreModule),
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
+    typeof(WorkspaceModule),
     typeof(BlobStoringDatabaseEntityFrameworkCoreModule)
     )]
 public class SmartHREntityFrameworkCoreModule : AbpModule

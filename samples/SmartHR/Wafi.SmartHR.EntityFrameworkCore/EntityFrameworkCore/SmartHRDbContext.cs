@@ -15,6 +15,7 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Wafi.SmartHR.Employees;
 using Wafi.SmartHR.LeaveRecords;
+using Wafi.Abp.Workspace.Core;
 
 namespace Wafi.SmartHR.EntityFrameworkCore;
 
@@ -82,6 +83,7 @@ public class SmartHRDbContext :
         builder.ConfigureOpenIddict();
         builder.ConfigureTenantManagement();
         builder.ConfigureBlobStoring();
+        builder.ConfigureWorkspace();
         builder.ConfigureSmartHR();
     }
 }
