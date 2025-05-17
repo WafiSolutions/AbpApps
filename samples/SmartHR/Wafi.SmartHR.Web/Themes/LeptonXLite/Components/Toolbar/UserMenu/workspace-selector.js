@@ -81,14 +81,13 @@
      * Wait for dependencies to be available before initializing
      */
     function waitForDependencies() {
-        if (typeof window.jQuery !== 'undefined' && 
-            typeof abp !== 'undefined' && 
-            typeof wafi?.abp?.workspaces?.services?.workspace !== 'undefined') {
-            
-            // All dependencies available, initialize on document ready
+        if (typeof window.jQuery !== 'undefined' &&
+            typeof abp !== 'undefined' &&
+            typeof window.wafi !== 'undefined' &&
+            typeof wafi.abp?.workspaces?.services?.workspace !== 'undefined') {
+
             $(document).ready(initWorkspaceSelector);
         } else {
-            // Wait for dependencies
             setTimeout(waitForDependencies, 50);
         }
     }
