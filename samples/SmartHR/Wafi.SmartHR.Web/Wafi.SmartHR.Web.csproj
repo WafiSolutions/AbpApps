@@ -47,6 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\AbpWorkspace\Wafi.Abp.Workspace.csproj" />
     <ProjectReference Include="..\Wafi.SmartHR.Application\Wafi.SmartHR.Application.csproj" />
     <ProjectReference Include="..\Wafi.SmartHR.HttpApi\Wafi.SmartHR.HttpApi.csproj" />
     <ProjectReference Include="..\Wafi.SmartHR.EntityFrameworkCore\Wafi.SmartHR.EntityFrameworkCore.csproj" />

@@ -50,6 +50,7 @@ using Volo.Abp.OpenIddict;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.SettingManagement.Web;
 using Volo.Abp.Studio.Client.AspNetCore;
+using Wafi.Abp.Workspace;
 
 namespace Wafi.SmartHR.Web;
 
@@ -65,6 +66,7 @@ namespace Wafi.SmartHR.Web;
     typeof(AbpTenantManagementWebModule),
     typeof(AbpFeatureManagementWebModule),
     typeof(AbpSwashbuckleModule),
+    typeof(WorkspaceModule),
     typeof(AbpAspNetCoreSerilogModule)
 )]
 public class SmartHRWebModule : AbpModule
@@ -273,6 +275,7 @@ public class SmartHRWebModule : AbpModule
         app.MapAbpStaticAssets();
         app.UseAbpStudioLink();
         app.UseRouting();
+        app.UseMiddleware<WorkspaceResolutionMiddleware>();
         app.UseAbpSecurityHeaders();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();
