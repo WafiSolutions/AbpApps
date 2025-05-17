@@ -1,10 +1,9 @@
-﻿namespace Wafi.Abp.Workspace
+﻿namespace Wafi.Abp.Workspace;
+
+public interface ICurrentWorkspace
 {
-    public interface ICurrentWorkspace
-    {
-        Guid? Id { get; }
-        string Name { get; }
-        IDisposable Change(Guid? id);
-        IDisposable Change(Guid? id, string name);
-    }
+    Guid? Id { get; }
+    string Name { get; }
+    IDisposable Change(Guid? id);
+    IDisposable Change(Guid? id, string name);
 }
