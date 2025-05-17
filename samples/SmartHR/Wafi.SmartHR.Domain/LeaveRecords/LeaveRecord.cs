@@ -1,11 +1,16 @@
 using System;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
+using Wafi.Abp.Workspaces.Core;
 using Wafi.SmartHR.Employees;
 
 namespace Wafi.SmartHR.LeaveRecords;
 
-public class LeaveRecord : FullAuditedAggregateRoot<Guid>
+public class LeaveRecord : FullAuditedAggregateRoot<Guid>, IWorkspace, IMultiTenant
 {
+    public Guid? TenantId { get; set; }
+    public Guid? WorkspaceId { get; set; }
+
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public LeaveStatus Status { get; set; }

@@ -1,10 +1,15 @@
 using System;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
+using Wafi.Abp.Workspaces.Core;
 
 namespace Wafi.SmartHR.Employees;
 
-public class Employee : FullAuditedAggregateRoot<Guid>
+public class Employee : FullAuditedAggregateRoot<Guid>, IWorkspace, IMultiTenant
 {
+    public Guid? TenantId { get; set; }
+    public Guid? WorkspaceId { get; set; }
+
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }

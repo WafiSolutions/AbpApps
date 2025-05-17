@@ -17,6 +17,7 @@ using Volo.Abp.Emailing;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
 using Volo.Abp.TenantManagement;
+using Wafi.Abp.Workspaces;
 
 namespace Wafi.SmartHR;
 
@@ -33,6 +34,7 @@ namespace Wafi.SmartHR;
     typeof(AbpIdentityDomainModule),
     typeof(AbpOpenIddictDomainModule),
     typeof(AbpTenantManagementDomainModule),
+    typeof(WorkspaceModule),
     typeof(BlobStoringDatabaseDomainModule)
     )]
 public class SmartHRDomainModule : AbpModule
