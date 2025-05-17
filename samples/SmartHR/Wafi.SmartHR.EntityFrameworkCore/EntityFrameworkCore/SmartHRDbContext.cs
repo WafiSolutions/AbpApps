@@ -15,7 +15,7 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Wafi.SmartHR.Employees;
 using Wafi.SmartHR.LeaveRecords;
-using Wafi.Abp.Workspace.Core;
+using Wafi.Abp.Workspaces.EntityFrameworkCore;
 
 namespace Wafi.SmartHR.EntityFrameworkCore;
 

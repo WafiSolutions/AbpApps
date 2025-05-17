@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.SmartHR.Web", "Wafi.Sm
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{EF14742B-3923-4024-9C80-E5BE19EFBC62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.Abp.Workspace", "..\..\src\AbpWorkspace\Wafi.Abp.Workspace.csproj", "{DDD32178-ACFD-6FEB-DC5C-4EB015598D9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.Abp.Workspaces", "..\..\src\AbpWorkspace\Wafi.Abp.Workspaces.csproj", "{DDD32178-ACFD-6FEB-DC5C-4EB015598D9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.Abp.OpenAISemanticKernel", "..\..\src\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj", "{A9ABBF3F-10B6-23C9-3246-3F93C38F6D0F}"
 EndProject

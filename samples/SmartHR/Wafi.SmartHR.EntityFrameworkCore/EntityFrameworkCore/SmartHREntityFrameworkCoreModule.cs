@@ -14,7 +14,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.Studio;
-using Wafi.Abp.Workspace;
+using Wafi.Abp.Workspaces;
 
 namespace Wafi.SmartHR.EntityFrameworkCore;
 
