@@ -10,7 +10,7 @@
 
 <div class="dropdown">
 	<div class="lpx-user-profile dropdown-toggle" role="button" id="userDropdown" data-bs-toggle="dropdown"
-		aria-expanded="false">
+		 aria-expanded="false">
 
 		@* TODO: Find out what to do with avatar.
 			<div class="lpx-avatar">
@@ -29,7 +29,10 @@
 	</div>
 	<div id="user-dropdown-menu" class="dropdown-menu" aria-labelledby="userDropdown">
 		<div class="workspace-selector mb-2 px-3">
-			<label class="form-label">@L["Workspace"]</label>
+			<label class="form-label">
+				<i class="lpx-icon fa fa-briefcase"></i>
+				@L["Workspace"]
+			</label>
 			<select id="workspaceSelector" class="form-select">
 				<option value="">@L["SelectWorkspace"]</option>
 			</select>
@@ -48,9 +51,9 @@
 			var url = string.IsNullOrEmpty(item.Url) ? "#" : Url.Content(item.Url);
 
 			<a class="dropdown-item @item.CssClass @disabled"
-				href="@url"
-				target="@item.Target"
-				id="@item.ElementId">
+			   href="@url"
+			   target="@item.Target"
+			   id="@item.ElementId">
 				<span class="lpx-menu-item-icon">
 					<i class="lpx-icon @item.Icon"></i>
 				</span>
@@ -62,7 +65,9 @@
 </div>
 
 <style>
-	#user-dropdown-menu{
-		width: 300px
+	#user-dropdown-menu {
+		width: 300px;
+		padding-top: 20px;
+		padding-bottom: 20px;
 	}
 </style>

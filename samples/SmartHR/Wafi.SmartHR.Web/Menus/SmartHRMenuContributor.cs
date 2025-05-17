@@ -113,7 +113,7 @@ public class SmartHRMenuContributor(IConfiguration configuration) : IMenuContrib
                 "Workspaces",
                 l["Workspaces"],
                 "/workspaces",
-                icon: "fa fa-comments",
+                icon: "fa fa-briefcase",
                 order: 5
             )
         );
