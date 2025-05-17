@@ -23,7 +23,7 @@ namespace Wafi.SmartHR.EntityFrameworkCore;
 [ReplaceDbContext(typeof(ITenantManagementDbContext))]
 [ConnectionStringName("Default")]
 public class SmartHRDbContext :
-    AbpDbContext<SmartHRDbContext>,
+    WorkspaceDbContextBase<SmartHRDbContext>,
     ITenantManagementDbContext,
     IIdentityDbContext
 {

@@ -1,7 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
+using Wafi.Abp.Workspaces.Core;
 using Wafi.Abp.Workspaces.EntityFrameworkCore;
+using Wafi.Abp.Workspaces.Services;
 
 namespace Wafi.Abp.Workspaces;
 
@@ -17,7 +19,10 @@ public class WorkspaceModule : AbpModule
             options.AddDefaultRepositories();
         });
 
-        // Configure hotel resolver options
+        // Register the MultiWorkspaceFilter
+        context.Services.AddTransient<IMultiWorkspaceFilter, MultiWorkspaceFilter>();
+
+        // Configure workspace resolver options
         Configure<WorkspaceResolveOptions>(options =>
         {
             options.AddResolver(context.Services.GetRequiredService<WorkspaceIdHeaderResolveContributor>());

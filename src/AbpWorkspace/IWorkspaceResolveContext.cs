@@ -6,16 +6,15 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wafi.Abp.Workspaces
+namespace Wafi.Abp.Workspaces;
+
+public interface IWorkspaceResolveContext
 {
-    public interface IWorkspaceResolveContext
-    {
-        Guid? WorkspaceId { get; set; }
+    Guid? WorkspaceId { get; set; }
 
-        string WorkspaceName { get; set; }
+    string WorkspaceName { get; set; }
 
-        IServiceProvider ServiceProvider { get; }
+    IServiceProvider ServiceProvider { get; }
 
-        HttpContext GetHttpContext();
-    }
+    HttpContext GetHttpContext();
 }

@@ -7,7 +7,7 @@ namespace Wafi.Abp.Workspaces.EntityFrameworkCore;
 
 [ConnectionStringName("Default")]
 public class WorkspaceDbContext :
-    AbpDbContext<WorkspaceDbContext>
+    WorkspaceDbContextBase<WorkspaceDbContext>
 {
     public DbSet<Workspace> Workspace { get; set; }
 
