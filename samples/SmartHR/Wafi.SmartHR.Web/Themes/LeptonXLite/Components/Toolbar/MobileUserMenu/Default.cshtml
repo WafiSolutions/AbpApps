@@ -1,0 +1,52 @@
+﻿@using Localization.Resources.AbpUi
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.MultiTenancy
+@using Volo.Abp.UI.Navigation
+@using Volo.Abp.Users
+@inject ICurrentUser CurrentUser
+@inject ICurrentTenant CurrentTenant
+@inject IHtmlLocalizer<AbpUiResource> L
+@model ApplicationMenu
+
+<div class="lpx-user-profile btn-toggle lpx-toggle" data-lpx-toggle="mobile-user-actions" role="button">
+	@* TODO: Find out what to do with avatar.
+		<div class="lpx-avatar">
+		<img class="lpx-avatar-img" src="https://avatars.githubusercontent.com/u/1210527" alt="avatar">
+		</div>
+	*@
+
+	@if (CurrentUser.TenantId == null)
+	{
+		<span class="user-full-name">@CurrentUser.UserName</span>
+	}
+	else
+	{
+		<span class="user-full-name"><i>@CurrentTenant.Name</i>\@CurrentUser.UserName</span>
+	}
+</div>
+
+<div class="action-group-menu d-none" id="mobile-user-actions">
+	@for (var i = 0; i < Model.Items.Count; i++)
+	{
+		if (i == Model.Items.Count - 1) // If last element
+		{
+			<div class="divider"></div>
+		}
+
+		var item = @Model.Items[i];
+		var disabled = item.IsDisabled ? "disabled" : string.Empty;
+		var url = string.IsNullOrEmpty(item.Url) ? "#" : Url.Content(item.Url);
+
+		<a class="action @item.CssClass @disabled"
+			role="link"
+			href="@url"
+			target="@item.Target"
+			id="@item.ElementId">
+			<span class="lpx-menu-item-icon">
+				<i class="lpx-icon bi @item.Icon"> </i>
+			</span>
+
+			<span>@item.DisplayName</span>
+		</a>
+	}
+</div>

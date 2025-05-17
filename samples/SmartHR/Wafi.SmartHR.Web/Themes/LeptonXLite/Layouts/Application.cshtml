@@ -1,0 +1,154 @@
+﻿@using System.Globalization
+@using Volo.Abp.AspNetCore.Mvc.UI.Components.LayoutHook
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Themes.LeptonXLite.Components.PageAlerts
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Themes.LeptonXLite.Components.Brand
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Themes.LeptonXLite.Components.BreadCrumbs
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Toolbars
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Themes.LeptonXLite.Components.MainToolbar
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Themes.LeptonXLite.Components.Menu
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@using Volo.Abp.AspNetCore.Mvc.UI.Widgets.Components.WidgetScripts
+@using Volo.Abp.AspNetCore.Mvc.UI.Widgets.Components.WidgetStyles
+@using Volo.Abp.Localization
+@using Volo.Abp.Ui.Branding
+@using Volo.Abp.Ui.LayoutHooks
+@inject IBrandingProvider BrandingProvider
+@inject IPageLayout PageLayout
+@inject IBrandingProvider BrandingProvider
+@{
+	Layout = null;
+	var containerClass = ViewBag.FluidLayout == true ? "container-fluid" : "container"; //TODO: Better and type-safe options
+
+	var pageTitle = $"{ViewBag.Title ?? PageLayout.Content.Title} | {BrandingProvider.AppName}".Trim('|', ' ');
+
+	var logoUrl = BrandingProvider.LogoUrl == null ? null : "--lpx-logo: url(" + BrandingProvider.LogoUrl + ");";
+
+	var rtl = CultureHelper.IsRtl ? "rtl" : string.Empty;
+}
+
+<!DOCTYPE html>
+
+<html lang="@CultureInfo.CurrentCulture.Name" dir="@rtl">
+<head>
+	@await Component.InvokeLayoutHookAsync(LayoutHooks.Head.First, StandardLayouts.Application)
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<title>@pageTitle</title>
+	
+	<link rel="icon" href="~/favicon.svg" type="image/svg+xml">
+
+	<abp-style-bundle name="@LeptonXLiteThemeBundles.Styles.Global" />
+
+	@await Component.InvokeAsync(typeof(WidgetStylesViewComponent))
+
+	@await RenderSectionAsync("styles", false)
+
+	@await Component.InvokeLayoutHookAsync(LayoutHooks.Head.Last, StandardLayouts.Application)
+
+	@if (logoUrl is not null)
+	{
+		<style>
+			:root{
+				@logoUrl
+			}
+		</style>
+	}
+</head>
+<body class="abp-application-layout @rtl">
+	@await Component.InvokeLayoutHookAsync(LayoutHooks.Body.First, StandardLayouts.Application)
+
+	<div class="lpx-scroll-container">
+		<div id="lpx-wrapper">
+
+			<div class="lpx-mobile-navbar-container">
+				<header class="lpx-mobile-navbar">
+					<div class="lpx-logo-container">
+						@await Component.InvokeAsync(typeof(MainNavbarBrandViewComponent))
+					</div>
+					<div class="user-menu">
+						<i class="lpx-icon bi bi-person lpx-toggle"
+						   data-lpx-toggle="mobile-user-menu-group"
+						   aria-hidden="true"></i>
+						<i class="lpx-icon bi bi-list lpx-toggle" data-lpx-toggle="mobile-navbar" aria-hidden="true"></i>
+					</div>
+				</header>
+
+				<div class="user-menu-groups d-none" id="mobile-user-menu-group">
+					@await Component.InvokeAsync(typeof(ToolbarItemsViewComponent), new { Name = LeptonXLiteToolbars.MainMobile })
+				</div>
+
+				<nav class="lpx-mobile-nav-items d-none" id="mobile-navbar">
+
+					<ul class="lpx-nav-menu" id="mobile-sidebar">
+						@await Component.InvokeAsync(typeof(MainMenuViewComponent))
+					</ul>
+				</nav>
+			</div>
+
+			<div class="lpx-sidebar-container">
+				<div class="lpx-sidebar lpx-scroll-container" id="lpx-sidebar">
+					<nav class="lpx-nav">
+						<div class="lpx-logo-container">
+							@await Component.InvokeAsync(typeof(MainNavbarBrandViewComponent))
+							<i class="lpx-icon bi bi-filter-left menu-collapse-icon hidden-in-hover-trigger"
+							   aria-hidden="true"
+							   data-lpx-toggle="sidebar"></i>
+						</div>
+
+						<ul class="lpx-nav-menu" id="desktop-sidebar">
+							@await Component.InvokeAsync(typeof(MainMenuViewComponent))
+						</ul>
+					</nav>
+				</div>
+			</div>
+
+			<div class="lpx-content-container">
+				<div class="lpx-topbar-container">
+					<div class="lpx-topbar">
+						<nav aria-label="breadcrumb" class="lpx-breadcrumb-container">
+							@await Component.InvokeAsync(typeof(BreadCrumbsViewComponent))
+						</nav>
+
+						<div class="lpx-topbar-content">
+							@await Component.InvokeAsync(typeof(ToolbarItemsViewComponent), new { Name = LeptonXLiteToolbars.Main})
+						</div>
+					</div>
+				</div>
+
+				<div class="lpx-content">
+					@await Component.InvokeLayoutHookAsync(LayoutHooks.PageContent.First, StandardLayouts.Application)
+
+					@await Component.InvokeAsync(typeof(PageAlertsViewComponent))
+
+					<div class="col-auto d-flex justify-content-end my-2" id="AbpContentToolbar"> @*TODO: Remove that id. It's added for older versions compatibility*@
+						@await RenderSectionAsync("content_toolbar", false)
+					</div>
+
+					@RenderBody()
+					@await Component.InvokeLayoutHookAsync(LayoutHooks.PageContent.Last, StandardLayouts.Application)
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+
+
+	<abp-script-bundle name="@LeptonXLiteThemeBundles.Scripts.Global" />
+    <script src="~/Abp/ApplicationLocalizationScript?cultureName=@CultureInfo.CurrentUICulture.Name"></script>
+	<script type="text/javascript" src="~/Abp/ApplicationConfigurationScript"></script>
+	<script type="text/javascript" src="~/Abp/ServiceProxyScript"></script>
+
+	@await Component.InvokeAsync(typeof(WidgetScriptsViewComponent))
+
+	@await RenderSectionAsync("scripts", false)
+
+	@await Component.InvokeLayoutHookAsync(LayoutHooks.Body.Last, StandardLayouts.Application)
+</body>
+</html>
