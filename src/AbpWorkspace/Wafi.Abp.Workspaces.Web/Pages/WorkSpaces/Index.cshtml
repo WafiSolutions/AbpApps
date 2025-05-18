@@ -1,11 +1,10 @@
-@page
+@page "/workspaces"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Mvc.Localization
-@using Wafi.SmartHR.Localization
-@using Wafi.SmartHR.Permissions
-@inject IHtmlLocalizer<SmartHRResource> L
+@using Wafi.Abp.Workspaces.Web.Pages.WorkSpaces
+@using Wafi.Abp.Workspaces.Localization
+@inject IHtmlLocalizer<WorkspaceResource> L
 @inject IAuthorizationService AuthorizationService
-@model Wafi.SmartHR.Web.Pages.WorkSpaces.IndexModel
 @{
 	ViewData["Title"] = "Workspaces";
 }

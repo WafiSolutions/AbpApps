@@ -1,32 +1,24 @@
 using System.Threading.Tasks;
-using Wafi.SmartHR.Localization;
-using Wafi.SmartHR.Permissions;
-using Wafi.SmartHR.MultiTenancy;
-using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
-using Volo.Abp.UI.Navigation;
+using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
-using Volo.Abp.Account.Localization;
-using Microsoft.Extensions.Configuration;
-using System;
-using Volo.Abp.AspNetCore.Mvc.UI.Theming;
+using Volo.Abp.UI.Navigation;
+using Wafi.SmartHR.Localization;
+using Wafi.SmartHR.MultiTenancy;
+using Wafi.SmartHR.Permissions;
 
 namespace Wafi.SmartHR.Web.Menus;
 
-public class SmartHRMenuContributor(IConfiguration configuration) : IMenuContributor
+public class SmartHRMenuContributor : IMenuContributor
 {
     public async Task ConfigureMenuAsync(MenuConfigurationContext context)
     {
         if (context.Menu.Name == StandardMenus.Main)
         {
             await ConfigureMainMenuAsync(context);
-            await ConfigureAdminMenuAsync(context);
         }
-        else if (context.Menu.Name == StandardMenus.User)
-        {
-            await ConfigureUserMenuAsync(context);
-        }
+
     }
 
     private static Task ConfigureMainMenuAsync(MenuConfigurationContext context)
@@ -102,35 +94,4 @@ public class SmartHRMenuContributor(IConfiguration configuration) : IMenuContrib
         return Task.CompletedTask;
     }
 
-    private Task ConfigureAdminMenuAsync(MenuConfigurationContext context)
-    {
-        var l = context.GetLocalizer<SmartHRResource>();
-
-        //Add main menu items.
-        var administration = context.Menu.GetAdministration();
-        administration.AddItem(
-            new ApplicationMenuItem(
-                "Workspaces",
-                l["Workspaces"],
-                "/workspaces",
-                icon: "fa fa-briefcase",
-                order: 5
-            )
-        );
-
-        return Task.CompletedTask;
-    }
-
-    private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
-    {
-        var l = context.GetLocalizer<SmartHRResource>();
-        var accountStringLocalizer = context.GetLocalizer<AccountResource>();
-        var identityServerUrl = configuration["AuthServer:Authority"] ?? "";
-
-        //context.Menu.AddItem(new ApplicationMenuItem("Account.Manage", accountStringLocalizer["MyAccount"],
-        //    $"{identityServerUrl.EnsureEndsWith('/')}Account/Manage?returnUrl={configuration["App:SelfUrl"]}", icon: "bi bi-gear", order: 1000, null, "_blank").RequireAuthenticated());
-        //context.Menu.AddItem(new ApplicationMenuItem("Account.Logout", l["Logout"], url: "~/Account/Logout", icon: "fa fa-power-off", order: int.MaxValue - 1000).RequireAuthenticated());
-
-        return Task.CompletedTask;
-    }
 }

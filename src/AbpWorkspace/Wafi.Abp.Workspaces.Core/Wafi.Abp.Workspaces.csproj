@@ -4,7 +4,12 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>Wafi.Abp.Workspaces</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\Resources\*.json" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Volo.Abp.Core" Version="9.1.0" />

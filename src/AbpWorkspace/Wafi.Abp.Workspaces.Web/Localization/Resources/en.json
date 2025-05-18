@@ -1,0 +1,10 @@
+{
+  "culture": "en",
+  "texts": {
+    "Workspace": "Workspace",
+    "SelectWorkspace": "Select workspace",
+    "WorkspaceChanged": "Workspace changed to: {0}",
+    "NoWorkspacesAvailable": "No workspaces available",
+    "SwitchToWorkspace": "Switch to workspace"
+  }
+} 
