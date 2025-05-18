@@ -1,0 +1,44 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using Wafi.SmartHR.Localization
+@using Wafi.SmartHR.Web.Pages.Employees
+@model EditModalModel
+@inject IHtmlLocalizer<SmartHRResource> L
+@{
+    Layout = null;
+}
+
+<form asp-page="/Employees/EditModal">
+    <input hidden asp-for="Id" />
+    
+    <abp-modal>
+        <abp-modal-header title="@L["Edit"].Value"></abp-modal-header>
+        <abp-modal-body>
+            <div class="row">
+                <div class="col-md-6">
+                    <abp-input asp-for="Employee.FirstName" />
+                </div>
+                <div class="col-md-6">
+                    <abp-input asp-for="Employee.LastName" />
+                </div>
+            </div>
+            <abp-input asp-for="Employee.Email" />
+            <abp-input asp-for="Employee.PhoneNumber" />
+            <div class="row">
+                <div class="col-md-6">
+                    <abp-input asp-for="Employee.DateOfBirth" type="date" />
+                </div>
+                <div class="col-md-6">
+                    <abp-input asp-for="Employee.JoiningDate" type="date" />
+                </div>
+            </div>
+            <abp-input asp-for="Employee.TotalLeaveDays" />
+            <div class="form-group">
+                <label>@L["RemainingLeaveDays"]</label>
+                <input class="form-control" disabled value="@Model.RemainingLeaveDays" />
+            </div>
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form> 
