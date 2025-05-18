@@ -4,21 +4,39 @@
  */
 (function () {
     'use strict';
-    
+
     const CONFIG = window.WORKSPACE_CONSTANTS || {
         STORAGE_KEY: 'selectedWorkspaceId',
         HEADER_NAME: 'X-Workspace-Id'
     };
-    
-    // Wait for ABP to be ready
-    document.addEventListener('abp.dynamicScriptsInitialized', function () {
-        // Add workspace header to all AJAX requests
-        abp.ajax.onBeforeSend = function (xhr) {
-            // Get the workspace ID from local storage
-            const workspaceId = localStorage.getItem(CONFIG.STORAGE_KEY);
-            if (workspaceId) {
+
+    function getWorkspaceId() {
+        return localStorage.getItem(CONFIG.STORAGE_KEY);
+    }
+
+    function initJQueryInterceptor() {
+        if (!window.jQuery) return;
+
+        jQuery(document).ajaxSend(function (event, xhr, settings) {
+            const workspaceId = getWorkspaceId();
+            const url = settings.url || '';
+
+            if (workspaceId && (url.includes('/api/') || url.includes('/AbpApi'))) {
                 xhr.setRequestHeader(CONFIG.HEADER_NAME, workspaceId);
             }
-        };
-    });
-})(); 
+        });
+
+    }
+
+    function initialize() {
+        initJQueryInterceptor();
+    }
+
+    // Trigger initialization immediately and on key events
+    initialize();
+
+    document.addEventListener('abp.dynamicScriptsInitialized', initialize);
+    document.addEventListener('DOMContentLoaded', initialize);
+    window.addEventListener('load', initialize);
+
+})();
