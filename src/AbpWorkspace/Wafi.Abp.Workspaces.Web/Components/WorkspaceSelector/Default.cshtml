@@ -3,12 +3,18 @@
 @inject IHtmlLocalizer<WorkspaceResource> L
 
 <div class="workspace-selector mb-2 px-3">
-    <label class="form-label">
-        <i class="lpx-icon fa fa-briefcase"></i>
-        @L["Workspace"]
-    </label>
-    <select id="workspaceSelector" class="form-select">
-        <option value="">@L["SelectWorkspace"]</option>
-    </select>
+	<label class="form-label">
+		<i class="lpx-icon fa fa-briefcase"></i>
+		@L["Workspace"]
+		<a href="/workspaces" class="btn btn-sm btn-link ms-2">
+			@L["Manage"]...
+		</a>
+	</label>
+	<div class="d-flex align-items-center">
+		<select id="workspaceSelector" class="form-select">
+			<option value="">@L["SelectWorkspace"]</option>
+		</select>
+
+	</div>
 </div>
-<div class="dropdown-divider"></div> 
+<div class="dropdown-divider"></div>
