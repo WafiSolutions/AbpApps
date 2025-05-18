@@ -19,9 +19,8 @@
 
         jQuery(document).ajaxSend(function (event, xhr, settings) {
             const workspaceId = getWorkspaceId();
-            const url = settings.url || '';
 
-            if (workspaceId && (url.includes('/api/') || url.includes('/AbpApi'))) {
+            if (workspaceId) {
                 xhr.setRequestHeader(CONFIG.HEADER_NAME, workspaceId);
             }
         });
