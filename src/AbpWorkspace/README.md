@@ -35,7 +35,6 @@ dotnet add package Wafi.Abp.Workspaces.Core
 
 ```csharp
 [DependsOn(
-    // your existing dependencies
     typeof(WafiAbpWorkspaceModule)
 )]
 public class YourAppDomainModule : AbpModule
@@ -87,11 +86,30 @@ public class YourAppDbContext : WorkspaceDbContextBase<YourAppDbContext>
 
 ### 🔹 Step 3: Set Up Workspace Management UI
 
-The Workspaces Web module automatically adds a Workspace Management page to your ABP application. 
+1. Add the Workspace packages in web layer:
+
+```bash
+dotnet add package Wafi.Abp.Workspaces.Web
+```
+
+2. Add the module dependencies in your modules:
+
+```csharp
+[DependsOn(
+    typeof(WorkspacesWebModule)
+)]
+public class YourWebModule : AbpModule
+{
+    // ...
+}
+```
+
+> The Workspaces Web module automatically adds a Workspace Management page to your ABP application. 
+
 The navigation to the workspace management and switching is implemented in `WorkspaceSelectorViewComponent`,
 which we have included in the user menu toolbar.
 
-1. Add the component to your layout:
+3. Add the component to your layout:
 
 ```csharp
 @await Component.InvokeAsync(typeof(WorkspaceSelectorViewComponent))
