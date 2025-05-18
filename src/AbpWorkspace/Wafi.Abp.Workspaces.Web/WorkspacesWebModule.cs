@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
@@ -21,11 +22,22 @@ public class WorkspacesWebModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        ConfigureVirtualFileSystem();
+        ConfigureLocalization(context);
+        ConfigureScriptBundling();
+    }
+
+    private void ConfigureVirtualFileSystem()
+    {
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
             options.FileSets.AddEmbedded<WorkspacesWebModule>();
+            options.FileSets.AddEmbedded<WorkspacesWebModule>("Wafi.Abp.Workspaces.Web.wwwroot");
         });
+    }
 
+    private void ConfigureLocalization(ServiceConfigurationContext context)
+    {
         context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
         {
             options.AddAssemblyResource(typeof(WorkspaceResource), typeof(WorkspacesWebModule).Assembly);
@@ -37,25 +49,22 @@ public class WorkspacesWebModule : AbpModule
                 .Get<WorkspaceResource>()
                 .AddVirtualJson("/Localization/Resources");
         });
+    }
 
-        Configure<AbpAutoMapperOptions>(options =>
-        {
-            options.AddMaps<WorkspacesWebModule>();
-        });
-
-        context.Services.AddAutoMapperObjectMapper<WorkspacesWebModule>();
-
+    private void ConfigureScriptBundling()
+    {
         Configure<AbpBundlingOptions>(options =>
         {
             options.ScriptBundles.Configure(
                 StandardBundles.Scripts.Global,
                 bundle =>
                 {
-                    bundle.AddFiles("/js/workspace-constants.js");
-                    bundle.AddFiles("/js/http-interceptor.js");
-                    bundle.AddFiles("/js/workspace-selector.js");
-                }
-            );
+                    bundle.AddFiles(
+                        "/js/workspace-constants.js",
+                        "/js/http-interceptor.js",
+                        "/js/workspace-selector.js"
+                    );
+                });
         });
     }
 }
