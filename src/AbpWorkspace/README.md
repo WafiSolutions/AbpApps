@@ -119,6 +119,8 @@ which we have included in the user menu toolbar.
  
 ## ✅ Final Outcome 
 
+![Demo](/etc/img/workspace.gif)
+
 After completing these steps, your ABP application will have a fully functioning workspace management system that:
 
 1. Isolates data between workspaces
