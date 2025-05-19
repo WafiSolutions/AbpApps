@@ -7,9 +7,8 @@
 <div class="workspace-selector">
 	<div class="dropdown">
 		<button class="btn btn-link dropdown-toggle d-flex align-items-center workspace-dropdown-btn" type="button" id="workspaceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-			<i class="lpx-icon fa fa-briefcase me-2"></i>
+			<i class="lpx-icon fa fa-briefcase me-1 briefcase-icon"></i>
 			<span id="selectedWorkspaceName" class="text-truncate" style="max-width: 200px;">@L["SelectWorkspace"]</span>
-			<i class="lpx-icon fa fa-chevron-down ms-2 dropdown-icon"></i>
 		</button>
 		<div class="dropdown-menu workspace-dropdown-menu" aria-labelledby="workspaceDropdown">
 			<div class="px-3 py-2">
@@ -42,24 +41,11 @@
 		border: 1px solid transparent;
 	}
 
-	.workspace-dropdown-btn .dropdown-icon {
-		font-size: 0.8rem;
-		transition: transform 0.2s ease-in-out;
-	}
-
-	.workspace-dropdown-btn[aria-expanded="true"] .dropdown-icon {
-		transform: rotate(180deg);
-	}
-
 	.workspace-dropdown-menu {
 		min-width: 280px;
 		padding: 0.5rem 0;
 		margin-top: 0.5rem;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-	}
-
-	#selectedWorkspaceName {
-		font-weight: 500;
 	}
 
 	.dropdown-toggle::after {
@@ -71,5 +57,9 @@
 		border-right: 0em !important;
 		border-bottom: 0;
 		border-left: 0em !important;
+	}
+
+	.briefcase-icon {
+		color: #8B0000; /* Deep red color */
 	}
 </style>
