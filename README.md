@@ -235,4 +235,4 @@ For a deeper understanding of the module's implementation, architecture decision
 
 - [Microsoft Semantic Kernel Documentation](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
 - [ABP Framework Documentation](https://docs.abp.io/en/abp/latest/)
-- [Full Module Source Code](https://github.com/WafiSolutions/AbpApps/modules/OpenAISemanticKernel) 
+- [Full Module Source Code](https://github.com/WafiSolutions/AbpApps/tree/main/modules/OpenAISemanticKernel) 
