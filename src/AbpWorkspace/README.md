@@ -104,16 +104,37 @@ public class YourWebModule : AbpModule
 }
 ```
 
-> The Workspaces Web module automatically adds a Workspace Management page to your ABP application. 
+3. Configure the Toolbar to Include the Workspace Selector:
 
-The navigation to the workspace management and switching is implemented in `WorkspaceSelectorViewComponent`,
-which we have included in the user menu toolbar.
-
-3. Add the component to your layout:
+Create a `ToolbarContributor` class (e.g., `SmartHRToolbarContributor`) in the `Menus` folder. Then, register it in your web module to add the workspace selector to the toolbar:
 
 ```csharp
-@await Component.InvokeAsync(typeof(WorkspaceSelectorViewComponent))
+Configure<AbpToolbarOptions>(options =>
+{
+    options.Contributors.Add<SmartHRToolbarContributor>();
+});
 ```
+
+
+4. Register the toolbar contributor in your web module:
+
+```csharp
+public override void ConfigureServices(ServiceConfigurationContext context)
+{
+    // ... other configurations ...
+
+    Configure<AbpToolbarOptions>(options =>
+    {
+        options.Contributors.Add(new YourToolbarContributor());
+    });
+}
+```
+
+The workspace selector will now appear in your application's topbar, providing:
+- A dropdown to switch between workspaces
+- Visual indication of the current workspace
+- Quick access to workspace management
+- Seamless integration with ABP's LeptonXLite theme
 
 ---
  
