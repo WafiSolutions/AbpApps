@@ -29,7 +29,30 @@
         // Show notification if workspace was just changed
         showNotificationIfWorkspaceChanged();
     }
+
+    function showWorkspaceName() {
+        const workspaceSelector = document.getElementById('workspaceSelector');
+        const selectedWorkspaceName = document.getElementById('selectedWorkspaceName');
+
+        if (workspaceSelector && selectedWorkspaceName) {
+            // Set initial value
+            const selectedOption = workspaceSelector.options[workspaceSelector.selectedIndex];
+            if (selectedOption) {
+                selectedWorkspaceName.textContent = selectedOption.text;
+            }
+
+            // Listen for changes
+            workspaceSelector.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                if (selectedOption) {
+                    selectedWorkspaceName.textContent = selectedOption.text;
+                }
+            });
+        }
+    }
     
+
+
     /**
      * Show notification if workspace was changed before page reload
      */
@@ -57,6 +80,8 @@
                 if (result?.items?.length) {
                     populateOptions(selectorElement, result.items);
                     restoreSavedSelection(selectorElement);
+                    // Show workspace name after workspaces are loaded
+                    showWorkspaceName();
                 }
             })
             .catch(error => {

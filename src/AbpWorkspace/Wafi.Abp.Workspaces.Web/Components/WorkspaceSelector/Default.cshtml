@@ -2,19 +2,42 @@
 @using Wafi.Abp.Workspaces.Localization
 @inject IHtmlLocalizer<WorkspaceResource> L
 
-<div class="workspace-selector mb-2 px-3">
-	<label class="form-label">
-		<i class="lpx-icon fa fa-briefcase"></i>
-		@L["Workspace"]
-		<a href="/workspaces" class="btn btn-sm btn-link ms-2">
-			@L["Manage"]...
-		</a>
-	</label>
-	<div class="d-flex align-items-center">
-		<select id="workspaceSelector" class="form-select">
-			<option value="">@L["SelectWorkspace"]</option>
-		</select>
+@* js used in wwwroot/js/workspace-selector.js *@
 
+
+<div class="workspace-selector">
+	<div class="dropdown">
+		<button class="btn btn-link dropdown-toggle d-flex align-items-center" type="button" id="workspaceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+			<i class="lpx-icon fa fa-briefcase me-2"></i>
+			<span id="selectedWorkspaceName" class="text-truncate" style="max-width: 200px;">@L["SelectWorkspace"]</span>
+		</button>
+		<div class="dropdown-menu" aria-labelledby="workspaceDropdown">
+			<div class="px-3 py-2">
+				<div class="d-flex justify-content-between align-items-center mb-2">
+					<h6 class="mb-0">@L["Workspace"]</h6>
+					<a href="/workspaces" class="btn btn-sm btn-link">
+						@L["Manage"]...
+					</a>
+				</div>
+				<select id="workspaceSelector" class="form-select">
+					<option value="">@L["SelectWorkspace"]</option>
+				</select>
+			</div>
+		</div>
 	</div>
 </div>
-<div class="dropdown-divider"></div>
+
+<style>
+	.workspace-selector .dropdown-toggle {
+		color: inherit;
+		text-decoration: none;
+		padding: 0.5rem 1rem;
+	}
+	.workspace-selector .dropdown-toggle:hover,
+	.workspace-selector .dropdown-toggle:focus {
+		color: var(--lpx-primary);
+	}
+	.workspace-selector .dropdown-menu {
+		min-width: 280px;
+	}
+</style>

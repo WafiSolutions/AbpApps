@@ -30,8 +30,6 @@
 	</div>
 	<div id="user-dropdown-menu" class="dropdown-menu" aria-labelledby="userDropdown">
 
-		@await Component.InvokeAsync(typeof(WorkspaceSelectorViewComponent))
-
 		@for (var i = 0; i < Model.Items.Count; i++)
 		{
 			if (i == Model.Items.Count - 1) // If last element
