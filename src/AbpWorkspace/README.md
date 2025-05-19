@@ -103,30 +103,24 @@ public class YourWebModule : AbpModule
     // ...
 }
 ```
-
-3. Configure the Toolbar to Include the Workspace Selector:
-
-Create a `ToolbarContributor` class (e.g., `SmartHRToolbarContributor`) in the `Menus` folder. Then, register it in your web module to add the workspace selector to the toolbar:
-
-```csharp
-Configure<AbpToolbarOptions>(options =>
-{
-    options.Contributors.Add<SmartHRToolbarContributor>();
-});
-```
-
-
-4. Register the toolbar contributor in your web module:
+3. Add the Workspace Selector in the leptonx topbar container:
 
 ```csharp
 public override void ConfigureServices(ServiceConfigurationContext context)
 {
-    // ... other configurations ...
-
-    Configure<AbpToolbarOptions>(options =>
+    public class YourToolbarContributor : IToolbarContributor
     {
-        options.Contributors.Add(new YourToolbarContributor());
-    });
+        public async Task ConfigureToolbarAsync(IToolbarConfigurationContext context)
+        {
+            if (context.Toolbar.Name == LeptonXLiteToolbars.Main)
+            {
+                if (context.ServiceProvider.GetRequiredService<ICurrentUser>().IsAuthenticated)
+                {
+                    context.Toolbar.Items.AddFirst(new ToolbarItem(typeof(WorkspaceSelectorViewComponent)));
+                }
+            }
+        }
+    }
 }
 ```
 
