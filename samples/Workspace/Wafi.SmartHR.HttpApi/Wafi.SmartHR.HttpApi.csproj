@@ -8,11 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\plugins\wafi.smarthr.ai.plugin\Wafi.SmartHR.AI.Plugin\Wafi.SmartHR.AI.Plugin.csproj" />
-    <ProjectReference Include="..\..\..\src\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="9.1.0" />
     <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="9.1.0" />
     <PackageReference Include="Volo.Abp.SettingManagement.HttpApi" Version="9.1.0" />
@@ -22,6 +17,10 @@
     <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="9.1.0" />
     <PackageReference Include="Volo.Abp.Account.HttpApi" Version="9.1.0" />
     <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="9.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

@@ -24,4 +24,8 @@
     <Content Remove="**\*generate-proxy.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

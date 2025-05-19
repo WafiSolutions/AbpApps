@@ -30,4 +30,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Wafi.SmartHR.Domain\Wafi.SmartHR.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
