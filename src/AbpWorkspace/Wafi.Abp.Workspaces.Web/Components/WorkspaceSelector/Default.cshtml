@@ -2,13 +2,64 @@
 @using Wafi.Abp.Workspaces.Localization
 @inject IHtmlLocalizer<WorkspaceResource> L
 
-<div class="workspace-selector mb-2 px-3">
-    <label class="form-label">
-        <i class="lpx-icon fa fa-briefcase"></i>
-        @L["Workspace"]
-    </label>
-    <select id="workspaceSelector" class="form-select">
-        <option value="">@L["SelectWorkspace"]</option>
-    </select>
+@* js used in wwwroot/js/workspace-selector.js *@
+
+<div class="workspace-selector">
+	<div class="dropdown">
+		<button class="btn btn-link dropdown-toggle d-flex align-items-center workspace-dropdown-btn" type="button" id="workspaceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+			<i class="lpx-icon fa fa-briefcase me-1 briefcase-icon"></i>
+			<span id="selectedWorkspaceName" class="text-truncate" style="max-width: 200px;">@L["SelectWorkspace"]</span>
+		</button>
+		<div class="dropdown-menu workspace-dropdown-menu" aria-labelledby="workspaceDropdown">
+			<div class="px-3 py-2">
+				<div class="d-flex justify-content-between align-items-center mb-2">
+					<h6 class="mb-0 text-muted">@L["Workspace"]</h6>
+					<a href="/workspaces" class="btn btn-sm btn-link">
+						@L["Manage"]...
+					</a>
+				</div>
+				<select id="workspaceSelector" class="form-select">
+					<option value="">@L["SelectWorkspace"]</option>
+				</select>
+			</div>
+		</div>
+	</div>
 </div>
-<div class="dropdown-divider"></div> 
+
+<style>
+	.workspace-selector {
+		position: relative;
+	}
+
+	.workspace-dropdown-btn {
+		color: var(--lpx-text-color);
+		text-decoration: none;
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		transition: all 0.2s ease-in-out;
+		background: transparent;
+		border: 1px solid transparent;
+	}
+
+	.workspace-dropdown-menu {
+		min-width: 280px;
+		padding: 0.5rem 0;
+		margin-top: 0.5rem;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	}
+
+	.dropdown-toggle::after {
+		display: inline-block;
+		margin-left: 0.255em;
+		vertical-align: 0.255em;
+		content: "";
+		border-top: 0.3em solid;
+		border-right: 0em !important;
+		border-bottom: 0;
+		border-left: 0em !important;
+	}
+
+	.briefcase-icon {
+		color: #8B0000; /* Deep red color */
+	}
+</style>

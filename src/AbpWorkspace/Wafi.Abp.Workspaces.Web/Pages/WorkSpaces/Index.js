@@ -1,5 +1,5 @@
 $(function () {
-    var l = abp.localization.getResource('SmartHR');
+    var l = abp.localization.getResource('Workspace');
     var createModal = new abp.ModalManager(abp.appPath + 'WorkSpaces/CreateModal');
     var editModal = new abp.ModalManager(abp.appPath + 'WorkSpaces/EditModal');
 
