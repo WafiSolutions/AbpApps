@@ -1,0 +1,58 @@
+﻿@page "/chat"
+@model Wafi.SmartHR.Web.Pages.Chats.IndexModel
+@{
+    ViewData["Title"] = "Chat with AI";
+}
+
+
+@section styles
+{
+    <abp-style src="/Pages/Chats/Index.css" />
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/Chats/Index.js" />
+}
+
+<div class="chat-container">
+    <h2 class="chat-title">Smart HR</h2>
+    <p class="chat-subtitle">
+        Powered by 
+        <img src="~/icons/microsoft_logo.svg" alt="Microsoft Logo" class="microsoft-logo" />
+        Microsoft SemanticKernel
+    </p>
+
+
+    <div id="chat-messages" class="chat-messages">
+        @foreach (var msg in Model.Conversation)
+        {
+            <div class="message @(msg.Sender == "SmartHR" ? "ai-message" : "user-message")">
+                <div class="message-header">
+                    <div class="message-sender">@msg.Sender</div>
+                    <div class="message-time">@(msg.CreationTime.ToString("t"))</div>
+                </div>
+                <div class="message-content">@msg.Content</div>
+            </div>
+        }
+    </div>
+
+    <form method="post" class="message-form" id="chat-form">
+        <div class="input-group">
+            <textarea 
+                name="UserMessage" 
+                id="user-input" 
+                class="message-input" 
+                placeholder="Message SmartHR Assistant..." 
+                rows="1"
+                required></textarea>
+            <button type="submit" class="send-button" aria-label="Send message">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </form>
+</div>
+

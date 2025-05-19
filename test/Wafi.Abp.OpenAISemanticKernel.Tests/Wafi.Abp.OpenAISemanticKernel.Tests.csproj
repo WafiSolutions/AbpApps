@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj" />
+    <ProjectReference Include="..\..\modules\OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel\Wafi.Abp.OpenAISemanticKernel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
