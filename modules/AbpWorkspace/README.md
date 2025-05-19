@@ -59,8 +59,10 @@ public class YourEntity : FullAuditedAggregateRoot<Guid>, IMultiTenant, IWorkspa
 
 
 ### 🔹 Step 2: Configure Your Entity Framework Core Context
-- Change the base class of your DbContext from `AbpDbContext` to `WorkspaceDbContextBase`
-- Add `builder.ConfigureWorkspaces()` in `OnModelCreating` method
+
+1. Change the base class of your `DbContext` from `AbpDbContext` to `WorkspaceDbContextBase`.
+2. Add `builder.ConfigureWorkspaces();` in the `OnModelCreating` method to register workspace-related entities and configurations.
+3. **Run a new migration and update the database** to apply the necessary schema changes.
 
 ```csharp
 public class YourAppDbContext : WorkspaceDbContextBase<YourAppDbContext>
@@ -73,15 +75,14 @@ public class YourAppDbContext : WorkspaceDbContextBase<YourAppDbContext>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        
-        // Apply workspace filter to relevant entities
+
+        // Register workspace-related entity mappings and configurations
         builder.ConfigureWorkspaces();
-        
+
         // Your existing model configuration
     }
 }
 ```
-
 ---
 
 ### 🔹 Step 3: Set Up Workspace Management UI
