@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workspaces", "Workspaces", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.Abp.Workspaces", "..\..\src\AbpWorkspace\Wafi.Abp.Workspaces.Core\Wafi.Abp.Workspaces.csproj", "{9985A464-B80B-47F5-3CDA-FB540FDBE3C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.Abp.Workspaces.Web", "..\..\src\AbpWorkspace\Wafi.Abp.Workspaces.Web\Wafi.Abp.Workspaces.Web.csproj", "{DC273EBF-E852-C4B6-868B-87FB272D289D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,10 @@ Global
 		{9985A464-B80B-47F5-3CDA-FB540FDBE3C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9985A464-B80B-47F5-3CDA-FB540FDBE3C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9985A464-B80B-47F5-3CDA-FB540FDBE3C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC273EBF-E852-C4B6-868B-87FB272D289D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC273EBF-E852-C4B6-868B-87FB272D289D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC273EBF-E852-C4B6-868B-87FB272D289D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC273EBF-E852-C4B6-868B-87FB272D289D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +115,7 @@ Global
 		{8DCB2D91-4DAF-45DD-8116-F00241A14ED7} = {EF14742B-3923-4024-9C80-E5BE19EFBC62}
 		{44833799-333A-4FCA-BDBA-FACD573DFB14} = {EF14742B-3923-4024-9C80-E5BE19EFBC62}
 		{9985A464-B80B-47F5-3CDA-FB540FDBE3C3} = {44833799-333A-4FCA-BDBA-FACD573DFB14}
+		{DC273EBF-E852-C4B6-868B-87FB272D289D} = {44833799-333A-4FCA-BDBA-FACD573DFB14}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D78CF327-0F2D-4789-9B05-9AF4F9AEB511}
