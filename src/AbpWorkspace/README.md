@@ -124,11 +124,11 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 }
 ```
 
-The workspace selector will now appear in your application's topbar, providing:
-- A dropdown to switch between workspaces
-- Visual indication of the current workspace
-- Quick access to workspace management
-- Seamless integration with ABP's LeptonXLite theme
+> The workspace selector will now appear in your application's topbar, providing:
+> - A dropdown to switch between workspaces
+> - Visual indication of the current workspace
+> - Quick access to workspace management
+> - Seamless integration with ABP's LeptonXLite theme
 
 ---
  
