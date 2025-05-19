@@ -1,0 +1,94 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.Abp.Workspaces", "Wafi.Abp.Workspaces.Core\Wafi.Abp.Workspaces.csproj", "{ECDE9DC6-1D83-4E55-B4FA-96D411B0143F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.Abp.Workspaces.Web", "Wafi.Abp.Workspaces.Web\Wafi.Abp.Workspaces.Web.csproj", "{F6E8D7F0-3C6C-4F19-A52A-E3D529E588E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "host", "host", "{18B08745-FD51-4EEB-A13C-B7A3B2D7C93B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.SmartHR.Domain", "..\..\samples\Workspace\Wafi.SmartHR.Domain\Wafi.SmartHR.Domain.csproj", "{63AACCA8-092F-5F4F-EB40-78D176A21387}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.SmartHR.Domain.Shared", "..\..\samples\Workspace\Wafi.SmartHR.Domain.Shared\Wafi.SmartHR.Domain.Shared.csproj", "{F5B70B93-64B6-E978-0B87-897A5C6EEEF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.SmartHR.EntityFrameworkCore", "..\..\samples\Workspace\Wafi.SmartHR.EntityFrameworkCore\Wafi.SmartHR.EntityFrameworkCore.csproj", "{29776F81-2334-54F5-6159-A322D2B1A681}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.SmartHR.Application.Contracts", "..\..\samples\Workspace\Wafi.SmartHR.Application.Contracts\Wafi.SmartHR.Application.Contracts.csproj", "{F118FDB7-FEA7-4ABA-8E5A-40DF713BBA6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.SmartHR.Application", "..\..\samples\Workspace\Wafi.SmartHR.Application\Wafi.SmartHR.Application.csproj", "{18838563-F1F5-BB80-E38D-7439452FB870}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.SmartHR.HttpApi", "..\..\samples\Workspace\Wafi.SmartHR.HttpApi\Wafi.SmartHR.HttpApi.csproj", "{9A507023-3D27-3AE6-08EB-3850DA96E4D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.SmartHR.HttpApi.Client", "..\..\samples\Workspace\Wafi.SmartHR.HttpApi.Client\Wafi.SmartHR.HttpApi.Client.csproj", "{53C8B623-C92C-51F0-B048-CDBE9040068A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wafi.SmartHR.Web", "..\..\samples\Workspace\Wafi.SmartHR.Web\Wafi.SmartHR.Web.csproj", "{0DB9B5C5-F2E7-F22E-C749-D1745A071696}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECDE9DC6-1D83-4E55-B4FA-96D411B0143F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECDE9DC6-1D83-4E55-B4FA-96D411B0143F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECDE9DC6-1D83-4E55-B4FA-96D411B0143F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECDE9DC6-1D83-4E55-B4FA-96D411B0143F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6E8D7F0-3C6C-4F19-A52A-E3D529E588E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6E8D7F0-3C6C-4F19-A52A-E3D529E588E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6E8D7F0-3C6C-4F19-A52A-E3D529E588E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6E8D7F0-3C6C-4F19-A52A-E3D529E588E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63AACCA8-092F-5F4F-EB40-78D176A21387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63AACCA8-092F-5F4F-EB40-78D176A21387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63AACCA8-092F-5F4F-EB40-78D176A21387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63AACCA8-092F-5F4F-EB40-78D176A21387}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5B70B93-64B6-E978-0B87-897A5C6EEEF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5B70B93-64B6-E978-0B87-897A5C6EEEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B70B93-64B6-E978-0B87-897A5C6EEEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5B70B93-64B6-E978-0B87-897A5C6EEEF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29776F81-2334-54F5-6159-A322D2B1A681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29776F81-2334-54F5-6159-A322D2B1A681}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29776F81-2334-54F5-6159-A322D2B1A681}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29776F81-2334-54F5-6159-A322D2B1A681}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F118FDB7-FEA7-4ABA-8E5A-40DF713BBA6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F118FDB7-FEA7-4ABA-8E5A-40DF713BBA6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F118FDB7-FEA7-4ABA-8E5A-40DF713BBA6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F118FDB7-FEA7-4ABA-8E5A-40DF713BBA6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18838563-F1F5-BB80-E38D-7439452FB870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18838563-F1F5-BB80-E38D-7439452FB870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18838563-F1F5-BB80-E38D-7439452FB870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18838563-F1F5-BB80-E38D-7439452FB870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A507023-3D27-3AE6-08EB-3850DA96E4D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A507023-3D27-3AE6-08EB-3850DA96E4D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A507023-3D27-3AE6-08EB-3850DA96E4D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A507023-3D27-3AE6-08EB-3850DA96E4D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53C8B623-C92C-51F0-B048-CDBE9040068A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53C8B623-C92C-51F0-B048-CDBE9040068A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53C8B623-C92C-51F0-B048-CDBE9040068A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53C8B623-C92C-51F0-B048-CDBE9040068A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DB9B5C5-F2E7-F22E-C749-D1745A071696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DB9B5C5-F2E7-F22E-C749-D1745A071696}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DB9B5C5-F2E7-F22E-C749-D1745A071696}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DB9B5C5-F2E7-F22E-C749-D1745A071696}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ECDE9DC6-1D83-4E55-B4FA-96D411B0143F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F6E8D7F0-3C6C-4F19-A52A-E3D529E588E3} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{63AACCA8-092F-5F4F-EB40-78D176A21387} = {18B08745-FD51-4EEB-A13C-B7A3B2D7C93B}
+		{F5B70B93-64B6-E978-0B87-897A5C6EEEF5} = {18B08745-FD51-4EEB-A13C-B7A3B2D7C93B}
+		{29776F81-2334-54F5-6159-A322D2B1A681} = {18B08745-FD51-4EEB-A13C-B7A3B2D7C93B}
+		{F118FDB7-FEA7-4ABA-8E5A-40DF713BBA6B} = {18B08745-FD51-4EEB-A13C-B7A3B2D7C93B}
+		{18838563-F1F5-BB80-E38D-7439452FB870} = {18B08745-FD51-4EEB-A13C-B7A3B2D7C93B}
+		{9A507023-3D27-3AE6-08EB-3850DA96E4D0} = {18B08745-FD51-4EEB-A13C-B7A3B2D7C93B}
+		{53C8B623-C92C-51F0-B048-CDBE9040068A} = {18B08745-FD51-4EEB-A13C-B7A3B2D7C93B}
+		{0DB9B5C5-F2E7-F22E-C749-D1745A071696} = {18B08745-FD51-4EEB-A13C-B7A3B2D7C93B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12C7EC26-F3B1-4B68-B8B5-F80348D7B6D9}
+	EndGlobalSection
+EndGlobal
