@@ -28,7 +28,7 @@ After completing these steps, your ABP application will have a fully functioning
 Users can:
 - Create new workspaces
 - Switch between workspaces
-- Manage workspace settings and users
+- Manage employees under workspace. 
 
 ## 🏗️ Architecture Overview
 
@@ -168,51 +168,18 @@ protected override Expression<Func<TEntity, bool>> CreateFilterExpression<TEntit
    This JavaScript component automatically includes the current workspace ID in all AJAX requests, ensuring seamless workspace context propagation from UI to API calls.
 
 ```javascript
-// Full implementation of http-interceptor.js
-(function () {
-    'use strict';
+// Automatically included from http-interceptor.js
+function getWorkspaceId() {
+    return localStorage.getItem('selectedWorkspaceId');
+}
 
-    const CONFIG = window.WORKSPACE_CONSTANTS || {
-        STORAGE_KEY: 'selectedWorkspaceId',
-        HEADER_NAME: 'X-Workspace-Id'
-    };
-
-    function getWorkspaceId() {
-        return localStorage.getItem(CONFIG.STORAGE_KEY);
+jQuery(document).ajaxSend(function (event, xhr, settings) {
+    const workspaceId = getWorkspaceId();
+    if (workspaceId) {
+        xhr.setRequestHeader('X-Workspace-Id', workspaceId);
     }
-
-    function initJQueryInterceptor() {
-        if (!window.jQuery) return;
-
-        jQuery(document).ajaxSend(function (event, xhr, settings) {
-            const workspaceId = getWorkspaceId();
-
-            if (workspaceId) {
-                xhr.setRequestHeader(CONFIG.HEADER_NAME, workspaceId);
-            }
-        });
-    }
-
-    function initialize() {
-        initJQueryInterceptor();
-    }
-
-    // Trigger initialization immediately and on key events
-    initialize();
-    document.addEventListener('abp.dynamicScriptsInitialized', initialize);
-    document.addEventListener('DOMContentLoaded', initialize);
-    window.addEventListener('load', initialize);
-})();
+});
 ```
-
-### Real-World Company Applications
-
-This architecture enables several powerful use cases within your company:
-
-- **Team Isolation**: Different teams can work in isolated workspaces without seeing each other's data
-- **Project Segregation**: Create separate workspaces for different client projects or initiatives
-- **Department Boundaries**: Establish clear data boundaries between departments like HR, Finance, and Engineering
-- **Environment Separation**: Maintain development, staging, and production data in separate workspaces
 
 The system integrates seamlessly with ABP's existing multi-tenancy, allowing:
 - Multi-tenant applications with workspace isolation within each tenant
@@ -377,21 +344,6 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 > - Quick access to workspace management
 > - Seamless integration with ABP's LeptonXLite theme
 
-The package automatically includes a JavaScript HTTP interceptor that adds the workspace ID to all API requests:
-
-```javascript
-// Automatically included from http-interceptor.js
-function getWorkspaceId() {
-    return localStorage.getItem('selectedWorkspaceId');
-}
-
-jQuery(document).ajaxSend(function (event, xhr, settings) {
-    const workspaceId = getWorkspaceId();
-    if (workspaceId) {
-        xhr.setRequestHeader('X-Workspace-Id', workspaceId);
-    }
-});
-```
 
 ---
 
