@@ -11,10 +11,189 @@ This guide explains how to integrate **Wafi.Abp.Workspaces** with the **ABP.io**
 The solution consists of two primary modules:
 
 1. **`Wafi.Abp.Workspaces.Core`**
-   Core module that provides the fundamental workspace management capabilities.
+   Core module that provides the fundamental workspace management capabilities:
+   - Workspace entity definitions and interfaces
+   - Middleware for workspace resolution from HTTP headers
+   - EF Core integration through custom DbContext
+   - Data filtering based on current workspace
 
 2. **`Wafi.Abp.Workspaces.Web`**
-   UI components and controllers for workspace management in ABP web applications.
+   UI components and controllers for workspace management in ABP web applications:
+   - Workspace selector UI components
+   - HTTP interceptors for automatic workspace header injection
+   - Management interface for workspace configuration
+
+## 🔧 How It Works
+
+The workspace system implements data isolation within your company similar to ABP's multi-tenancy, but at a more granular level - enabling teams, departments, or projects to have their own isolated workspaces within the same tenant.
+
+### Core Components and Their Interactions
+
+1. **Entity Integration with `IWorkspace.cs`**: 
+   This simple interface marks entities that should be segregated by workspace. Any entity implementing `IWorkspace` will automatically be filtered by the current workspace context.
+
+```csharp
+// IWorkspace interface definition
+public interface IWorkspace
+{
+    Guid? WorkspaceId { get; set; }
+}
+```
+
+2. **HTTP Request Processing with `WorkspaceResolutionMiddleware.cs`**: 
+   This ASP.NET Core middleware intercepts all incoming requests to determine the current workspace context. It works in the request pipeline to:
+   - Extract workspace information from HTTP headers
+   - Set the current workspace for the duration of the request
+   - Apply workspace context to all downstream operations
+
+```csharp
+// Key part of the middleware
+public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+{
+    var workspaceResolveContext = new WorkspaceResolveContext(context);
+
+    // Try resolving workspace from various sources
+    foreach (var workspaceResolver in _options.WorkspaceResolvers)
+    {
+        await workspaceResolver.ResolveAsync(workspaceResolveContext);
+        if (workspaceResolveContext.WorkspaceId.HasValue) break;
+    }
+
+    // Apply workspace context for the request duration
+    if (workspaceResolveContext.WorkspaceId.HasValue)
+    {
+        using (_currentWorkspace.Change(workspaceResolveContext.WorkspaceId.Value))
+        {
+            await next(context);
+        }
+    }
+    else
+    {
+        await next(context);
+    }
+}
+```
+
+3. **Header-Based Resolution with `WorkspaceIdHeaderResolveContributor.cs`**: 
+   This component extracts the workspace ID from the HTTP header (`X-Workspace-Id`), enabling seamless workspace resolution for API requests.
+
+```csharp
+// Workspace ID Header Resolver
+public class WorkspaceIdHeaderResolveContributor : IWorkspaceResolveContributor, ITransientDependency
+{
+    public const string HeaderName = "X-Workspace-Id";
+    public const string ContributorName = "WorkspaceIdHeader";
+
+    public Task ResolveAsync(IWorkspaceResolveContext context)
+    {
+        var httpContext = context.GetHttpContext();
+        if (httpContext == null) return Task.CompletedTask;
+
+        var workspaceIdHeader = httpContext.Request.Headers[HeaderName];
+        if (workspaceIdHeader.Count == 0 || string.IsNullOrWhiteSpace(workspaceIdHeader[0]))
+            return Task.CompletedTask;
+
+        if (Guid.TryParse(workspaceIdHeader[0], out var workspaceId))
+        {
+            context.WorkspaceId = workspaceId;
+        }
+        
+        return Task.CompletedTask;
+    }
+}
+```
+
+4. **Data Filtering with `WorkspaceDbContextBase.cs`**: 
+   This specialized DbContext provides automatic data filtering for all workspace-aware entities by:
+   - Automatically applying the current workspace ID to new entities
+   - Preventing accidental workspace ID modifications
+   - Filtering query results to only show data from the current workspace
+
+```csharp
+// Simplified version of WorkspaceDbContextBase filter expression
+protected override Expression<Func<TEntity, bool>> CreateFilterExpression<TEntity>(ModelBuilder modelBuilder)
+{
+    // Get base filter from ABP
+    var baseExpression = base.CreateFilterExpression<TEntity>(modelBuilder);
+    
+    // Skip if entity doesn't implement IWorkspace
+    if (!typeof(IWorkspace).IsAssignableFrom(typeof(TEntity)))
+    {
+        return baseExpression;
+    }
+
+    // Find the workspace ID property
+    var prop = modelBuilder.Entity<TEntity>()
+        .Metadata.FindProperty(nameof(IWorkspace.WorkspaceId))!;
+    
+    var columnName = prop.GetColumnName() ?? prop.Name;
+
+    // Create workspace filter: only show entities from current workspace
+    Expression<Func<TEntity, bool>> workspaceFilter = e =>
+        !IsMultiWorkspaceFilterEnabled
+        || CurrentWorkspace.Id == null
+        || EF.Property<Guid?>(e, columnName) == CurrentWorkspace.Id;
+
+    // Combine with existing filters
+    if (baseExpression == null) return workspaceFilter;
+    return QueryFilterExpressionHelper.CombineExpressions(baseExpression, workspaceFilter);
+}
+```
+
+5. **Client-Side Integration with `http-interceptor.js`**: 
+   This JavaScript component automatically includes the current workspace ID in all AJAX requests, ensuring seamless workspace context propagation from UI to API calls.
+
+```javascript
+// Full implementation of http-interceptor.js
+(function () {
+    'use strict';
+
+    const CONFIG = window.WORKSPACE_CONSTANTS || {
+        STORAGE_KEY: 'selectedWorkspaceId',
+        HEADER_NAME: 'X-Workspace-Id'
+    };
+
+    function getWorkspaceId() {
+        return localStorage.getItem(CONFIG.STORAGE_KEY);
+    }
+
+    function initJQueryInterceptor() {
+        if (!window.jQuery) return;
+
+        jQuery(document).ajaxSend(function (event, xhr, settings) {
+            const workspaceId = getWorkspaceId();
+
+            if (workspaceId) {
+                xhr.setRequestHeader(CONFIG.HEADER_NAME, workspaceId);
+            }
+        });
+    }
+
+    function initialize() {
+        initJQueryInterceptor();
+    }
+
+    // Trigger initialization immediately and on key events
+    initialize();
+    document.addEventListener('abp.dynamicScriptsInitialized', initialize);
+    document.addEventListener('DOMContentLoaded', initialize);
+    window.addEventListener('load', initialize);
+})();
+```
+
+### Real-World Company Applications
+
+This architecture enables several powerful use cases within your company:
+
+- **Team Isolation**: Different teams can work in isolated workspaces without seeing each other's data
+- **Project Segregation**: Create separate workspaces for different client projects or initiatives
+- **Department Boundaries**: Establish clear data boundaries between departments like HR, Finance, and Engineering
+- **Environment Separation**: Maintain development, staging, and production data in separate workspaces
+
+The system integrates seamlessly with ABP's existing multi-tenancy, allowing:
+- Multi-tenant applications with workspace isolation within each tenant
+- Single-tenant applications with departmental/team separation
+- Combinations where some data is tenant-specific and some is workspace-specific
 
 
 ## ⚙️ Implementation Steps
@@ -45,13 +224,20 @@ public class YourAppDomainModule : AbpModule
 
 3. Make Your Entities Workspace-Aware
 
-Use the `IWorkspace` interfaces in your entities where you want to enable the workspace feature and implement the interface. This is very similar to IMultitenant, making integration straightforward:
+Use the `IWorkspace` interface in your entities where you want to enable the workspace feature. This is very similar to IMultitenant, making integration straightforward:
 
 ```csharp
+// IWorkspace interface definition
+public interface IWorkspace
+{
+    Guid? WorkspaceId { get; set; }
+}
+
+// Example implementation
 public class YourEntity : FullAuditedAggregateRoot<Guid>, IMultiTenant, IWorkspace
 {
     public Guid? TenantId { get; set; }
-    public string WorkspaceId { get; set; }
+    public Guid? WorkspaceId { get; set; }
     
     // Your existing entity properties
 }
@@ -80,6 +266,42 @@ public class YourAppDbContext : WorkspaceDbContextBase<YourAppDbContext>
         builder.ConfigureWorkspaces();
 
         // Your existing model configuration
+    }
+}
+```
+
+The `WorkspaceDbContextBase` handles:
+- Applying the current workspace ID to new entities
+- Preventing workspace ID modifications in existing entities
+- Filtering queries based on the current workspace context
+
+```csharp
+// Example of SaveChanges method in WorkspaceDbContextBase
+public override int SaveChanges(bool acceptAllChangesOnSuccess)
+{
+    ApplyCurrentWorkspaceId();
+    return base.SaveChanges(acceptAllChangesOnSuccess);
+}
+
+private void ApplyCurrentWorkspaceId()
+{
+    if (CurrentWorkspace?.Id == null) return;
+
+    var currentWorkspaceId = CurrentWorkspace.Id.Value;
+
+    foreach (var entry in ChangeTracker.Entries()
+        .Where(e =>
+            e.Entity is IWorkspace &&
+            (e.State == EntityState.Added || e.State == EntityState.Modified)))
+    {
+        // Stamp the FK column via EF Core API
+        entry.Property(nameof(IWorkspace.WorkspaceId)).CurrentValue = currentWorkspaceId;
+
+        if (entry.State == EntityState.Modified)
+        {
+            // Prevent accidental overwrites
+            entry.Property(nameof(IWorkspace.WorkspaceId)).IsModified = false;
+        }
     }
 }
 ```
@@ -130,6 +352,22 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 > - Visual indication of the current workspace
 > - Quick access to workspace management
 > - Seamless integration with ABP's LeptonXLite theme
+
+The package automatically includes a JavaScript HTTP interceptor that adds the workspace ID to all API requests:
+
+```javascript
+// Automatically included from http-interceptor.js
+function getWorkspaceId() {
+    return localStorage.getItem('selectedWorkspaceId');
+}
+
+jQuery(document).ajaxSend(function (event, xhr, settings) {
+    const workspaceId = getWorkspaceId();
+    if (workspaceId) {
+        xhr.setRequestHeader('X-Workspace-Id', workspaceId);
+    }
+});
+```
 
 ---
  
