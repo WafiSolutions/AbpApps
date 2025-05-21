@@ -48,7 +48,7 @@ public class YourAppDomainModule : AbpModule
 Use the `IWorkspace` interfaces in your entities where you want to enable the workspace feature and implement the interface. This is very similar to IMultitenant, making integration straightforward:
 
 ```csharp
-public class YourEntity : FullAuditedAggregateRoot<Guid>, IMultiTenant, IWorkspaceEntity
+public class YourEntity : FullAuditedAggregateRoot<Guid>, IMultiTenant, IWorkspace
 {
     public Guid? TenantId { get; set; }
     public string WorkspaceId { get; set; }
