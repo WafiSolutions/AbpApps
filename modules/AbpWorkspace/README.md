@@ -3,8 +3,32 @@
   Multi Workspace Management for ABP Applications
 </h1>
 
-This guide explains how to integrate **Wafi.Abp.Workspaces** with the **ABP.io** framework. It offers a comprehensive workspace management solution for both multi-tenant and single-tenant ABP applications, allowing organizations to create isolated workspaces with distinct configurations, users, and data.
+In this article, we show how you can separate your application's resources by workspaces—just like you see in platforms such as GitHub, Bitbucket, or Trello, where you can create different repositories or boards under different workspaces. 
 
+We implemented workspace management in a generic and reusable way, inspired by how ABP implements tenant management. Just as ABP automatically filters and separates data for each tenant, our approach does the same for workspaces—making it easy to keep data isolated and organized.
+
+## ✅ Demo 
+
+In this sample, we created three offices as workspaces:
+- Wafi Solutions BD
+- Wafi Solutions UK
+- Wafi Solutions KSA
+
+We then created employees under each office. This implementation demonstrates how easily you can manage and separate resources (like employees) under different workspaces. 
+
+![Demo](/etc/img/workspace.gif)
+
+After completing these steps, your ABP application will have a fully functioning workspace management system that:
+
+1. Isolates data between workspaces
+2. Provides workspace management UI
+3. Handles workspace-based routing
+4. Works seamlessly with ABP's existing features
+
+Users can:
+- Create new workspaces
+- Switch between workspaces
+- Manage workspace settings and users
 
 ## 🏗️ Architecture Overview
 
@@ -368,24 +392,6 @@ jQuery(document).ajaxSend(function (event, xhr, settings) {
     }
 });
 ```
-
----
- 
-## ✅ Final Outcome 
-
-![Demo](/etc/img/workspace.gif)
-
-After completing these steps, your ABP application will have a fully functioning workspace management system that:
-
-1. Isolates data between workspaces
-2. Provides workspace management UI
-3. Handles workspace-based routing
-4. Works seamlessly with ABP's existing features
-
-Users can:
-- Create new workspaces
-- Switch between workspaces
-- Manage workspace settings and users
 
 ---
 
