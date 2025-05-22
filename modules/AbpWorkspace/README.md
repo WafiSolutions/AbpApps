@@ -1,6 +1,5 @@
 <h1 style="display: flex; align-items: center;">
-  <img src="https://img.icons8.com/fluency/48/briefcase.png" alt="Briefcase Icon" style="vertical-align: middle; margin-right: 10px;">
-  Multi Workspace Management for ABP Applications
+  Multi-Workspace Management for ABP Applications
 </h1>
 
 In this article, we show how you can separate your application's resources by workspaces—just like you see in platforms such as GitHub, Bitbucket, or Trello, where you can create different repositories or boards under different workspaces. 
