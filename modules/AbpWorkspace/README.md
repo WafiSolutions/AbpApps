@@ -350,7 +350,5 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 ## 📚 Additional Resources
 
 For a deeper understanding of the module's implementation, architecture decisions, and advanced customization options, see:
-
-- [ABP Framework Documentation](https://docs.abp.io/en/abp/latest/)
-- [ABP Multi-Tenancy Documentation](https://docs.abp.io/en/abp/latest/Multi-Tenancy)
-- [Full Module Source Code](https://github.com/WafiSolutions/AbpApps/tree/main/modules/AbpWorkspace) 
+- [Full Module Source Code](https://github.com/WafiSolutions/AbpApps/tree/main/modules/AbpWorkspace)
+- [Sample Project](https://github.com/WafiSolutions/AbpApps/tree/main/samples/Workspace)
