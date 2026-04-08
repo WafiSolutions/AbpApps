@@ -272,3 +272,4 @@ host/Wafi.SmartHR.Blazor.Server.Tiered/Logs/*
 # IdentityServer temp files
 tempkey.rsa
 tempkey.jwk
+/samples/SemanticKernal/Wafi.SmartHR.Web/Logs
